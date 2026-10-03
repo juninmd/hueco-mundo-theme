@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="pt-BR" data-skin="hueco-mundo">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Hollowzinho · estados</title>
+<link rel="icon" href="data:,">
+<link rel="stylesheet" href="../src/fonts.css">
+<link rel="stylesheet" href="../src/hueco-mundo.css">
+<style>
+  body { margin: 0; padding: clamp(20px, 4vw, 48px); min-height: 100vh; background: radial-gradient(900px 400px at 85% -5%, rgb(225 29 72 / 0.14), transparent 70%), var(--color-ink); }
+  header { max-width: 1280px; margin: 0 auto 28px; }
+  h1 { margin: 12px 0 8px; font-size: clamp(30px, 4.4vw, 54px); line-height: 1.05; }
+  header p { margin: 0; max-width: 60ch; color: var(--color-muted); }
+  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 14px; max-width: 1280px; margin: 0 auto; }
+  figure { margin: 0; overflow: hidden; border: 1px solid var(--color-edge); border-radius: 18px; background: var(--color-panel); }
+  .art { display: grid; place-items: center; height: 250px; }
+  .night { background: radial-gradient(circle at 60% 15%, #262a44, #0a0b12 72%); }
+  .dune { background: linear-gradient(#d9d3c4, #9a9588); }
+  .void { background: #0e0e11; }
+  figcaption { display: flex; align-items: baseline; justify-content: space-between; gap: 10px; padding: 12px 16px 14px; border-top: 1px solid var(--color-edge); }
+  figcaption b { font: 700 18px/1.1 var(--hm-font-display); }
+  figcaption span { color: var(--color-muted); font: 500 12px/1.2 var(--hm-font-mono); }
+  .pair { display: flex; gap: 0; }
+</style>
+</head>
+<body class="hueco-mundo">
+<header>
+  <p class="hm-eyebrow">Hollowzinho · estados</p>
+  <h1 class="hm-display">Um bichinho, muitos humores.</h1>
+  <p>Cada cartão usa <code>&lt;hollow-pet inline static&gt;</code> e a API pública. O fundo muda para mostrar que ele aparece bem na areia, na noite e no vazio.</p>
+</header>
+<main class="grid" id="grid"></main>
+<script src="../src/hollow-pet.js"></script>
+<script>
+  const cards = [
+    ["Normal", "idle", "night", { stage: 1 }],
+    ["Feliz", "happy", "dune", { stage: 1 }],
+    ["Comendo", "eating", "void", { stage: 1, mouth: "open" }],
+    ["Carregando o Cero", "charging", "night", { stage: 1 }],
+    ["Bocejo", "yawn", "void", { stage: 1 }],
+    ["Dormindo", "sleeping", "night", { stage: 1 }],
+    ["Arrastado", "dragging", "dune", { stage: 1 }],
+    ["Com fome", "idle", "void", { stage: 1, stats: { reiatsu: 8 } }],
+    ["Adjuchas", "idle", "night", { stage: 2 }],
+    ["Vasto Lorde", "idle", "night", { stage: 3 }],
+    ["Vasto Lorde feliz", "happy", "dune", { stage: 3 }],
+    ["Variações", "idle", "void", { pair: [["reishi", 2], ["ouro", 2]] }],
+  ];
+  const grid = document.getElementById("grid");
+  const make = (stage, tint, size = 220) => {
+    const p = document.createElement("hollow-pet");
+    for (const [k, v] of Object.entries({ inline: "", static: "", "no-persist": "", size, stage, ...(tint ? { tint } : {}) })) p.setAttribute(k, v);
+    return p;
+  };
+  for (const [name, mode, bg, o] of cards) {
+    const f = document.createElement("figure");
+    f.innerHTML = `<div class="art ${bg}"></div><figcaption><b>${name}</b><span>${o.pair ? "tint" : mode}</span></figcaption>`;
+    const art = f.querySelector(".art");
+    if (o.pair) {
+      const wrap = document.createElement("div");
+      wrap.className = "pair";
+      o.pair.forEach(([tint, st]) => wrap.appendChild(make(st, tint, 124)));
+      art.appendChild(wrap);
+    } else {
+      const p = make(o.stage);
+      art.appendChild(p);
+      customElements.whenDefined("hollow-pet").then(() =>
+        requestAnimationFrame(() => {
+          if (o.stats) p.setStats(o.stats);
+          p.setMode(mode);
+          if (o.mouth) p.shadowRoot.querySelector(".root").dataset.mouth = o.mouth;
+        })
+      );
+    }
+    grid.appendChild(f);
+  }
+</script>
+</body>
+</html>
