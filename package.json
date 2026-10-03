@@ -1,0 +1,29 @@
+{
+  "name": "hueco-mundo-theme",
+  "version": "0.1.0",
+  "description": "Tema Hueco Mundo: areia branca sob a lua, céu morto e o vermelho dos Espadas. Cores do canto-widget, componentes, tema de VS Code e um Hollow de estimação no cantinho da tela.",
+  "license": "MIT",
+  "author": "juninmd",
+  "type": "module",
+  "keywords": ["theme", "tema", "dark", "bleach", "hueco-mundo", "canto", "web-component", "vscode-theme"],
+  "repository": { "type": "git", "url": "git+https://github.com/juninmd/hueco-mundo-theme.git" },
+  "files": ["src", "vscode", "docs/shots", "LICENSE"],
+  "exports": {
+    "./css": "./src/hueco-mundo.css",
+    "./tokens": "./src/tokens.css",
+    "./canto": "./src/canto-extras.css",
+    "./fonts": "./src/fonts.css",
+    "./pet": "./src/hollow-pet.js"
+  },
+  "scripts": {
+    "serve": "node scripts/serve.mjs",
+    "contrast": "node scripts/contrast.mjs",
+    "smoke": "node scripts/pet-smoke.mjs",
+    "test": "npm run contrast && npm run smoke",
+    "shots": "node scripts/shots.mjs",
+    "bundle": "node scripts/bundle.mjs"
+  },
+  "devDependencies": {
+    "playwright": "^1.56.0"
+  }
+}
