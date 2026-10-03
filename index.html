@@ -1,0 +1,651 @@
+<!doctype html>
+<html lang="pt-BR" data-skin="hueco-mundo">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Hueco Mundo · tema para o Canto</title>
+<meta name="description" content="Tema escuro inspirado no deserto de Bleach, feito com as cores do canto-widget. Inclui um Hollow de estimação no cantinho da tela.">
+<meta name="theme-color" content="#050506">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 160 160'%3E%3Cpath d='M80 22C106 22 128 38 128 62C128 82 118 97 104 103C96 106.500 88 108 80 108C72 108 64 106.500 56 103C42 97 32 82 32 62C32 38 54 22 80 22Z' fill='%23ede9e0'/%3E%3Cellipse cx='58' cy='66' rx='11.500' ry='14.500' fill='%23050506'/%3E%3Cellipse cx='102' cy='66' rx='11.500' ry='14.500' fill='%23050506'/%3E%3Ccircle cx='58' cy='67' r='6' fill='%23fbbf24'/%3E%3Ccircle cx='102' cy='67' r='6' fill='%23fbbf24'/%3E%3Cpath d='M49.500 79C46 86 45.500 93 48 101C50.400 94 52.600 87 54.600 80ZM110.500 79C114 86 114.500 93 112 101C109.600 94 107.400 87 105.400 80Z' fill='%23e11d48'/%3E%3C/svg%3E">
+<link rel="stylesheet" href="src/fonts.css">
+<link rel="stylesheet" href="src/hueco-mundo.css">
+<link rel="stylesheet" href="site/site.css">
+</head>
+<body class="hueco-mundo">
+<a class="skip" href="#main">Pular para o conteúdo</a>
+
+<header class="nav" id="top">
+  <a class="brand" href="#top" aria-label="Hueco Mundo, início">
+    <svg class="brand-mark" viewBox="0 0 160 160" aria-hidden="true"><path d="M80 22C106 22 128 38 128 62C128 82 118 97 104 103C96 106.5 88 108 80 108C72 108 64 106.5 56 103C42 97 32 82 32 62C32 38 54 22 80 22Z" fill="#ede9e0"/><ellipse cx="58" cy="66" rx="11.5" ry="14.5" fill="#050506"/><ellipse cx="102" cy="66" rx="11.5" ry="14.5" fill="#050506"/><circle cx="58" cy="67" r="6" fill="#fbbf24"/><circle cx="102" cy="67" r="6" fill="#fbbf24"/><path d="M49.5 79C46 86 45.5 93 48 101C50.4 94 52.6 87 54.6 80ZM110.5 79C114 86 114.5 93 112 101C109.6 94 107.4 87 105.4 80Z" fill="#e11d48"/></svg>
+    <span>Hueco Mundo</span>
+  </a>
+  <nav aria-label="Seções">
+    <a href="#paleta">Paleta</a>
+    <a href="#componentes">Componentes</a>
+    <a href="#canto">Canto</a>
+    <a href="#editor">Editor</a>
+    <a href="#pet">Pet</a>
+    <a href="#instalar">Instalar</a>
+  </nav>
+  <a class="hm-btn hm-btn--secondary hm-btn--sm" href="https://github.com/juninmd/hueco-mundo-theme">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 19c-4.3 1.4-4.3-2.5-6-3m12 5v-3.5c0-1 .1-1.4-.5-2 2.800-.3 5.500-1.400 5.500-6a4.600 4.600 0 0 0-1.300-3.200 4.200 4.200 0 0 0-.1-3.200s-1.100-.3-3.500 1.300a12.300 12.300 0 0 0-6.200 0C6.500 2.800 5.400 3.100 5.400 3.100a4.200 4.200 0 0 0-.1 3.200A4.600 4.600 0 0 0 4 9.500c0 4.600 2.700 5.700 5.500 6-.6.600-.6 1.200-.5 2V21"/></svg>
+    GitHub
+  </a>
+</header>
+
+<main id="main">
+
+<!-- ═════════════ HERO ═════════════ -->
+<section class="hero" aria-labelledby="hero-title">
+  <div class="scene" aria-hidden="true">
+    <svg id="scene-svg" viewBox="0 0 1600 900" preserveAspectRatio="xMidYMax slice" focusable="false">
+      <defs>
+        <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stop-color="#03040a"/>
+          <stop offset=".4" stop-color="#080a17"/>
+          <stop offset=".72" stop-color="#15182b"/>
+          <stop offset="1" stop-color="#2a283f"/>
+        </linearGradient>
+        <radialGradient id="horizon" cx=".62" cy="1" r=".7">
+          <stop offset="0" stop-color="#c9c2dc" stop-opacity=".28"/>
+          <stop offset=".5" stop-color="#7a7599" stop-opacity=".10"/>
+          <stop offset="1" stop-color="#7a7599" stop-opacity="0"/>
+        </radialGradient>
+        <radialGradient id="cero-haze" cx=".5" cy=".5" r=".5">
+          <stop offset="0" stop-color="#e11d48" stop-opacity=".34"/>
+          <stop offset="1" stop-color="#e11d48" stop-opacity="0"/>
+        </radialGradient>
+        <linearGradient id="cero-col" x1="0" y1="1" x2="0" y2="0">
+          <stop offset="0" stop-color="#ff5a78" stop-opacity=".95"/>
+          <stop offset=".6" stop-color="#e11d48" stop-opacity=".35"/>
+          <stop offset="1" stop-color="#e11d48" stop-opacity="0"/>
+        </linearGradient>
+        <radialGradient id="moonGlow" cx=".5" cy=".5" r=".5">
+          <stop offset="0" stop-color="#f4efe3" stop-opacity=".30"/>
+          <stop offset=".32" stop-color="#cfc8e6" stop-opacity=".11"/>
+          <stop offset="1" stop-color="#8a86a8" stop-opacity="0"/>
+        </radialGradient>
+        <radialGradient id="moonFill" gradientUnits="userSpaceOnUse" cx="1150" cy="330" r="250">
+          <stop offset="0" stop-color="#fffbf2"/>
+          <stop offset=".55" stop-color="#efe8d6"/>
+          <stop offset="1" stop-color="#c9bfa5"/>
+        </radialGradient>
+        <radialGradient id="earthshine" gradientUnits="userSpaceOnUse" cx="1290" cy="200" r="170">
+          <stop offset="0" stop-color="#2b2c45" stop-opacity=".55"/>
+          <stop offset="1" stop-color="#1a1b2e" stop-opacity=".25"/>
+        </radialGradient>
+        <mask id="moonCut"><rect width="1600" height="900" fill="#fff"/><circle cx="1322" cy="192" r="152" fill="#000"/></mask>
+        <mask id="moonShape"><circle cx="1240" cy="250" r="158" fill="#fff"/><circle cx="1322" cy="192" r="152" fill="#000"/></mask>
+        <filter id="moonTex" x="0" y="0" width="100%" height="100%"><feTurbulence type="fractalNoise" baseFrequency=".012" numOctaves="4" seed="9" result="n"/><feColorMatrix in="n" type="matrix" values="0 0 0 0 .42  0 0 0 0 .38  0 0 0 0 .45  0 0 0 .55 -.12"/></filter>
+        <linearGradient id="duneFar" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stop-color="#4b4a66"/>
+          <stop offset=".3" stop-color="#2b2b40"/>
+          <stop offset="1" stop-color="#11111c"/>
+        </linearGradient>
+        <linearGradient id="duneMidA" x1="0" y1="0" x2="1" y2="0">
+          <stop offset="0" stop-color="#242436"/>
+          <stop offset=".5" stop-color="#6b6987"/>
+          <stop offset="1" stop-color="#c3bfd0"/>
+        </linearGradient>
+        <linearGradient id="duneMidB" x1="0" y1="0" x2="1" y2="0">
+          <stop offset="0" stop-color="#2d2d3d"/>
+          <stop offset=".4" stop-color="#8a869b"/>
+          <stop offset="1" stop-color="#fbf6e8"/>
+        </linearGradient>
+        <linearGradient id="shade" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stop-color="#05050a" stop-opacity="0"/>
+          <stop offset=".4" stop-color="#05050a" stop-opacity=".28"/>
+          <stop offset="1" stop-color="#05050a" stop-opacity=".9"/>
+        </linearGradient>
+        <linearGradient id="duneNear" x1="0" y1="0" x2="1" y2="0">
+          <stop offset="0" stop-color="#08080d"/>
+          <stop offset=".6" stop-color="#14141b"/>
+          <stop offset="1" stop-color="#2c2c35"/>
+        </linearGradient>
+        <linearGradient id="noches" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="470" y2="0">
+          <stop offset="0" stop-color="#3f3e58"/>
+          <stop offset=".5" stop-color="#8e8ba8"/>
+          <stop offset="1" stop-color="#f6f1e4"/>
+        </linearGradient>
+        <linearGradient id="nochesFadeG" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stop-color="#fff"/>
+          <stop offset=".55" stop-color="#fff"/>
+          <stop offset=".95" stop-color="#fff" stop-opacity="0"/>
+        </linearGradient>
+        <mask id="nochesFade" maskUnits="userSpaceOnUse" x="-40" y="-140" width="560" height="340"><rect x="-40" y="-140" width="560" height="340" fill="url(#nochesFadeG)"/></mask>
+        <linearGradient id="rim" x1="0" y1="0" x2="1" y2="0">
+          <stop offset="0" stop-color="#ede9e0" stop-opacity="0"/>
+          <stop offset=".6" stop-color="#ede9e0" stop-opacity=".3"/>
+          <stop offset="1" stop-color="#fffaf0" stop-opacity=".9"/>
+        </linearGradient>
+        <pattern id="crenel" width="18" height="9" patternUnits="userSpaceOnUse"><rect width="9" height="9"/></pattern>
+        <radialGradient id="sandGlow" gradientUnits="userSpaceOnUse" cx="1380" cy="800" r="560">
+          <stop offset="0" stop-color="#fff6df" stop-opacity=".55"/>
+          <stop offset=".5" stop-color="#e9e0cb" stop-opacity=".16"/>
+          <stop offset="1" stop-color="#e9e0cb" stop-opacity="0"/>
+        </radialGradient>
+        <filter id="blur12" x="-30%" y="-300%" width="160%" height="700%"><feGaussianBlur stdDeviation="12"/></filter>
+        <filter id="blur30" x="-60%" y="-60%" width="220%" height="220%"><feGaussianBlur stdDeviation="30"/></filter>
+        <filter id="blur4" x="-100%" y="-10%" width="300%" height="120%"><feGaussianBlur stdDeviation="4"/></filter>
+      </defs>
+
+      <rect width="1600" height="900" fill="url(#sky)"/>
+      <rect width="1600" height="900" fill="url(#horizon)"/>
+      <ellipse cx="660" cy="720" rx="520" ry="150" fill="url(#cero-haze)" opacity=".7"/>
+      <g id="stars"></g>
+      <g class="layer" data-depth="0.5" fill="#cfc8e6" filter="url(#blur12)">
+        <ellipse cx="420" cy="566" rx="440" ry="14" opacity=".09"/>
+        <ellipse cx="980" cy="506" rx="360" ry="11" opacity=".07"/>
+        <ellipse cx="1360" cy="620" rx="300" ry="10" opacity=".08"/>
+        <ellipse cx="160" cy="470" rx="260" ry="9" opacity=".05"/>
+      </g>
+
+      <g class="layer" data-depth="0.35"><g id="moon">
+        <circle cx="1240" cy="250" r="400" fill="url(#moonGlow)"/>
+        <circle cx="1240" cy="250" r="154" fill="url(#earthshine)"/>
+        <circle cx="1240" cy="250" r="158" fill="url(#moonFill)" mask="url(#moonCut)"/>
+        <rect x="1040" y="70" width="420" height="360" filter="url(#moonTex)" mask="url(#moonShape)" opacity=".55" style="mix-blend-mode:multiply"/>
+        <g fill="#6b6478" opacity=".13" mask="url(#moonShape)"><circle cx="1168" cy="305" r="26"/><circle cx="1204" cy="352" r="16"/><circle cx="1126" cy="268" r="13"/><circle cx="1160" cy="214" r="10"/><circle cx="1262" cy="378" r="14"/></g>
+      </g>
+      </g>
+
+      <g class="layer" data-depth="0.6">
+        <path d="M0 704C120 680 240 714 400 694C560 674 700 714 880 694C1060 674 1180 718 1340 700C1450 688 1540 700 1600 692L1600 900L0 900Z" fill="url(#duneFar)"/>
+        <g transform="translate(860 520)">
+          <rect x="228" y="-130" width="16" height="200" fill="url(#cero-col)" filter="url(#blur4)" opacity=".7" class="beacon"/>
+          <rect x="233" y="-130" width="4" height="200" fill="url(#cero-col)" opacity=".95" class="beacon"/>
+          <g mask="url(#nochesFade)">
+            <g fill="url(#noches)">
+              <rect x="0" y="146" width="470" height="44"/>
+              <rect x="0" y="137" width="470" height="9" fill="url(#crenel)"/>
+              <rect x="8" y="112" width="40" height="78"/><rect x="4" y="108" width="48" height="6"/>
+              <rect x="60" y="84" width="30" height="106"/><rect x="56" y="80" width="38" height="6"/>
+              <rect x="104" y="120" width="40" height="70"/>
+              <rect x="150" y="104" width="72" height="86"/><rect x="146" y="100" width="80" height="6"/>
+              <rect x="172" y="68" width="110" height="122"/><rect x="168" y="64" width="118" height="6"/>
+              <rect x="190" y="38" width="74" height="30"/><rect x="186" y="34" width="82" height="6"/>
+              <path d="M196 34A31 24 0 0 1 258 34Z"/>
+              <rect x="225" y="-2" width="4" height="14"/><path d="M222 12H232L227 -2Z"/>
+              <rect x="300" y="40" width="28" height="150"/><rect x="295" y="36" width="38" height="6"/>
+              <rect x="338" y="96" width="48" height="94"/><rect x="334" y="92" width="56" height="6"/>
+              <rect x="396" y="118" width="40" height="72"/>
+              <rect x="440" y="124" width="30" height="66"/>
+            </g>
+            <g fill="#0b0b14" opacity=".7">
+              <rect x="70" y="100" width="3" height="18"/><rect x="70" y="140" width="3" height="18"/>
+              <rect x="196" y="116" width="3" height="16"/><rect x="214" y="116" width="3" height="16"/>
+              <rect x="204" y="82" width="3" height="18"/><rect x="226" y="82" width="3" height="18"/><rect x="248" y="82" width="3" height="18"/>
+              <rect x="222" y="46" width="3" height="12"/><rect x="238" y="46" width="3" height="12"/>
+              <rect x="311" y="58" width="3" height="20"/><rect x="311" y="100" width="3" height="20"/><rect x="311" y="142" width="3" height="20"/>
+              <rect x="356" y="112" width="3" height="16"/><rect x="368" y="112" width="3" height="16"/>
+              <rect x="22" y="126" width="3" height="14"/><rect x="408" y="132" width="3" height="14"/>
+            </g>
+          </g>
+        </g>
+        <path d="M0 704C120 680 240 714 400 694C560 674 700 714 880 694C1060 674 1180 718 1340 700C1450 688 1540 700 1600 692" fill="none" stroke="url(#rim)" stroke-width="1.5"/>
+      </g>
+
+      <g class="layer" data-depth="1">
+        <path d="M0 752C200 726 380 746 560 736C760 726 900 766 1100 748C1300 730 1460 756 1600 742L1600 900L0 900Z" fill="url(#duneMidA)"/>
+        <path d="M0 752C200 726 380 746 560 736C760 726 900 766 1100 748C1300 730 1460 756 1600 742L1600 900L0 900Z" fill="url(#shade)"/>
+        <path d="M0 752C200 726 380 746 560 736C760 726 900 766 1100 748C1300 730 1460 756 1600 742L1600 900L0 900Z" fill="url(#sandGlow)" opacity=".6"/>
+        <path d="M0 752C200 726 380 746 560 736C760 726 900 766 1100 748C1300 730 1460 756 1600 742" fill="none" stroke="url(#rim)" stroke-width="1.6" opacity=".8"/>
+      </g>
+      <g class="layer" data-depth="1.3">
+        <path d="M0 808C160 764 340 770 520 796C700 822 840 750 1040 754C1240 758 1360 814 1600 770L1600 900L0 900Z" fill="url(#duneMidB)"/>
+        <path d="M0 808C160 764 340 770 520 796C700 822 840 750 1040 754C1240 758 1360 814 1600 770L1600 900L0 900Z" fill="url(#shade)"/>
+        <path d="M0 808C160 764 340 770 520 796C700 822 840 750 1040 754C1240 758 1360 814 1600 770L1600 900L0 900Z" fill="url(#sandGlow)"/>
+        <path d="M0 808C160 764 340 770 520 796C700 822 840 750 1040 754C1240 758 1360 814 1600 770" fill="none" stroke="url(#rim)" stroke-width="2"/>
+        <g fill="none" stroke="#fffaf0" stroke-opacity=".08" stroke-width="1.2">
+          <path d="M90 836C250 806 420 820 560 842"/><path d="M720 826C860 786 1000 796 1120 826"/><path d="M1180 836C1300 806 1440 812 1570 792"/>
+        </g>
+      </g>
+      <g class="layer" data-depth="1.8">
+        <path d="M0 876C220 838 420 862 640 872C900 886 1100 838 1320 846C1450 852 1540 870 1600 860L1600 900L0 900Z" fill="url(#duneNear)"/>
+        <path d="M0 876C220 838 420 862 640 872C900 886 1100 838 1320 846C1450 852 1540 870 1600 860" fill="none" stroke="url(#rim)" stroke-width="2" opacity=".6"/>
+      </g>
+    </svg>
+    <canvas class="motes" id="motes"></canvas>
+    <div class="vignette"></div>
+  </div>
+
+  <div class="hero-content">
+    <p class="hm-eyebrow">Tema · Canto · Web · Editor</p>
+    <h1 id="hero-title" class="hm-display">Hueco<br>Mundo</h1>
+    <p class="hero-sub">Areia branca sob a lua, céu morto e o vermelho dos Espadas.</p>
+    <p class="hero-lede">Um tema escuro feito com as cores do <a href="https://github.com/juninmd/canto-widget">canto-widget</a>, com componentes, tema de editor e um Hollow de estimação que mora no cantinho da tela.</p>
+    <div class="hero-cta">
+      <a class="hm-btn hm-btn--primary" href="#paleta">Ver a paleta</a>
+      <a class="hm-btn" href="#instalar">Instalar</a>
+      <a class="hm-btn hm-btn--ghost" href="#pet">Brincar com o pet →</a>
+    </div>
+    <ul class="hero-badges" aria-label="Destaques">
+      <li class="hm-chip hm-chip--ok"><span class="hm-dot"></span>Contraste AA</li>
+      <li class="hm-chip hm-chip--accent"><span class="hm-dot"></span>13 tokens do Canto</li>
+      <li class="hm-chip"><span class="hm-dot"></span>Zero dependências</li>
+    </ul>
+  </div>
+  <a class="scroll-cue" href="#paleta" aria-label="Rolar para a paleta"><span></span></a>
+</section>
+
+<!-- ═════════════ PALETA ═════════════ -->
+<section class="sec" id="paleta" aria-labelledby="t-paleta">
+  <header class="sec-head">
+    <p class="hm-eyebrow">01 · Paleta</p>
+    <h2 id="t-paleta" class="hm-display">Osso, vazio e o vermelho do Cero.</h2>
+    <p>Os 13 tokens têm os nomes do Canto, então o bloco substitui a skin <code>hueco-mundo</code> de lá sem mexer em mais nada. O verde <code>#4ade80</code>, a marca do Canto, virou o reiatsu que o pet come. Clique numa cor para copiar.</p>
+  </header>
+
+  <div class="swatches" id="swatches">
+    <button class="sw" data-token="--color-ink" data-name="Vazio" data-use="Fundo de campos e do app" type="button"></button>
+    <button class="sw" data-token="--color-panel" data-name="Noite" data-use="Painéis e cartões" type="button"></button>
+    <button class="sw" data-token="--color-edge" data-name="Borda" data-use="Divisores e contornos" type="button"></button>
+    <button class="sw" data-token="--color-fg" data-name="Osso" data-use="Texto principal" type="button"></button>
+    <button class="sw" data-token="--color-muted" data-name="Areia" data-use="Texto secundário" type="button"></button>
+    <button class="sw" data-token="--color-faint" data-name="Poeira" data-use="Dicas e placeholders" type="button"></button>
+    <button class="sw" data-token="--color-accent" data-name="Cero" data-use="Ação e foco" type="button"></button>
+    <button class="sw" data-token="--color-accent-text" data-name="Cero claro" data-use="Texto em vermelho" type="button"></button>
+    <button class="sw" data-token="--color-ok" data-name="Reiatsu" data-use="Sucesso e o verde do Canto" type="button"></button>
+    <button class="sw" data-token="--color-warn" data-name="Olho de Hollow" data-use="Aviso e destaque" type="button"></button>
+    <button class="sw" data-token="--color-danger" data-name="Sangue" data-use="Erro e perigo" type="button"></button>
+    <button class="sw" data-token="--color-line" data-name="Linha" data-use="Bordas de controles" type="button"></button>
+  </div>
+
+  <div class="palette-extra">
+    <div class="hm-surface hm-card gradient-card">
+      <h3>O deserto, em degradê</h3>
+      <div class="strip strip-sky" role="img" aria-label="Degradê do céu: do vazio ao azul morto"><span>céu</span><code>--hm-sky-0 … 2</code></div>
+      <div class="strip strip-sand" role="img" aria-label="Degradê da areia: da sombra da duna ao osso"><span>areia</span><code>--hm-sand-lo … hi</code></div>
+      <div class="strip strip-cero" role="img" aria-label="Degradê do Cero: do vinho ao branco quente"><span>cero</span><code>--hm-cero-deep … core</code></div>
+      <div class="strip strip-reishi" role="img" aria-label="Degradê do reiatsu: do verde escuro ao verde do Canto"><span>reiatsu</span><code>--hm-reishi</code></div>
+      <p class="muted small">Extras <code>--hm-sky-*</code>, <code>--hm-sand-*</code> e <code>--hm-cero-*</code> para fundos, cenas e brilhos.</p>
+    </div>
+    <div class="hm-surface hm-card contrast-card">
+      <h3>Contraste, conferido</h3>
+      <ul class="contrast-list" id="contrast-list"></ul>
+      <p class="muted small">Calculado ao vivo com a fórmula do WCAG 2.2. <code>npm run contrast</code> faz o mesmo no terminal.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ═════════════ COMPONENTES ═════════════ -->
+<section class="sec" id="componentes" aria-labelledby="t-comp">
+  <header class="sec-head">
+    <p class="hm-eyebrow">02 · Componentes</p>
+    <h2 id="t-comp" class="hm-display">Controles do Canto, com mais brilho.</h2>
+    <p>Classes <code>hm-*</code> sobre os mesmos tokens. Foco com anel vermelho, alvos de pelo menos 24 px e movimento que respeita <code>prefers-reduced-motion</code>.</p>
+  </header>
+
+  <div class="grid-comp">
+    <article class="hm-surface hm-card hm-card--glow">
+      <h3>Botões</h3>
+      <div class="row">
+        <button class="hm-btn hm-btn--primary" type="button">Entrar no Meet</button>
+        <button class="hm-btn" type="button">Adiar</button>
+        <button class="hm-btn hm-btn--ghost" type="button">Cancelar</button>
+      </div>
+      <div class="row">
+        <button class="hm-btn hm-btn--ok" type="button">Alimentar</button>
+        <button class="hm-btn hm-btn--danger" type="button">Apagar nota</button>
+        <button class="hm-btn" type="button" disabled>Desativado</button>
+      </div>
+      <div class="row">
+        <button class="hm-btn hm-btn--sm hm-btn--primary" type="button">Pequeno</button>
+        <button class="hm-btn hm-btn--icon" type="button" aria-label="Disparar Cero"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M13.500 2.500 5 13.500h6.200l-1 8 8.800-11h-6.300z"/></svg></button>
+        <button class="hm-btn hm-btn--icon hm-btn--primary" type="button" aria-label="Adicionar"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg></button>
+      </div>
+    </article>
+
+    <article class="hm-surface hm-card hm-card--glow">
+      <h3>Campos</h3>
+      <label class="hm-label" for="f1">Nova tarefa</label>
+      <input id="f1" class="hm-input is-focus" value="Daily às 9h30 !alta" aria-describedby="f1d">
+      <p id="f1d" class="muted small tight">Foco com anel vermelho de 3 px a 22% de opacidade.</p>
+      <div class="row split">
+        <div>
+          <label class="hm-label" for="f2">Prioridade</label>
+          <select id="f2" class="hm-select"><option>todas as prioridades</option><option>alta</option><option>média</option></select>
+        </div>
+        <div>
+          <label class="hm-label" for="f3">Buscar</label>
+          <input id="f3" class="hm-input" placeholder="repo:canto label:bug">
+        </div>
+      </div>
+      <div class="row">
+        <label class="inline"><input class="hm-check" type="checkbox" checked> concluída</label>
+        <label class="inline"><input class="hm-box" type="checkbox" checked> avisar 1 min antes</label>
+        <label class="inline"><input class="hm-switch" type="checkbox" checked> não perturbe</label>
+      </div>
+    </article>
+
+    <article class="hm-surface hm-card hm-card--glow">
+      <h3>Abas e selos</h3>
+      <div class="hm-tabs" role="tablist" aria-label="Exemplo">
+        <button class="hm-tab" role="tab" aria-selected="true" type="button">Tarefas</button>
+        <button class="hm-tab" role="tab" aria-selected="false" type="button">Notas</button>
+        <button class="hm-tab" role="tab" aria-selected="false" type="button">Agenda</button>
+        <button class="hm-tab" role="tab" aria-selected="false" type="button">GitHub</button>
+      </div>
+      <div class="row chips">
+        <span class="hm-chip hm-chip--danger"><span class="hm-dot"></span>alta</span>
+        <span class="hm-chip hm-chip--ok"><span class="hm-dot"></span>média</span>
+        <span class="hm-chip"><span class="hm-dot"></span>baixa</span>
+        <span class="hm-chip hm-chip--ok">CI passou</span>
+        <span class="hm-chip hm-chip--danger">CI falhou</span>
+        <span class="hm-chip hm-chip--warn">rodando</span>
+        <span class="hm-chip hm-chip--accent">aguardando você</span>
+        <span class="hm-chip">#ideia</span>
+      </div>
+      <div class="row">
+        <div class="seg" role="group" aria-label="Densidade"><button type="button" class="seg-btn" aria-pressed="false">Compacta</button><button type="button" class="seg-btn" aria-pressed="true">Padrão</button><button type="button" class="seg-btn" aria-pressed="false">Confortável</button></div>
+      </div>
+      <div class="row"><span class="hm-chip hm-chip--accent"><span class="hm-dot"></span>3 avisos</span><span class="hm-chip hm-chip--warn">⏾ não perturbe até 14:00</span></div>
+    </article>
+
+    <article class="hm-surface hm-card hm-card--glow">
+      <h3>Reiatsu e progresso</h3>
+      <div class="meter-row"><span>1/5 concluídas</span><b>20%</b></div>
+      <div class="hm-progress" role="progressbar" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100" aria-label="Tarefas concluídas" style="--value:20%"><i></i></div>
+      <div class="meter-row"><span>Reiatsu</span><b>82</b></div>
+      <div class="hm-progress hm-progress--ok" role="progressbar" aria-valuenow="82" aria-valuemin="0" aria-valuemax="100" aria-label="Reiatsu" style="--value:82%"><i></i></div>
+      <div class="meter-row"><span>Foco · 20/45 min</span><b>44%</b></div>
+      <div class="hm-progress hm-progress--gold" role="progressbar" aria-valuenow="44" aria-valuemin="0" aria-valuemax="100" aria-label="Foco" style="--value:44%"><i></i></div>
+      <div class="skeletons" aria-hidden="true"><div class="hm-skeleton" style="width:78%;height:12px"></div><div class="hm-skeleton" style="width:54%;height:12px"></div></div>
+    </article>
+
+    <article class="hm-surface hm-card hm-card--glow">
+      <h3>Avisos</h3>
+      <div class="stack">
+        <div class="hm-alert" role="status"><div><b>Planejamento da sprint começa em 1 min</b><span>Sala Orion · 6 convidados</span></div></div>
+        <div class="hm-alert hm-alert--ok" role="status"><div><b>PR #482 mesclado</b><span>CI passou em 3 min 12 s</span></div></div>
+        <div class="hm-alert hm-alert--danger" role="alert"><div><b>Serviço Exemplo fora do ar</b><span>Erros elevados na API desde 14:02</span></div></div>
+      </div>
+    </article>
+
+    <article class="hm-surface hm-card hm-card--glow">
+      <h3>Atalhos e detalhes</h3>
+      <div class="row">
+        <span class="hm-kbd">Ctrl</span><span class="hm-kbd">Alt</span><span class="hm-kbd">Espaço</span><span class="muted small">abre o widget</span>
+      </div>
+      <div class="row">
+        <span class="hm-kbd">Ctrl</span><span class="hm-kbd">Shift</span><span class="hm-kbd">P</span><span class="muted small">paleta de comandos</span>
+      </div>
+      <hr class="hm-divider">
+      <div class="row"><span class="hm-tooltip">Copiado para a área de transferência</span></div>
+      <div class="row"><span class="hm-slash" aria-hidden="true"></span><span class="muted small">o corte do Getsuga, nosso divisor</span></div>
+    </article>
+  </div>
+</section>
+
+<!-- ═════════════ CANTO ═════════════ -->
+<section class="sec" id="canto" aria-labelledby="t-canto">
+  <div class="canto-wrap">
+    <header class="sec-head left">
+      <p class="hm-eyebrow">03 · No Canto</p>
+      <h2 id="t-canto" class="hm-display">O widget de canto, de roupa nova.</h2>
+      <p>Esta é a tela do <a href="https://github.com/juninmd/canto-widget">canto-widget</a> redesenhada só com os tokens: a mesma estrutura, trocando <code>data-skin</code>. Alterne para comparar com a skin padrão.</p>
+      <div class="seg" role="group" aria-label="Skin do exemplo">
+        <button type="button" class="seg-btn" data-skin="hueco-mundo" aria-pressed="true">Hueco Mundo</button>
+        <button type="button" class="seg-btn" data-skin="padrao" aria-pressed="false">Padrão do Canto</button>
+      </div>
+      <ul class="ticks">
+        <li>Os 13 tokens vêm do <code>src/styles.css</code> do Canto</li>
+        <li>Foco, alvos de 24 px e contraste AA preservados</li>
+        <li>Aviso de reunião com brilho do Cero</li>
+      </ul>
+    </header>
+
+    <div class="canto-stage">
+      <div class="canto skin-hm" id="canto-app">
+        <div class="c-top">
+          <span class="c-dot" aria-hidden="true"></span><b>canto</b>
+          <span class="c-grow"></span>
+          <span class="c-ico" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M9.500 9.500a2.500 2.500 0 1 1 3.500 2.300c-.7.400-1 .900-1 1.700M12 17h.01"/></svg></span>
+          <span class="c-lock"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>trancar</span>
+          <span class="c-ico" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M2 12s4-7 10-7 10 7 10 7-4 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg></span>
+          <span class="c-ico" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></span>
+        </div>
+        <div class="c-tabs" role="tablist" aria-label="Abas do Canto">
+          <button role="tab" id="ct-tarefas" aria-selected="true" aria-controls="cp-tarefas" type="button">Tarefas</button>
+          <button role="tab" id="ct-notas" aria-selected="false" aria-controls="cp-notas" type="button">Notas</button>
+          <button role="tab" id="ct-agenda" aria-selected="false" aria-controls="cp-agenda" type="button">Agenda</button>
+          <button role="tab" id="ct-github" aria-selected="false" aria-controls="cp-github" type="button">GitHub</button>
+        </div>
+
+        <div class="c-pane" id="cp-tarefas" tabindex="0" role="tabpanel" aria-labelledby="ct-tarefas">
+          <div class="c-add">
+            <div class="c-field"><span aria-hidden="true">+</span>nova tarefa (ex.: Daily às 9h30 !alta)</div>
+            <button class="c-plus" type="button" aria-label="Adicionar tarefa">+</button>
+          </div>
+          <div class="c-prog"><span id="c-count">1/5 concluídas</span><div class="c-bar" role="progressbar" aria-valuemin="0" aria-valuemax="5" aria-valuenow="1" aria-label="Tarefas concluídas"><i id="c-fill" style="width:20%"></i></div></div>
+          <div class="c-tools"><span>resumo do dia</span><span>puxar pendências</span><span class="c-sel">prioridades ⌄</span></div>
+          <ul class="c-tasks" id="c-tasks">
+            <li class="task task-alta"><input class="c-chk hm-check" type="checkbox" aria-label="Revisar o PR do filtro de relatórios"><div><p>Revisar o PR do filtro de relatórios</p><div class="c-chips"><span>10:30</span><span>20/45 min</span><span class="c-pr">⑂</span></div></div></li>
+            <li class="task task-media"><input class="c-chk hm-check" type="checkbox" aria-label="Responder o time sobre a estimativa da migração"><div><p>Responder o time sobre a estimativa da migração</p><div class="c-chips"><span>1/2</span></div></div></li>
+            <li class="task"><input class="c-chk hm-check" type="checkbox" aria-label="Enviar relatório semanal"><div><p>Enviar relatório semanal</p><div class="c-chips"><span>16:30 ↻</span></div></div></li>
+            <li class="task done"><input class="c-chk hm-check" type="checkbox" checked aria-label="Atualizar a documentação de onboarding"><div><p>Atualizar a documentação de onboarding</p></div></li>
+            <li class="task task-baixa"><input class="c-chk hm-check" type="checkbox" aria-label="Marcar consulta de rotina"><div><p>Marcar consulta de rotina</p></div></li>
+          </ul>
+        </div>
+
+        <div class="c-pane" id="cp-notas" tabindex="0" role="tabpanel" aria-labelledby="ct-notas" hidden>
+          <div class="c-notes">
+            <article class="note pinned"><h4>Ideias para o tema</h4><p>Pet no canto, Cero na mira e a lua grande no fundo. <b>Evoluir</b> com carinho.</p><div class="c-chips"><span>#hueco</span><span>#ideia</span><span class="pin">fixada</span></div></article>
+            <article class="note"><h4>Checklist da release</h4><p>☑ changelog &nbsp; ☑ tokens &nbsp; ☐ prints novos &nbsp; ☐ tag v0.4</p><div class="c-chips"><span>#release</span></div></article>
+            <article class="note"><h4>Snippet útil</h4><pre><code>git log --since="1 week" --oneline</code></pre><div class="c-chips"><span>#git</span></div></article>
+          </div>
+        </div>
+
+        <div class="c-pane" id="cp-agenda" tabindex="0" role="tabpanel" aria-labelledby="ct-agenda" hidden>
+          <p class="c-sub">agenda de hoje · aviso 1 min antes</p>
+          <article class="ev past"><div><b>Daily do time</b><span>encerrado</span></div><time>09:30</time><button type="button" class="c-btn">entrar no Meet</button></article>
+          <article class="ev now"><div><b>Planejamento da sprint</b><span class="now-tag">agora</span><em>Sala Orion</em></div><time>14:00</time><button type="button" class="c-btn primary">entrar no Meet</button></article>
+          <article class="ev"><div><b>1:1 com a liderança</b><span>em 2h50</span></div><time>17:00</time></article>
+        </div>
+
+        <div class="c-pane" id="cp-github" tabindex="0" role="tabpanel" aria-labelledby="ct-github" hidden>
+          <p class="c-sub">review pedido a mim · 3 abertos</p>
+          <article class="pr"><div><b>feat: filtro de relatórios</b><span>juninmd/canto-widget #482</span></div><i class="ci ok">CI ok</i></article>
+          <article class="pr"><div><b>fix: lembrete duplicado ao adiar</b><span>juninmd/canto-widget #479</span></div><i class="ci run">rodando</i></article>
+          <article class="pr stalled"><div><b>docs: guia de skins</b><span>parado há 8 dias</span></div><i class="ci fail">CI falhou</i></article>
+        </div>
+      </div>
+
+      <div class="canto-alert" role="note" aria-label="Exemplo de aviso de reunião">
+        <div class="ca-top"><span class="c-dot" aria-hidden="true"></span><b>Planejamento da sprint</b><span class="ca-time">em 1 min</span></div>
+        <p>Sala Orion · 6 convidados</p>
+        <div class="ca-actions"><button type="button" class="c-btn primary">entrar no Meet</button><button type="button" class="c-btn">adiar 10 min</button></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═════════════ EDITOR ═════════════ -->
+<section class="sec" id="editor" aria-labelledby="t-editor">
+  <header class="sec-head">
+    <p class="hm-eyebrow">04 · Editor e terminal</p>
+    <h2 id="t-editor" class="hm-display">Código legível sob a lua.</h2>
+    <p>Tema do VS Code em <code>vscode/</code>, com a mesma paleta. Palavras em vermelho, textos em verde de reiatsu, números em ouro de Hollow. Todas as cores de sintaxe passam AA sobre o fundo.</p>
+  </header>
+
+  <div class="editor-grid">
+    <div class="win editor" role="group" aria-label="Exemplo de código TypeScript com o tema aplicado">
+      <div class="win-bar"><span class="tl"></span><span class="tl"></span><span class="tl"></span><span class="win-title">hollowzinho.ts — hueco-mundo</span></div>
+      <div class="ed-tabs"><span class="ed-tab on">hollowzinho.ts</span><span class="ed-tab">tokens.css</span><span class="ed-tab">README.md</span></div>
+      <div class="ed-body" tabindex="0" role="region" aria-label="Código de exemplo">
+        <pre class="ed-gutter" aria-hidden="true">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19</pre>
+<pre class="code"><span class="k">import</span> { <span class="v">Reiatsu</span>, <span class="k">type</span> <span class="t">Alma</span> } <span class="k">from</span> <span class="s">"./hueco-mundo"</span>;
+
+<span class="c">/** Um Hollow de estimação que vive no canto da tela. */</span>
+<span class="k">export class</span> <span class="t">Hollowzinho</span> {
+  <span class="k">readonly</span> <span class="p">nome</span> <span class="o">=</span> <span class="s">"Hollowzinho"</span>;
+  <span class="k">private</span> <span class="p">reiatsu</span> <span class="o">=</span> <span class="n">80</span>; <span class="c">// 0 a 100</span>
+
+  <span class="f">alimentar</span>(<span class="v">alma</span>: <span class="t">Alma</span>): <span class="t">void</span> {
+    <span class="k">this</span>.<span class="p">reiatsu</span> <span class="o">=</span> <span class="t">Math</span>.<span class="f">min</span>(<span class="n">100</span>, <span class="k">this</span>.<span class="p">reiatsu</span> <span class="o">+</span> <span class="v">alma</span>.<span class="p">valor</span>);
+    <span class="t">console</span>.<span class="f">log</span>(<span class="s">`Nham! Reiatsu em ${<span class="k">this</span>.<span class="p">reiatsu</span>}%`</span>);
+  }
+
+  <span class="k">async</span> <span class="f">cero</span>(<span class="v">alvo</span>: <span class="t">HTMLElement</span>): <span class="t">Promise</span>&lt;<span class="t">boolean</span>&gt; {
+    <span class="k">if</span> (<span class="k">this</span>.<span class="p">reiatsu</span> <span class="o">&lt;</span> <span class="n">12</span>) <span class="k">throw new</span> <span class="t">Error</span>(<span class="s">"Sem reiatsu pra isso"</span>);
+    <span class="k">this</span>.<span class="p">reiatsu</span> <span class="o">-=</span> <span class="n">12</span>;
+    <span class="k">await</span> <span class="v">alvo</span>.<span class="f">animate</span>([{ <span class="p">opacity</span>: <span class="n">1</span> }, { <span class="p">opacity</span>: <span class="n">0</span> }], <span class="n">600</span>).<span class="p">finished</span>;
+    <span class="k">return</span> <span class="n">true</span>;
+  }
+}</pre>
+      </div>
+      <div class="ed-status"><span>⎇ main</span><span>TypeScript</span><span class="grow"></span><span>Ln 17, Col 31</span><span>Hueco Mundo</span></div>
+    </div>
+
+    <div class="side-stack">
+      <div class="win term" role="group" aria-label="Exemplo de terminal com o tema aplicado">
+        <div class="win-bar"><span class="tl"></span><span class="tl"></span><span class="tl"></span><span class="win-title">terminal</span></div>
+<pre class="term-body" tabindex="0" role="region" aria-label="Saída do terminal"><span class="pr1">~/canto-widget</span> <span class="br">main</span> <span class="k">❯</span> bun run dev
+<span class="dim">  VITE v8.3.1</span>  <span class="ok">ready</span> in <span class="n">412</span> ms
+<span class="dim">  ➜</span>  <b>Local:</b>   <span class="ln">http://localhost:1420/</span>
+
+<span class="pr1">~/canto-widget</span> <span class="br">main</span> <span class="k">❯</span> git commit -m <span class="s">"feat: skin hueco-mundo"</span>
+[main <span class="n">7f3c2a1</span>] feat: skin hueco-mundo
+ 3 files changed, <span class="ok">214 insertions(+)</span>, <span class="bad">6 deletions(-)</span>
+<span class="pr1">~/canto-widget</span> <span class="br">main</span> <span class="k">❯</span> <span class="caret"></span></pre>
+        <div class="ansi" role="img" aria-label="Paleta ANSI do terminal: 16 cores">
+          <i style="background:#1c1d24"></i><i style="background:#f6506d"></i><i style="background:#4ade80"></i><i style="background:#fbbf24"></i><i style="background:#7cc4f5"></i><i style="background:#d99be8"></i><i style="background:#5fd6c8"></i><i style="background:#ede9e0"></i>
+          <i style="background:#4a4b57"></i><i style="background:#ff7a90"></i><i style="background:#86efac"></i><i style="background:#fcd34d"></i><i style="background:#a5d8fb"></i><i style="background:#ebb8f2"></i><i style="background:#8fe9dd"></i><i style="background:#ffffff"></i>
+        </div>
+      </div>
+
+      <div class="hm-surface hm-card legend">
+        <h3>Sintaxe</h3>
+        <ul class="legend-list">
+          <li><i class="sw-k"></i>palavra-chave</li><li><i class="sw-s"></i>texto</li><li><i class="sw-n"></i>número</li><li><i class="sw-f"></i>função</li>
+          <li><i class="sw-t"></i>tipo</li><li><i class="sw-p"></i>propriedade</li><li><i class="sw-v"></i>variável</li><li><i class="sw-c"></i>comentário</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═════════════ PET ═════════════ -->
+<section class="sec" id="pet" aria-labelledby="t-pet">
+  <header class="sec-head">
+    <p class="hm-eyebrow">05 · Hollowzinho</p>
+    <h2 id="t-pet" class="hm-display">Um Hollow de estimação no cantinho.</h2>
+    <p>Ele já está aí no canto da tela, olhando o seu cursor. É um web component sem dependências: <code>&lt;hollow-pet&gt;</code>. Passe o mouse para abrir a bandeja.</p>
+  </header>
+
+  <div class="pet-grid">
+    <div class="hm-surface hm-card how">
+      <h3>Como brincar</h3>
+      <ul class="how-list">
+        <li><span class="hm-kbd">clique</span><div><b>Carinho</b><span>coração, vínculo +1 e um sorriso</span></div></li>
+        <li><span class="hm-kbd">segure</span><div><b>Carregar o Cero</b><span>solte para disparar na direção do centro</span></div></li>
+        <li><span class="hm-kbd">C</span><div><b>Mirar</b><span>escolha qualquer ponto da tela como alvo</span></div></li>
+        <li><span class="hm-kbd">arraste</span><div><b>Trocar de canto</b><span>ele se encaixa no canto mais próximo</span></div></li>
+        <li><span class="hm-kbd">F</span><div><b>Alimentar</b><span>reiatsu verde; com vínculo ele evolui</span></div></li>
+        <li><span class="hm-kbd">S</span><div><b>Dormir</b><span>sozinho, depois de um tempo parado</span></div></li>
+      </ul>
+      <div class="row pet-actions">
+        <button class="hm-btn hm-btn--sm" type="button" data-pet="pet">Carinho</button>
+        <button class="hm-btn hm-btn--sm hm-btn--ok" type="button" data-pet="feed">Alimentar</button>
+        <button class="hm-btn hm-btn--sm hm-btn--primary" type="button" data-pet="aim">Cero</button>
+        <button class="hm-btn hm-btn--sm" type="button" data-pet="sleep">Dormir</button>
+        <button class="hm-btn hm-btn--sm hm-btn--ghost" type="button" data-pet="reset">Recomeçar</button>
+      </div>
+      <p class="pet-live muted small" id="pet-live" aria-live="polite">Sem eventos ainda. Faça um carinho.</p>
+    </div>
+
+    <div class="evo">
+      <div class="hm-surface hm-card evo-card">
+        <div class="evo-art"><hollow-pet inline static no-persist size="172" stage="1"></hollow-pet></div>
+        <b>Hollow</b><span class="muted small">vínculo 0</span>
+      </div>
+      <div class="hm-surface hm-card evo-card">
+        <div class="evo-art"><hollow-pet inline static no-persist size="172" stage="2"></hollow-pet></div>
+        <b>Adjuchas</b><span class="muted small">vínculo 15</span>
+      </div>
+      <div class="hm-surface hm-card evo-card hot">
+        <div class="evo-art"><hollow-pet inline static no-persist size="172" stage="3"></hollow-pet></div>
+        <b>Vasto Lorde</b><span class="muted small">vínculo 40</span>
+      </div>
+      <div class="hm-surface hm-card evo-card tints">
+        <div class="evo-art two">
+          <hollow-pet inline static no-persist size="104" stage="2" tint="reishi"></hollow-pet>
+          <hollow-pet inline static no-persist size="104" stage="2" tint="ouro"></hollow-pet>
+        </div>
+        <b>Variações</b><span class="muted small"><code>tint="reishi"</code> · <code>tint="ouro"</code></span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═════════════ INSTALAR ═════════════ -->
+<section class="sec" id="instalar" aria-labelledby="t-inst">
+  <header class="sec-head">
+    <p class="hm-eyebrow">06 · Instalar</p>
+    <h2 id="t-inst" class="hm-display">Quatro jeitos, nenhum build.</h2>
+  </header>
+  <div class="install-grid">
+    <article class="hm-surface hm-card">
+      <h3>Em qualquer página</h3>
+      <pre class="snip" data-copy tabindex="0" role="region" aria-label="Código: em qualquer página"><code>&lt;link rel="stylesheet" href="src/fonts.css"&gt;
+&lt;link rel="stylesheet" href="src/hueco-mundo.css"&gt;
+
+&lt;body class="hueco-mundo"&gt;</code></pre>
+    </article>
+    <article class="hm-surface hm-card">
+      <h3>Pet no cantinho</h3>
+      <pre class="snip" data-copy tabindex="0" role="region" aria-label="Código: pet no cantinho"><code>&lt;script src="src/hollow-pet.js"&gt;&lt;/script&gt;
+&lt;hollow-pet corner="br"&gt;&lt;/hollow-pet&gt;</code></pre>
+      <p class="muted small">Atributos: <code>corner</code> <code>size</code> <code>name</code> <code>lang</code> <code>tint</code> <code>shake</code></p>
+    </article>
+    <article class="hm-surface hm-card">
+      <h3>Skin do Canto</h3>
+      <pre class="snip" data-copy tabindex="0" role="region" aria-label="Código: skin do Canto"><code>/* src/styles.css do canto-widget */
+@import "hueco-mundo-theme/src/tokens.css";
+
+/* depois, nos Ajustes → Aparência: */
+localStorage.setItem("canto.skin", "hueco-mundo")</code></pre>
+    </article>
+    <article class="hm-surface hm-card">
+      <h3>VS Code</h3>
+      <pre class="snip" data-copy tabindex="0" role="region" aria-label="Código: VS Code"><code>cp -r vscode ~/.vscode/extensions/hueco-mundo
+# reinicie e escolha: Preferências → Tema de Cores
+#   → Hueco Mundo</code></pre>
+    </article>
+  </div>
+</section>
+
+</main>
+
+<footer class="foot">
+  <div class="foot-in">
+    <div><b class="hm-display">Hueco Mundo</b><p class="muted small">Tema de <a href="https://github.com/juninmd">juninmd</a> para o <a href="https://github.com/juninmd/canto-widget">Canto</a> · MIT</p></div>
+    <p class="muted small">Inspirado em Bleach (© Tite Kubo / Shueisha). Projeto de fã, sem afiliação. A arte do Hollowzinho é original; fontes sob a SIL OFL.</p>
+  </div>
+</footer>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<hollow-pet shake="main"></hollow-pet>
+<script src="src/hollow-pet.js"></script>
+<script src="site/site.js"></script>
+</body>
+</html>
