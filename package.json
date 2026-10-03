@@ -38,10 +38,11 @@
     "serve": "node scripts/serve.mjs",
     "contrast": "node scripts/contrast.mjs",
     "smoke": "node scripts/pet-smoke.mjs",
-    "test": "npm run contrast && npm run smoke",
+    "test": "npm run sync -- --check && npm run contrast && npm run smoke",
     "shots": "node scripts/shots.mjs",
     "bundle": "node scripts/bundle.mjs",
-    "demo": "node scripts/demo.mjs"
+    "demo": "node scripts/demo.mjs",
+    "sync": "node scripts/sync-vscode.mjs"
   },
   "devDependencies": {
     "playwright": "^1.56.0"

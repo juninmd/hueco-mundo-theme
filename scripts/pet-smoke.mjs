@@ -218,6 +218,78 @@ try {
   check("no celular o pet fica no canto, dentro da tela", pb.x + pb.width <= 390 && pb.y + pb.height <= 844 && pb.width <= 80, `${Math.round(pb.width)}px`);
   await ph.close();
 
+  // pet standalone: a página de demonstração (sem o tema) e a API de integração
+  const sa = await browser.newContext({ viewport: { width: 1100, height: 760 } });
+  page = await open(sa, "/pet/demo.html");
+  const P = "hollow-pet#pet";
+  const run = (fn, arg) => page.evaluate(([s, f, a]) => new Function("el", "arg", `return (${f})(el, arg)`)(document.querySelector(s), a), [P, fn.toString(), arg]);
+  await page.waitForTimeout(300);
+
+  const st0 = await run((el) => el.getState());
+  check("getState() devolve o formato v1 (reiatsu, vínculo, canto, escondido, visto, t)", st0.v === 1 && ["reiatsu", "bond", "corner", "hidden", "seen", "t"].every((k) => k in st0), JSON.stringify(st0));
+  check("restore() recusa o que não reconhece", (await run((el) => [el.restore(null), el.restore({ v: 2 }), el.restore("x")])).every((r) => r === false));
+  const back = await run((el) => { el.restore({ v: 1, reiatsu: 40, bond: 20, corner: "tl", hidden: false, seen: true, t: Date.now() }); return el.stats; });
+  check("restore() devolve vínculo, canto e estágio (Adjuchas com vínculo 20)", back.bond === 20 && back.corner === "tl" && back.stage === 2 && Math.round(back.reiatsu) === 40, `bond=${back.bond} corner=${back.corner} stage=${back.stage}`);
+  const away = await run((el) => { el.restore({ v: 1, reiatsu: 80, bond: 0, corner: "br", hidden: false, seen: true, t: Date.now() - 8 * 3600 * 1000 }); return el.stats.reiatsu; });
+  check("restore() desconta o reiatsu pelo tempo que o bicho ficou sozinho", away < 80 && away >= 50, `${Math.round(away)}`);
+
+  const evt = await run((el) => new Promise((ok) => { el.addEventListener("hollow-pet:state", (e) => ok(e.detail), { once: true }); el.setStats({ reiatsu: 50 }); }));
+  check('o evento "hollow-pet:state" entrega o estado para guardar fora', evt && evt.v === 1 && evt.reiatsu === 50, JSON.stringify(evt));
+
+  await run((el) => el.wake(true));
+  await run((el) => el.look(1, 0, 1500));
+  await page.waitForTimeout(450);
+  const gx1 = await run((el) => parseFloat(el.shadowRoot.querySelector(".root").style.getPropertyValue("--gx")));
+  check("look(1, 0) leva o olhar para a direita, sem mexer o mouse", gx1 > 1.5, `--gx=${gx1}`);
+  await run((el) => el.look(null));
+
+  await run((el) => el.mood("worried", "Opa…"));
+  check("mood('worried') deixa o bicho preocupado e fala", await run((el) => el.shadowRoot.querySelector(".root").dataset.worried === "1" && el.shadowRoot.querySelector(".bubble").textContent === "Opa…"));
+  await run((el) => { el.say("", 0); el.mood("happy", ""); });
+  check("mood('happy', '') fica calado", await run((el) => !el.shadowRoot.querySelector(".bubble").classList.contains("on")));
+
+  const cel = await run((el) => { el.setStats({ reiatsu: 60, bond: 0 }); el._setMode("idle"); el.celebrate("Passou!"); return { r: el.stats.reiatsu, b: el.stats.bond, beams: el.shadowRoot.querySelectorAll(".beam").length }; });
+  check("celebrate() solta um Cero para cima sem gastar reiatsu e cria vínculo", cel.r === 60 && cel.b === 1 && cel.beams > 0, JSON.stringify(cel));
+
+  const nib = await run((el) => { el.setStats({ reiatsu: 40 }); el.nibble(5); return el.stats.reiatsu; });
+  check("nibble(5) alimenta em silêncio", nib === 45, `${nib}`);
+
+  await run((el) => el.hide());
+  check("hide() esconde o pet e o estado diz isso", await run((el) => el.shadowRoot.querySelector(".wrap").classList.contains("hidden-pet") && el.getState().hidden === true));
+  await run((el) => el.show());
+  check("show() traz de volta", await run((el) => !el.shadowRoot.querySelector(".wrap").classList.contains("hidden-pet") && el.getState().hidden === false));
+
+  const nop = await page.evaluate(async () => {
+    localStorage.clear();
+    const e = document.createElement("hollow-pet");
+    e.setAttribute("no-persist", "");
+    e.setAttribute("no-hello", "");
+    e.setAttribute("storage-key", "hp-test");
+    document.body.appendChild(e);
+    e.feed();
+    await new Promise((r) => setTimeout(r, 100));
+    const got = localStorage.getItem("hp-test");
+    e.remove();
+    return got;
+  });
+  check("no-persist não escreve no localStorage (quem guarda é o hospedeiro)", nop === null);
+
+  await page.setViewportSize({ width: 300, height: 120 });
+  await page.waitForTimeout(250);
+  await run((el) => { el.dock("br", false); el.say("Oi! Posso ficar no cantinho? Tô de olho no código.", 0); });
+  await page.waitForTimeout(400);
+  const low = await run((el) => {
+    const r = el.shadowRoot.querySelector(".root");
+    const b = el.shadowRoot.querySelector(".bubble").getBoundingClientRect();
+    const p = el.shadowRoot.querySelector(".pet").getBoundingClientRect();
+    return { side: r.classList.contains("side"), inside: b.left >= 0 && b.top >= 0 && b.right <= innerWidth && b.bottom <= innerHeight, beside: b.right <= p.left + 12 };
+  });
+  check("em janela baixa o balão passa para o lado do pet e continua dentro da tela", low.side && low.inside && low.beside, JSON.stringify(low));
+  await page.setViewportSize({ width: 360, height: 420 });
+  await page.waitForTimeout(250);
+  check("em janela alta o balão volta para cima", await run((el) => !el.shadowRoot.querySelector(".root").classList.contains("side")));
+  await sa.close();
+
   check("nenhum erro nem aviso no console", errors.length === 0, errors.slice(0, 3).join(" | "));
 } catch (e) {
   console.error(e);

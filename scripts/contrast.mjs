@@ -57,6 +57,12 @@ if (existsSync(themePath)) {
   text("VS Code · tab inativa", theme.colors["tab.inactiveForeground"], theme.colors["tab.inactiveBackground"]);
   text("VS Code · sideBar", theme.colors["sideBar.foreground"], theme.colors["sideBar.background"]);
   text("VS Code · número de linha", theme.colors["editorLineNumber.foreground"], bg);
+  for (const n of ["Red", "Green", "Yellow", "Blue", "Magenta", "Cyan", "White", "BrightBlack", "BrightRed", "BrightGreen", "BrightYellow", "BrightBlue", "BrightMagenta", "BrightCyan", "BrightWhite"]) {
+    text(`VS Code · terminal ${n}`, theme.colors[`terminal.ansi${n}`], theme.colors["terminal.background"]);
+  }
+  text("VS Code · chip de erro da barra de status", theme.colors["statusBarItem.errorForeground"], theme.colors["statusBarItem.errorBackground"]);
+  text("VS Code · chip de aviso da barra de status", theme.colors["statusBarItem.warningForeground"], theme.colors["statusBarItem.warningBackground"]);
+  text("VS Code · código em linha do Markdown", theme.colors["textPreformat.foreground"], theme.colors["textPreformat.background"]);
 }
 
 let failed = 0;

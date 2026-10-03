@@ -1,0 +1,141 @@
+/* A janelinha do Hollowzinho dentro do VS Code. */
+html,
+body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background: transparent;
+  color: var(--vscode-foreground, #ede9e0);
+  font-family: var(--vscode-font-family, system-ui, sans-serif);
+}
+
+hollow-pet {
+  --hollow-font: var(--vscode-font-family, system-ui, sans-serif);
+  --hollow-z: 10;
+}
+
+/* Sem a cena, o pet pega emprestado o jeito do tema que você usa. */
+body[data-scene="none"] hollow-pet {
+  --hollow-panel: var(--vscode-editorHoverWidget-background, #0e0e11);
+  --hollow-edge: var(--vscode-editorHoverWidget-border, #2c2c33);
+  --hollow-fg: var(--vscode-editorHoverWidget-foreground, #ede9e0);
+  --hollow-muted: var(--vscode-descriptionForeground, #a8a29e);
+  --hollow-faint: var(--vscode-disabledForeground, #948e86);
+}
+
+/* ── a cena: céu morto, lua, areia e uma fortaleza lá longe ── */
+.scene {
+  position: fixed;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  background: #04050a;
+}
+
+body[data-scene="none"] .scene {
+  display: none;
+}
+
+.scene > * {
+  position: absolute;
+  display: block;
+}
+
+.sky {
+  inset: 0;
+  background: linear-gradient(180deg, #03040a 0%, #080a17 40%, #15182b 72%, #2a283f 100%);
+}
+
+.haze {
+  inset: 0;
+  background:
+    radial-gradient(ellipse 70% 38% at 18% 100%, rgb(225 29 72 / 0.2), transparent 70%),
+    radial-gradient(ellipse 80% 42% at 72% 100%, rgb(201 194 220 / 0.22), transparent 72%);
+}
+
+.stars {
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 72%;
+}
+
+.stars .tw {
+  animation: twinkle 4.2s ease-in-out infinite;
+}
+
+.stars .tw:nth-of-type(2n) {
+  animation-delay: -1.4s;
+  animation-duration: 5.6s;
+}
+
+.moon-glow {
+  top: 2%;
+  right: 4%;
+  width: min(62vmin, 190px);
+  aspect-ratio: 1;
+  background: radial-gradient(circle, rgb(244 239 227 / 0.26), rgb(207 200 230 / 0.09) 38%, transparent 70%);
+}
+
+.moon {
+  top: 5%;
+  right: 8%;
+  width: min(38vmin, 118px);
+  height: auto;
+  filter: drop-shadow(0 0 10px rgb(244 239 227 / 0.35));
+}
+
+.dunes {
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: clamp(86px, 48%, 280px);
+}
+
+.dunes .beacon {
+  animation: beacon 5.5s ease-in-out infinite;
+}
+
+.scene::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  box-shadow: inset 0 0 36px rgb(0 0 0 / 0.5);
+}
+
+@keyframes twinkle {
+  0%,
+  100% {
+    opacity: 0.25;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+@keyframes beacon {
+  0%,
+  100% {
+    opacity: 0.5;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .stars .tw,
+  .dunes .beacon {
+    animation: none;
+  }
+}
+
+@media (forced-colors: active) {
+  .scene {
+    display: none;
+  }
+}
