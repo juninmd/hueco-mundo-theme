@@ -10,7 +10,7 @@ import { dirname, extname, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 
 const ROOT = resolve(fileURLToPath(new URL("..", import.meta.url)));
-const MIME = { ".woff2": "font/woff2", ".png": "image/png", ".svg": "image/svg+xml" };
+const MIME = { ".woff2": "font/woff2", ".png": "image/png", ".svg": "image/svg+xml", ".webp": "image/webp", ".jpg": "image/jpeg", ".jpeg": "image/jpeg" };
 const fragment = process.argv.includes("--fragment");
 
 async function css(file) {
@@ -23,6 +23,15 @@ async function css(file) {
   for (const m of [...text.matchAll(/url\(["']?(\.[^"')]+\.(?:woff2|png|svg))["']?\)/g)]) {
     const bytes = await readFile(resolve(dirname(file), m[1]));
     text = text.replace(m[0], `url("data:${MIME[extname(m[1])]};base64,${bytes.toString("base64")}")`);
+  }
+  return text;
+}
+
+/** <img src="vscode/x.png"> vira data URI: a página sai num arquivo só, com os prints dentro. */
+async function inlineImages(text) {
+  for (const m of [...text.matchAll(/<img\b[^>]*?\ssrc="([^":#?]+\.(?:png|webp|jpe?g))"/g)]) {
+    const bytes = await readFile(join(ROOT, m[1]));
+    text = text.replaceAll(`src="${m[1]}"`, `src="data:${MIME[extname(m[1])]};base64,${bytes.toString("base64")}"`);
   }
   return text;
 }
@@ -43,16 +52,19 @@ let html;
 if (!fragment) {
   html = source.replace(/<title>.*?<\/title>/, title);
   for (const m of links) html = html.replace(m[0], `<style>\n${await css(join(ROOT, m[1]))}\n</style>\n`);
-  html = await inlineScripts(html);
+  html = await inlineImages(await inlineScripts(html));
 } else {
   let styles = "";
   for (const m of links) styles += `<style>\n${await css(join(ROOT, m[1]))}\n</style>\n`;
   // Os tokens passam a valer em :root, já que a página não escolhe os atributos de <html> nem de <body>.
   const wired = styles.replace(':root[data-theme="hueco-mundo"],\n.hueco-mundo {\n  color-scheme: dark;', ':root,\n:root[data-theme="hueco-mundo"],\n.hueco-mundo {\n  color-scheme: dark;');
   if (wired === styles) throw new Error("não achei o bloco de tokens para ligar em :root");
-  const body = source.slice(source.indexOf(">", source.indexOf("<body")) + 1, source.lastIndexOf("</body>"));
+  // Links para outros arquivos do repositório não existem fora dele: no fragmento viram texto simples.
+  const body = source
+    .slice(source.indexOf(">", source.indexOf("<body")) + 1, source.lastIndexOf("</body>"))
+    .replace(/<a\b[^>]*?\shref="(?!https?:|#|data:|mailto:)[^"]+"[^>]*>([\s\S]*?)<\/a>/g, "<span>$1</span>");
   const base = "<style>\n:root { color-scheme: dark; }\nbody { margin: 0; background: var(--hm-void); color: var(--hm-bone); font: 16px/1.55 var(--hm-font-sans); }\n</style>";
-  html = `${title}\n${base}\n${wired}<div class="hueco-mundo">${await inlineScripts(body)}</div>\n`;
+  html = `${title}\n${base}\n${wired}<div class="hueco-mundo">${await inlineImages(await inlineScripts(body))}</div>\n`;
 }
 
 await mkdir(join(ROOT, "dist"), { recursive: true });

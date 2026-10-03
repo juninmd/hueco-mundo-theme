@@ -22,8 +22,9 @@
   <nav aria-label="Seções">
     <a href="#paleta">Paleta</a>
     <a href="#componentes">Componentes</a>
-    <a href="#editor">Editor</a>
+    <a href="#editor">VS Code</a>
     <a href="#pet">Pet</a>
+    <a href="#no-vscode">No editor</a>
     <a href="#instalar">Instalar</a>
   </nav>
   <a class="hm-btn hm-btn--secondary hm-btn--sm" href="https://github.com/juninmd/hueco-mundo-theme">
@@ -379,82 +380,36 @@
 <!-- ═════════════ EDITOR ═════════════ -->
 <section class="sec" id="editor" aria-labelledby="t-editor">
   <header class="sec-head">
-    <p class="hm-eyebrow">04 · Editor e terminal</p>
+    <p class="hm-eyebrow">03 · Tema do VS Code</p>
     <h2 id="t-editor" class="hm-display">Código legível sob a lua.</h2>
-    <p>Tema do VS Code em <code>vscode/</code>, com a mesma paleta. Palavras em vermelho, textos em verde de reiatsu, números em ouro de Hollow. Todas as cores de sintaxe passam AA sobre o fundo.</p>
+    <p>A mesma paleta no editor: 309 cores de interface, terminal de 16 cores ANSI e realce semântico. Palavras em vermelho, textos em verde de reiatsu, números em ouro de Hollow. Os prints são de um VS Code de verdade, com o tema instalado.</p>
   </header>
 
-  <div class="editor-grid">
-    <div class="win editor" role="group" aria-label="Exemplo de código TypeScript com o tema aplicado">
-      <div class="win-bar"><span class="tl"></span><span class="tl"></span><span class="tl"></span><span class="win-title">hollowzinho.ts — hueco-mundo</span></div>
-      <div class="ed-tabs"><span class="ed-tab on">hollowzinho.ts</span><span class="ed-tab">tokens.css</span><span class="ed-tab">README.md</span></div>
-      <div class="ed-body" tabindex="0" role="region" aria-label="Código de exemplo">
-        <pre class="ed-gutter" aria-hidden="true">1
-2
-3
-4
-5
-6
-7
-8
-9
-10
-11
-12
-13
-14
-15
-16
-17
-18
-19</pre>
-<pre class="code"><span class="k">import</span> { <span class="v">Reiatsu</span>, <span class="k">type</span> <span class="t">Alma</span> } <span class="k">from</span> <span class="s">"./hueco-mundo"</span>;
+  <figure class="shot">
+    <img src="vscode/theme/docs/ts.png" width="1600" height="900" loading="lazy" alt="TypeScript no VS Code com o tema Hueco Mundo: palavras-chave em vermelho, textos em verde e números em ouro sobre um fundo quase preto">
+    <figcaption>TypeScript, com o realce semântico ligado: parâmetros em itálico, <code>this</code> em vermelho.</figcaption>
+  </figure>
 
-<span class="c">/** Um Hollow de estimação que vive no canto da tela. */</span>
-<span class="k">export class</span> <span class="t">Hollowzinho</span> {
-  <span class="k">readonly</span> <span class="p">nome</span> <span class="o">=</span> <span class="s">"Hollowzinho"</span>;
-  <span class="k">private</span> <span class="p">reiatsu</span> <span class="o">=</span> <span class="n">80</span>; <span class="c">// 0 a 100</span>
+  <div class="shots-2">
+    <figure class="shot">
+      <img src="vscode/theme/docs/css.png" width="1600" height="900" loading="lazy" alt="CSS no VS Code com o tema, mostrando as variáveis de cor com os quadradinhos de cor ao lado">
+      <figcaption>CSS, com os quadradinhos de cor.</figcaption>
+    </figure>
+    <figure class="shot">
+      <img src="vscode/theme/docs/terminal.png" width="1600" height="900" loading="lazy" alt="Terminal integrado do VS Code com a paleta ANSI de 16 cores, um git log colorido e um git status">
+      <figcaption>Terminal, com a paleta ANSI completa.</figcaption>
+    </figure>
+  </div>
 
-  <span class="f">alimentar</span>(<span class="v">alma</span>: <span class="t">Alma</span>): <span class="t">void</span> {
-    <span class="k">this</span>.<span class="p">reiatsu</span> <span class="o">=</span> <span class="t">Math</span>.<span class="f">min</span>(<span class="n">100</span>, <span class="k">this</span>.<span class="p">reiatsu</span> <span class="o">+</span> <span class="v">alma</span>.<span class="p">valor</span>);
-    <span class="t">console</span>.<span class="f">log</span>(<span class="s">`Nham! Reiatsu em ${<span class="k">this</span>.<span class="p">reiatsu</span>}%`</span>);
-  }
-
-  <span class="k">async</span> <span class="f">cero</span>(<span class="v">alvo</span>: <span class="t">HTMLElement</span>): <span class="t">Promise</span>&lt;<span class="t">boolean</span>&gt; {
-    <span class="k">if</span> (<span class="k">this</span>.<span class="p">reiatsu</span> <span class="o">&lt;</span> <span class="n">12</span>) <span class="k">throw new</span> <span class="t">Error</span>(<span class="s">"Sem reiatsu pra isso"</span>);
-    <span class="k">this</span>.<span class="p">reiatsu</span> <span class="o">-=</span> <span class="n">12</span>;
-    <span class="k">await</span> <span class="v">alvo</span>.<span class="f">animate</span>([{ <span class="p">opacity</span>: <span class="n">1</span> }, { <span class="p">opacity</span>: <span class="n">0</span> }], <span class="n">600</span>).<span class="p">finished</span>;
-    <span class="k">return</span> <span class="n">true</span>;
-  }
-}</pre>
-      </div>
-      <div class="ed-status"><span>⎇ main</span><span>TypeScript</span><span class="grow"></span><span>Ln 17, Col 31</span><span>Hueco Mundo</span></div>
-    </div>
-
-    <div class="side-stack">
-      <div class="win term" role="group" aria-label="Exemplo de terminal com o tema aplicado">
-        <div class="win-bar"><span class="tl"></span><span class="tl"></span><span class="tl"></span><span class="win-title">terminal</span></div>
-<pre class="term-body" tabindex="0" role="region" aria-label="Saída do terminal"><span class="pr1">~/hollowzinho</span> <span class="br">main</span> <span class="k">❯</span> bun run dev
-<span class="dim">  VITE v8.3.1</span>  <span class="ok">ready</span> in <span class="n">412</span> ms
-<span class="dim">  ➜</span>  <b>Local:</b>   <span class="ln">http://localhost:1420/</span>
-
-<span class="pr1">~/hollowzinho</span> <span class="br">main</span> <span class="k">❯</span> git commit -m <span class="s">"feat: pet no cantinho"</span>
-[main <span class="n">7f3c2a1</span>] feat: pet no cantinho
- 3 files changed, <span class="ok">214 insertions(+)</span>, <span class="bad">6 deletions(-)</span>
-<span class="pr1">~/hollowzinho</span> <span class="br">main</span> <span class="k">❯</span> <span class="caret"></span></pre>
-        <div class="ansi" role="img" aria-label="Paleta ANSI do terminal: 16 cores">
-          <i style="background:#1c1d24"></i><i style="background:#f6506d"></i><i style="background:#4ade80"></i><i style="background:#fbbf24"></i><i style="background:#7cc4f5"></i><i style="background:#d99be8"></i><i style="background:#5fd6c8"></i><i style="background:#ede9e0"></i>
-          <i style="background:#4a4b57"></i><i style="background:#ff7a90"></i><i style="background:#86efac"></i><i style="background:#fcd34d"></i><i style="background:#a5d8fb"></i><i style="background:#ebb8f2"></i><i style="background:#8fe9dd"></i><i style="background:#ffffff"></i>
-        </div>
-      </div>
-
-      <div class="hm-surface hm-card legend">
-        <h3>Sintaxe</h3>
-        <ul class="legend-list">
-          <li><i class="sw-k"></i>palavra-chave</li><li><i class="sw-s"></i>texto</li><li><i class="sw-n"></i>número</li><li><i class="sw-f"></i>função</li>
-          <li><i class="sw-t"></i>tipo</li><li><i class="sw-p"></i>propriedade</li><li><i class="sw-v"></i>variável</li><li><i class="sw-c"></i>comentário</li>
-        </ul>
-      </div>
+  <div class="hm-surface hm-card legend">
+    <h3>Sintaxe</h3>
+    <ul class="legend-list">
+      <li><i class="sw-k"></i>palavra-chave</li><li><i class="sw-s"></i>texto</li><li><i class="sw-n"></i>número</li><li><i class="sw-f"></i>função</li>
+      <li><i class="sw-t"></i>tipo</li><li><i class="sw-p"></i>propriedade</li><li><i class="sw-v"></i>variável</li><li><i class="sw-c"></i>comentário</li>
+    </ul>
+    <div class="ansi" role="img" aria-label="Paleta ANSI do terminal: 16 cores">
+      <i style="background:#3a3b46"></i><i style="background:#f6506d"></i><i style="background:#4ade80"></i><i style="background:#fbbf24"></i><i style="background:#7cc4f5"></i><i style="background:#d99be8"></i><i style="background:#5fd6c8"></i><i style="background:#ede9e0"></i>
+      <i style="background:#7d7e8c"></i><i style="background:#ff7a90"></i><i style="background:#86efac"></i><i style="background:#fcd34d"></i><i style="background:#a5d8fb"></i><i style="background:#ebb8f2"></i><i style="background:#8fe9dd"></i><i style="background:#ffffff"></i>
     </div>
   </div>
 </section>
@@ -462,9 +417,9 @@
 <!-- ═════════════ PET ═════════════ -->
 <section class="sec" id="pet" aria-labelledby="t-pet">
   <header class="sec-head">
-    <p class="hm-eyebrow">05 · Hollowzinho</p>
-    <h2 id="t-pet" class="hm-display">Um Hollow de estimação no cantinho.</h2>
-    <p>Ele já está aí no canto da tela, olhando o seu cursor. É um web component sem dependências: <code>&lt;hollow-pet&gt;</code>. Passe o mouse para abrir a bandeja.</p>
+    <p class="hm-eyebrow">04 · Hollowzinho</p>
+    <h2 id="t-pet" class="hm-display">Um Hollow de estimação, só dele.</h2>
+    <p>Ele já está aí no canto da tela, olhando o seu cursor. É um web component de um arquivo só, sem dependências e sem nenhuma ligação com o tema: <code>&lt;hollow-pet&gt;</code>. Passe o mouse para abrir a bandeja, ou veja a <a href="pet/demo.html">página de demonstração</a> com todos os controles.</p>
   </header>
 
   <div class="pet-grid">
@@ -512,31 +467,73 @@
   </div>
 </section>
 
+<!-- ═════════════ O PET NO VS CODE ═════════════ -->
+<section class="sec" id="no-vscode" aria-labelledby="t-vs">
+  <header class="sec-head">
+    <p class="hm-eyebrow">05 · O pet no VS Code</p>
+    <h2 id="t-vs" class="hm-display">Ele reage ao que você faz.</h2>
+    <p>A extensão <b>Hollowzinho</b> põe o mesmo bichinho numa visão do Explorer e liga os olhos dele ao editor. Ela não precisa do tema, e o tema não precisa dela.</p>
+  </header>
+
+  <div class="vs-grid">
+    <figure class="shot">
+      <img src="vscode/pet/docs/cero.png" width="1600" height="900" loading="lazy" alt="VS Code com o Hollowzinho no Explorer disparando um Cero: a linha 19 do editor pisca em vermelho com a palavra CERO no fim">
+      <figcaption>Um Cero na linha 19: o bicho dispara e a linha do editor pisca em vermelho.</figcaption>
+    </figure>
+    <div class="hm-surface hm-card how">
+      <h3>O que ele percebe</h3>
+      <ul class="how-list">
+        <li><span class="hm-kbd">digitar</span><div><b>Come reiatsu</b><span>e os olhos seguem o seu cursor</span></div></li>
+        <li><span class="hm-kbd">Ctrl+S</span><div><b>Fica feliz</b><span>o salvamento automático não conta</span></div></li>
+        <li><span class="hm-kbd">erro</span><div><b>Se preocupa</b><span>e respira aliviado quando os erros somem</span></div></li>
+        <li><span class="hm-kbd">teste</span><div><b>Comemora ou chora</b><span>tarefas e comandos de build ou teste</span></div></li>
+        <li><span class="hm-kbd">commit</span><div><b>Come o commit</b><span>até os do terminal</span></div></li>
+        <li><span class="hm-kbd">Cero</span><div><b>Acende a sua linha</b><span>só decoração: o texto nunca muda</span></div></li>
+      </ul>
+      <p class="muted small tight">Ele não lê o seu código (só conta letras e a posição do cursor), não usa rede e vive onde você o vê.</p>
+    </div>
+  </div>
+
+  <figure class="shot shot--wide">
+    <img src="vscode/pet/docs/demo.webp" width="900" height="660" loading="lazy" alt="Gravação de uma sessão no VS Code: o bicho olha o cursor enquanto se digita, se preocupa com um erro de tipo, respira quando ele é corrigido e dispara um Cero na linha">
+    <figcaption>Uma sessão real, do começo ao fim: digitar, um erro de tipo, a correção e o Cero.</figcaption>
+  </figure>
+</section>
+
 <!-- ═════════════ INSTALAR ═════════════ -->
 <section class="sec" id="instalar" aria-labelledby="t-inst">
   <header class="sec-head">
     <p class="hm-eyebrow">06 · Instalar</p>
     <h2 id="t-inst" class="hm-display">Quatro jeitos, nenhum build.</h2>
+    <p>O tema e o pet são independentes: use um, o outro ou os dois.</p>
   </header>
   <div class="install-grid">
     <article class="hm-surface hm-card">
-      <h3>Em qualquer página</h3>
-      <pre class="snip" data-copy tabindex="0" role="region" aria-label="Código: em qualquer página"><code>&lt;link rel="stylesheet" href="theme/fonts.css"&gt;
+      <h3>Tema em qualquer página</h3>
+      <pre class="snip" data-copy tabindex="0" role="region" aria-label="Código: tema em qualquer página"><code>&lt;link rel="stylesheet" href="theme/fonts.css"&gt;
 &lt;link rel="stylesheet" href="theme/hueco-mundo.css"&gt;
 
 &lt;body class="hueco-mundo"&gt;</code></pre>
     </article>
     <article class="hm-surface hm-card">
-      <h3>Pet no cantinho</h3>
-      <pre class="snip" data-copy tabindex="0" role="region" aria-label="Código: pet no cantinho"><code>&lt;script src="pet/hollow-pet.js"&gt;&lt;/script&gt;
+      <h3>Pet em qualquer página</h3>
+      <pre class="snip" data-copy tabindex="0" role="region" aria-label="Código: pet em qualquer página"><code>&lt;script src="pet/hollow-pet.js"&gt;&lt;/script&gt;
 &lt;hollow-pet corner="br"&gt;&lt;/hollow-pet&gt;</code></pre>
-      <p class="muted small">Atributos: <code>corner</code> <code>size</code> <code>name</code> <code>lang</code> <code>tint</code> <code>shake</code></p>
+      <p class="muted small">Atributos, métodos e eventos em <code>pet/README.md</code>.</p>
     </article>
     <article class="hm-surface hm-card">
-      <h3>VS Code</h3>
-      <pre class="snip" data-copy tabindex="0" role="region" aria-label="Código: VS Code"><code>cp -r vscode ~/.vscode/extensions/hueco-mundo
-# reinicie e escolha: Preferências → Tema de Cores
-#   → Hueco Mundo</code></pre>
+      <h3>Tema no VS Code</h3>
+      <pre class="snip" data-copy tabindex="0" role="region" aria-label="Código: tema no VS Code"><code>cd vscode/theme
+npx @vscode/vsce package
+code --install-extension hueco-mundo-0.1.0.vsix</code></pre>
+      <p class="muted small">Depois, <kbd class="hm-kbd">Ctrl</kbd> <kbd class="hm-kbd">K</kbd> <kbd class="hm-kbd">Ctrl</kbd> <kbd class="hm-kbd">T</kbd> e <b>Hueco Mundo</b>.</p>
+    </article>
+    <article class="hm-surface hm-card">
+      <h3>Pet no VS Code</h3>
+      <pre class="snip" data-copy tabindex="0" role="region" aria-label="Código: pet no VS Code"><code>cd vscode/pet
+npx @vscode/vsce package
+code --install-extension hollowzinho-0.1.0.vsix</code></pre>
+      <p class="muted small">A visão <b>Hollowzinho</b> abre no Explorer. Comandos e configurações em <code>vscode/pet/README.md</code>.</p>
     </article>
   </div>
 </section>

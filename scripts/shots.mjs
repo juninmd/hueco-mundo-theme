@@ -64,14 +64,17 @@ try {
   const sections = [
     ["02-paleta", "#paleta"],
     ["03-componentes", "#componentes"],
-    ["05-editor", "#editor"],
-    ["06-pet", "#pet"],
+    ["04-vscode", "#editor"],
+    ["05-pet", "#pet"],
+    ["06-pet-no-vscode", "#no-vscode"],
   ].filter(([n]) => want(n));
   if (sections.length) {
     const { page, ctx } = await open();
     await hideChrome(page);
     for (const [name, sel] of sections) {
       await page.locator(sel).scrollIntoViewIfNeeded();
+      // as imagens são preguiçosas: espera os prints do VS Code carregarem antes de fotografar a seção
+      await page.waitForFunction((q) => [...document.querySelector(q).querySelectorAll("img")].every((i) => i.complete && i.naturalWidth > 0), sel, { timeout: 8000 }).catch(() => {});
       await wait(250);
       await save(page.locator(sel), name);
     }
@@ -129,10 +132,17 @@ try {
     await ctx.close();
   }
 
+  if (want("demo")) {
+    const { page, ctx } = await open({ w: 1280, h: 860, path: "/pet/demo.html" });
+    await wait(1800);
+    await save(page, "13-pet-demo");
+    await ctx.close();
+  }
+
   if (want("mobile")) {
     const { page, ctx } = await open({ w: 390, h: 844, scale: 2, mobile: true });
     await wait(2200);
-    await save(page, "13-mobile");
+    await save(page, "14-mobile");
     await ctx.close();
   }
 } finally {
