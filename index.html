@@ -1,14 +1,14 @@
 <!doctype html>
-<html lang="pt-BR" data-skin="hueco-mundo">
+<html lang="pt-BR" data-theme="hueco-mundo">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Hueco Mundo · tema para o Canto</title>
-<meta name="description" content="Tema escuro inspirado no deserto de Bleach, feito com as cores do canto-widget. Inclui um Hollow de estimação no cantinho da tela.">
+<title>Hueco Mundo</title>
+<meta name="description" content="Tema escuro inspirado no deserto de Bleach, com um Hollow de estimação que mora no cantinho da tela e também no VS Code.">
 <meta name="theme-color" content="#050506">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 160 160'%3E%3Cpath d='M80 22C106 22 128 38 128 62C128 82 118 97 104 103C96 106.500 88 108 80 108C72 108 64 106.500 56 103C42 97 32 82 32 62C32 38 54 22 80 22Z' fill='%23ede9e0'/%3E%3Cellipse cx='58' cy='66' rx='11.500' ry='14.500' fill='%23050506'/%3E%3Cellipse cx='102' cy='66' rx='11.500' ry='14.500' fill='%23050506'/%3E%3Ccircle cx='58' cy='67' r='6' fill='%23fbbf24'/%3E%3Ccircle cx='102' cy='67' r='6' fill='%23fbbf24'/%3E%3Cpath d='M49.500 79C46 86 45.500 93 48 101C50.400 94 52.600 87 54.600 80ZM110.500 79C114 86 114.500 93 112 101C109.600 94 107.400 87 105.400 80Z' fill='%23e11d48'/%3E%3C/svg%3E">
-<link rel="stylesheet" href="src/fonts.css">
-<link rel="stylesheet" href="src/hueco-mundo.css">
+<link rel="stylesheet" href="theme/fonts.css">
+<link rel="stylesheet" href="theme/hueco-mundo.css">
 <link rel="stylesheet" href="site/site.css">
 </head>
 <body class="hueco-mundo">
@@ -22,7 +22,6 @@
   <nav aria-label="Seções">
     <a href="#paleta">Paleta</a>
     <a href="#componentes">Componentes</a>
-    <a href="#canto">Canto</a>
     <a href="#editor">Editor</a>
     <a href="#pet">Pet</a>
     <a href="#instalar">Instalar</a>
@@ -210,10 +209,10 @@
   </div>
 
   <div class="hero-content">
-    <p class="hm-eyebrow">Tema · Canto · Web · Editor</p>
+    <p class="hm-eyebrow">Tema · Pet · VS Code</p>
     <h1 id="hero-title" class="hm-display">Hueco<br>Mundo</h1>
     <p class="hero-sub">Areia branca sob a lua, céu morto e o vermelho dos Espadas.</p>
-    <p class="hero-lede">Um tema escuro feito com as cores do <a href="https://github.com/juninmd/canto-widget">canto-widget</a>, com componentes, tema de editor e um Hollow de estimação que mora no cantinho da tela.</p>
+    <p class="hero-lede">Um tema escuro inspirado no deserto de Bleach, com componentes, um tema para o VS Code e um Hollow de estimação que mora no cantinho da tela. E no seu editor.</p>
     <div class="hero-cta">
       <a class="hm-btn hm-btn--primary" href="#paleta">Ver a paleta</a>
       <a class="hm-btn" href="#instalar">Instalar</a>
@@ -221,7 +220,7 @@
     </div>
     <ul class="hero-badges" aria-label="Destaques">
       <li class="hm-chip hm-chip--ok"><span class="hm-dot"></span>Contraste AA</li>
-      <li class="hm-chip hm-chip--accent"><span class="hm-dot"></span>13 tokens do Canto</li>
+      <li class="hm-chip hm-chip--accent"><span class="hm-dot"></span>Tema, pet e VS Code</li>
       <li class="hm-chip"><span class="hm-dot"></span>Zero dependências</li>
     </ul>
   </div>
@@ -233,22 +232,22 @@
   <header class="sec-head">
     <p class="hm-eyebrow">01 · Paleta</p>
     <h2 id="t-paleta" class="hm-display">Osso, vazio e o vermelho do Cero.</h2>
-    <p>Os 13 tokens têm os nomes do Canto, então o bloco substitui a skin <code>hueco-mundo</code> de lá sem mexer em mais nada. O verde <code>#4ade80</code>, a marca do Canto, virou o reiatsu que o pet come. Clique numa cor para copiar.</p>
+    <p>Treze cores com nome de deserto: vazio e noite nas superfícies, osso no texto, o vermelho do Cero nas ações e o verde do reiatsu no que deu certo. Clique numa cor para copiar.</p>
   </header>
 
   <div class="swatches" id="swatches">
-    <button class="sw" data-token="--color-ink" data-name="Vazio" data-use="Fundo de campos e do app" type="button"></button>
-    <button class="sw" data-token="--color-panel" data-name="Noite" data-use="Painéis e cartões" type="button"></button>
-    <button class="sw" data-token="--color-edge" data-name="Borda" data-use="Divisores e contornos" type="button"></button>
-    <button class="sw" data-token="--color-fg" data-name="Osso" data-use="Texto principal" type="button"></button>
-    <button class="sw" data-token="--color-muted" data-name="Areia" data-use="Texto secundário" type="button"></button>
-    <button class="sw" data-token="--color-faint" data-name="Poeira" data-use="Dicas e placeholders" type="button"></button>
-    <button class="sw" data-token="--color-accent" data-name="Cero" data-use="Ação e foco" type="button"></button>
-    <button class="sw" data-token="--color-accent-text" data-name="Cero claro" data-use="Texto em vermelho" type="button"></button>
-    <button class="sw" data-token="--color-ok" data-name="Reiatsu" data-use="Sucesso e o verde do Canto" type="button"></button>
-    <button class="sw" data-token="--color-warn" data-name="Olho de Hollow" data-use="Aviso e destaque" type="button"></button>
-    <button class="sw" data-token="--color-danger" data-name="Sangue" data-use="Erro e perigo" type="button"></button>
-    <button class="sw" data-token="--color-line" data-name="Linha" data-use="Bordas de controles" type="button"></button>
+    <button class="sw" data-token="--hm-void" data-name="Vazio" data-use="Fundo de campos e do app" type="button"></button>
+    <button class="sw" data-token="--hm-night" data-name="Noite" data-use="Painéis e cartões" type="button"></button>
+    <button class="sw" data-token="--hm-edge" data-name="Borda" data-use="Divisores e contornos" type="button"></button>
+    <button class="sw" data-token="--hm-bone" data-name="Osso" data-use="Texto principal" type="button"></button>
+    <button class="sw" data-token="--hm-ash" data-name="Areia" data-use="Texto secundário" type="button"></button>
+    <button class="sw" data-token="--hm-dust" data-name="Poeira" data-use="Dicas e placeholders" type="button"></button>
+    <button class="sw" data-token="--hm-cero" data-name="Cero" data-use="Ação e foco" type="button"></button>
+    <button class="sw" data-token="--hm-cero-text" data-name="Cero claro" data-use="Texto em vermelho" type="button"></button>
+    <button class="sw" data-token="--hm-reishi" data-name="Reiatsu" data-use="Sucesso e o reiatsu" type="button"></button>
+    <button class="sw" data-token="--hm-gold" data-name="Olho de Hollow" data-use="Aviso e destaque" type="button"></button>
+    <button class="sw" data-token="--hm-blood" data-name="Sangue" data-use="Erro e perigo" type="button"></button>
+    <button class="sw" data-token="--hm-line" data-name="Linha" data-use="Bordas de controles" type="button"></button>
   </div>
 
   <div class="palette-extra">
@@ -257,7 +256,7 @@
       <div class="strip strip-sky" role="img" aria-label="Degradê do céu: do vazio ao azul morto"><span>céu</span><code>--hm-sky-0 … 2</code></div>
       <div class="strip strip-sand" role="img" aria-label="Degradê da areia: da sombra da duna ao osso"><span>areia</span><code>--hm-sand-lo … hi</code></div>
       <div class="strip strip-cero" role="img" aria-label="Degradê do Cero: do vinho ao branco quente"><span>cero</span><code>--hm-cero-deep … core</code></div>
-      <div class="strip strip-reishi" role="img" aria-label="Degradê do reiatsu: do verde escuro ao verde do Canto"><span>reiatsu</span><code>--hm-reishi</code></div>
+      <div class="strip strip-reishi" role="img" aria-label="Degradê do reiatsu: do verde escuro ao verde do reiatsu"><span>reiatsu</span><code>--hm-reishi</code></div>
       <p class="muted small">Extras <code>--hm-sky-*</code>, <code>--hm-sand-*</code> e <code>--hm-cero-*</code> para fundos, cenas e brilhos.</p>
     </div>
     <div class="hm-surface hm-card contrast-card">
@@ -272,7 +271,7 @@
 <section class="sec" id="componentes" aria-labelledby="t-comp">
   <header class="sec-head">
     <p class="hm-eyebrow">02 · Componentes</p>
-    <h2 id="t-comp" class="hm-display">Controles do Canto, com mais brilho.</h2>
+    <h2 id="t-comp" class="hm-display">Controles com o brilho do Cero.</h2>
     <p>Classes <code>hm-*</code> sobre os mesmos tokens. Foco com anel vermelho, alvos de pelo menos 24 px e movimento que respeita <code>prefers-reduced-motion</code>.</p>
   </header>
 
@@ -308,7 +307,7 @@
         </div>
         <div>
           <label class="hm-label" for="f3">Buscar</label>
-          <input id="f3" class="hm-input" placeholder="repo:canto label:bug">
+          <input id="f3" class="hm-input" placeholder="buscar em tudo">
         </div>
       </div>
       <div class="row">
@@ -377,89 +376,6 @@
   </div>
 </section>
 
-<!-- ═════════════ CANTO ═════════════ -->
-<section class="sec" id="canto" aria-labelledby="t-canto">
-  <div class="canto-wrap">
-    <header class="sec-head left">
-      <p class="hm-eyebrow">03 · No Canto</p>
-      <h2 id="t-canto" class="hm-display">O widget de canto, de roupa nova.</h2>
-      <p>Esta é a tela do <a href="https://github.com/juninmd/canto-widget">canto-widget</a> redesenhada só com os tokens: a mesma estrutura, trocando <code>data-skin</code>. Alterne para comparar com a skin padrão.</p>
-      <div class="seg" role="group" aria-label="Skin do exemplo">
-        <button type="button" class="seg-btn" data-skin="hueco-mundo" aria-pressed="true">Hueco Mundo</button>
-        <button type="button" class="seg-btn" data-skin="padrao" aria-pressed="false">Padrão do Canto</button>
-      </div>
-      <ul class="ticks">
-        <li>Os 13 tokens vêm do <code>src/styles.css</code> do Canto</li>
-        <li>Foco, alvos de 24 px e contraste AA preservados</li>
-        <li>Aviso de reunião com brilho do Cero</li>
-      </ul>
-    </header>
-
-    <div class="canto-stage">
-      <div class="canto skin-hm" id="canto-app">
-        <div class="c-top">
-          <span class="c-dot" aria-hidden="true"></span><b>canto</b>
-          <span class="c-grow"></span>
-          <span class="c-ico" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M9.500 9.500a2.500 2.500 0 1 1 3.500 2.300c-.7.400-1 .900-1 1.700M12 17h.01"/></svg></span>
-          <span class="c-lock"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>trancar</span>
-          <span class="c-ico" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M2 12s4-7 10-7 10 7 10 7-4 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg></span>
-          <span class="c-ico" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></span>
-        </div>
-        <div class="c-tabs" role="tablist" aria-label="Abas do Canto">
-          <button role="tab" id="ct-tarefas" aria-selected="true" aria-controls="cp-tarefas" type="button">Tarefas</button>
-          <button role="tab" id="ct-notas" aria-selected="false" aria-controls="cp-notas" type="button">Notas</button>
-          <button role="tab" id="ct-agenda" aria-selected="false" aria-controls="cp-agenda" type="button">Agenda</button>
-          <button role="tab" id="ct-github" aria-selected="false" aria-controls="cp-github" type="button">GitHub</button>
-        </div>
-
-        <div class="c-pane" id="cp-tarefas" tabindex="0" role="tabpanel" aria-labelledby="ct-tarefas">
-          <div class="c-add">
-            <div class="c-field"><span aria-hidden="true">+</span>nova tarefa (ex.: Daily às 9h30 !alta)</div>
-            <button class="c-plus" type="button" aria-label="Adicionar tarefa">+</button>
-          </div>
-          <div class="c-prog"><span id="c-count">1/5 concluídas</span><div class="c-bar" role="progressbar" aria-valuemin="0" aria-valuemax="5" aria-valuenow="1" aria-label="Tarefas concluídas"><i id="c-fill" style="width:20%"></i></div></div>
-          <div class="c-tools"><span>resumo do dia</span><span>puxar pendências</span><span class="c-sel">prioridades ⌄</span></div>
-          <ul class="c-tasks" id="c-tasks">
-            <li class="task task-alta"><input class="c-chk hm-check" type="checkbox" aria-label="Revisar o PR do filtro de relatórios"><div><p>Revisar o PR do filtro de relatórios</p><div class="c-chips"><span>10:30</span><span>20/45 min</span><span class="c-pr">⑂</span></div></div></li>
-            <li class="task task-media"><input class="c-chk hm-check" type="checkbox" aria-label="Responder o time sobre a estimativa da migração"><div><p>Responder o time sobre a estimativa da migração</p><div class="c-chips"><span>1/2</span></div></div></li>
-            <li class="task"><input class="c-chk hm-check" type="checkbox" aria-label="Enviar relatório semanal"><div><p>Enviar relatório semanal</p><div class="c-chips"><span>16:30 ↻</span></div></div></li>
-            <li class="task done"><input class="c-chk hm-check" type="checkbox" checked aria-label="Atualizar a documentação de onboarding"><div><p>Atualizar a documentação de onboarding</p></div></li>
-            <li class="task task-baixa"><input class="c-chk hm-check" type="checkbox" aria-label="Marcar consulta de rotina"><div><p>Marcar consulta de rotina</p></div></li>
-          </ul>
-        </div>
-
-        <div class="c-pane" id="cp-notas" tabindex="0" role="tabpanel" aria-labelledby="ct-notas" hidden>
-          <div class="c-notes">
-            <article class="note pinned"><h4>Ideias para o tema</h4><p>Pet no canto, Cero na mira e a lua grande no fundo. <b>Evoluir</b> com carinho.</p><div class="c-chips"><span>#hueco</span><span>#ideia</span><span class="pin">fixada</span></div></article>
-            <article class="note"><h4>Checklist da release</h4><p>☑ changelog &nbsp; ☑ tokens &nbsp; ☐ prints novos &nbsp; ☐ tag v0.4</p><div class="c-chips"><span>#release</span></div></article>
-            <article class="note"><h4>Snippet útil</h4><pre><code>git log --since="1 week" --oneline</code></pre><div class="c-chips"><span>#git</span></div></article>
-          </div>
-        </div>
-
-        <div class="c-pane" id="cp-agenda" tabindex="0" role="tabpanel" aria-labelledby="ct-agenda" hidden>
-          <p class="c-sub">agenda de hoje · aviso 1 min antes</p>
-          <article class="ev past"><div><b>Daily do time</b><span>encerrado</span></div><time>09:30</time><button type="button" class="c-btn">entrar no Meet</button></article>
-          <article class="ev now"><div><b>Planejamento da sprint</b><span class="now-tag">agora</span><em>Sala Orion</em></div><time>14:00</time><button type="button" class="c-btn primary">entrar no Meet</button></article>
-          <article class="ev"><div><b>1:1 com a liderança</b><span>em 2h50</span></div><time>17:00</time></article>
-        </div>
-
-        <div class="c-pane" id="cp-github" tabindex="0" role="tabpanel" aria-labelledby="ct-github" hidden>
-          <p class="c-sub">review pedido a mim · 3 abertos</p>
-          <article class="pr"><div><b>feat: filtro de relatórios</b><span>juninmd/canto-widget #482</span></div><i class="ci ok">CI ok</i></article>
-          <article class="pr"><div><b>fix: lembrete duplicado ao adiar</b><span>juninmd/canto-widget #479</span></div><i class="ci run">rodando</i></article>
-          <article class="pr stalled"><div><b>docs: guia de skins</b><span>parado há 8 dias</span></div><i class="ci fail">CI falhou</i></article>
-        </div>
-      </div>
-
-      <div class="canto-alert" role="note" aria-label="Exemplo de aviso de reunião">
-        <div class="ca-top"><span class="c-dot" aria-hidden="true"></span><b>Planejamento da sprint</b><span class="ca-time">em 1 min</span></div>
-        <p>Sala Orion · 6 convidados</p>
-        <div class="ca-actions"><button type="button" class="c-btn primary">entrar no Meet</button><button type="button" class="c-btn">adiar 10 min</button></div>
-      </div>
-    </div>
-  </div>
-</section>
-
 <!-- ═════════════ EDITOR ═════════════ -->
 <section class="sec" id="editor" aria-labelledby="t-editor">
   <header class="sec-head">
@@ -518,14 +434,14 @@
     <div class="side-stack">
       <div class="win term" role="group" aria-label="Exemplo de terminal com o tema aplicado">
         <div class="win-bar"><span class="tl"></span><span class="tl"></span><span class="tl"></span><span class="win-title">terminal</span></div>
-<pre class="term-body" tabindex="0" role="region" aria-label="Saída do terminal"><span class="pr1">~/canto-widget</span> <span class="br">main</span> <span class="k">❯</span> bun run dev
+<pre class="term-body" tabindex="0" role="region" aria-label="Saída do terminal"><span class="pr1">~/hollowzinho</span> <span class="br">main</span> <span class="k">❯</span> bun run dev
 <span class="dim">  VITE v8.3.1</span>  <span class="ok">ready</span> in <span class="n">412</span> ms
 <span class="dim">  ➜</span>  <b>Local:</b>   <span class="ln">http://localhost:1420/</span>
 
-<span class="pr1">~/canto-widget</span> <span class="br">main</span> <span class="k">❯</span> git commit -m <span class="s">"feat: skin hueco-mundo"</span>
-[main <span class="n">7f3c2a1</span>] feat: skin hueco-mundo
+<span class="pr1">~/hollowzinho</span> <span class="br">main</span> <span class="k">❯</span> git commit -m <span class="s">"feat: pet no cantinho"</span>
+[main <span class="n">7f3c2a1</span>] feat: pet no cantinho
  3 files changed, <span class="ok">214 insertions(+)</span>, <span class="bad">6 deletions(-)</span>
-<span class="pr1">~/canto-widget</span> <span class="br">main</span> <span class="k">❯</span> <span class="caret"></span></pre>
+<span class="pr1">~/hollowzinho</span> <span class="br">main</span> <span class="k">❯</span> <span class="caret"></span></pre>
         <div class="ansi" role="img" aria-label="Paleta ANSI do terminal: 16 cores">
           <i style="background:#1c1d24"></i><i style="background:#f6506d"></i><i style="background:#4ade80"></i><i style="background:#fbbf24"></i><i style="background:#7cc4f5"></i><i style="background:#d99be8"></i><i style="background:#5fd6c8"></i><i style="background:#ede9e0"></i>
           <i style="background:#4a4b57"></i><i style="background:#ff7a90"></i><i style="background:#86efac"></i><i style="background:#fcd34d"></i><i style="background:#a5d8fb"></i><i style="background:#ebb8f2"></i><i style="background:#8fe9dd"></i><i style="background:#ffffff"></i>
@@ -605,24 +521,16 @@
   <div class="install-grid">
     <article class="hm-surface hm-card">
       <h3>Em qualquer página</h3>
-      <pre class="snip" data-copy tabindex="0" role="region" aria-label="Código: em qualquer página"><code>&lt;link rel="stylesheet" href="src/fonts.css"&gt;
-&lt;link rel="stylesheet" href="src/hueco-mundo.css"&gt;
+      <pre class="snip" data-copy tabindex="0" role="region" aria-label="Código: em qualquer página"><code>&lt;link rel="stylesheet" href="theme/fonts.css"&gt;
+&lt;link rel="stylesheet" href="theme/hueco-mundo.css"&gt;
 
 &lt;body class="hueco-mundo"&gt;</code></pre>
     </article>
     <article class="hm-surface hm-card">
       <h3>Pet no cantinho</h3>
-      <pre class="snip" data-copy tabindex="0" role="region" aria-label="Código: pet no cantinho"><code>&lt;script src="src/hollow-pet.js"&gt;&lt;/script&gt;
+      <pre class="snip" data-copy tabindex="0" role="region" aria-label="Código: pet no cantinho"><code>&lt;script src="pet/hollow-pet.js"&gt;&lt;/script&gt;
 &lt;hollow-pet corner="br"&gt;&lt;/hollow-pet&gt;</code></pre>
       <p class="muted small">Atributos: <code>corner</code> <code>size</code> <code>name</code> <code>lang</code> <code>tint</code> <code>shake</code></p>
-    </article>
-    <article class="hm-surface hm-card">
-      <h3>Skin do Canto</h3>
-      <pre class="snip" data-copy tabindex="0" role="region" aria-label="Código: skin do Canto"><code>/* src/styles.css do canto-widget */
-@import "hueco-mundo-theme/src/tokens.css";
-
-/* depois, nos Ajustes → Aparência: */
-localStorage.setItem("canto.skin", "hueco-mundo")</code></pre>
     </article>
     <article class="hm-surface hm-card">
       <h3>VS Code</h3>
@@ -637,7 +545,7 @@ localStorage.setItem("canto.skin", "hueco-mundo")</code></pre>
 
 <footer class="foot">
   <div class="foot-in">
-    <div><b class="hm-display">Hueco Mundo</b><p class="muted small">Tema de <a href="https://github.com/juninmd">juninmd</a> para o <a href="https://github.com/juninmd/canto-widget">Canto</a> · MIT</p></div>
+    <div><b class="hm-display">Hueco Mundo</b><p class="muted small">Tema e pet de <a href="https://github.com/juninmd">juninmd</a> · MIT</p></div>
     <p class="muted small">Inspirado em Bleach (© Tite Kubo / Shueisha). Projeto de fã, sem afiliação. A arte do Hollowzinho é original; fontes sob a SIL OFL.</p>
   </div>
 </footer>
@@ -645,7 +553,7 @@ localStorage.setItem("canto.skin", "hueco-mundo")</code></pre>
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
 <hollow-pet lang="pt" shake="main"></hollow-pet>
-<script src="src/hollow-pet.js"></script>
+<script src="pet/hollow-pet.js"></script>
 <script src="site/site.js"></script>
 </body>
 </html>

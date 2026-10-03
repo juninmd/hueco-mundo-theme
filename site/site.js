@@ -190,22 +190,22 @@
 
   /* ───────── amostras de cor ───────── */
   (function swatches() {
-    const panel = tok("--color-panel");
-    const fg = tok("--color-fg");
-    const onAccent = tok("--color-on-accent");
+    const panel = tok("--hm-night");
+    const fg = tok("--hm-bone");
+    const onAccent = tok("--hm-on-cero");
     const how = {
-      "--color-ink": [fg, "texto"],
-      "--color-panel": [fg, "texto"],
-      "--color-edge": [panel, "borda"],
-      "--color-line": [panel, "UI"],
-      "--color-accent": [onAccent, "texto"],
+      "--hm-void": [fg, "texto"],
+      "--hm-night": [fg, "texto"],
+      "--hm-edge": [panel, "borda"],
+      "--hm-line": [panel, "UI"],
+      "--hm-cero": [onAccent, "texto"],
     };
     $$(".sw").forEach((b) => {
       const name = b.dataset.token;
       const hex = tok(name);
       if (!/^#[0-9a-f]{6}$/.test(hex)) return;
       const [against, label] = how[name] || [panel, "texto"];
-      const isSurface = name === "--color-ink" || name === "--color-panel" || name === "--color-accent";
+      const isSurface = name === "--hm-void" || name === "--hm-night" || name === "--hm-cero";
       const r = isSurface ? ratio(against, hex) : ratio(hex, against);
       const min = label === "UI" || label === "borda" ? 3 : 4.5;
       const ok = r >= min;
@@ -222,13 +222,13 @@
 
     const list = $("#contrast-list");
     const pairs = [
-      ["Osso sobre vazio", tok("--color-fg"), tok("--color-ink")],
-      ["Osso sobre noite", tok("--color-fg"), tok("--color-panel")],
-      ["Areia sobre noite", tok("--color-muted"), tok("--color-panel")],
-      ["Poeira sobre noite", tok("--color-faint"), tok("--color-panel")],
-      ["Cero claro sobre noite", tok("--color-accent-text"), tok("--color-panel")],
-      ["Reiatsu sobre noite", tok("--color-ok"), tok("--color-panel")],
-      ["Branco sobre Cero", "#ffffff", tok("--color-accent")],
+      ["Osso sobre vazio", tok("--hm-bone"), tok("--hm-void")],
+      ["Osso sobre noite", tok("--hm-bone"), tok("--hm-night")],
+      ["Areia sobre noite", tok("--hm-ash"), tok("--hm-night")],
+      ["Poeira sobre noite", tok("--hm-dust"), tok("--hm-night")],
+      ["Cero claro sobre noite", tok("--hm-cero-text"), tok("--hm-night")],
+      ["Reiatsu sobre noite", tok("--hm-reishi"), tok("--hm-night")],
+      ["Branco sobre Cero", "#ffffff", tok("--hm-cero")],
     ];
     if (list)
       list.innerHTML = pairs
@@ -239,52 +239,11 @@
         .join("");
   })();
 
-  /* ───────── mock do Canto ───────── */
-  (function canto() {
-    const app = $("#canto-app");
-    if (!app) return;
-    const tabs = $$('.c-tabs [role="tab"]', app);
-    const show = (tab) => {
-      tabs.forEach((t) => {
-        const on = t === tab;
-        t.setAttribute("aria-selected", String(on));
-        t.tabIndex = on ? 0 : -1;
-        $("#" + t.getAttribute("aria-controls")).hidden = !on;
-      });
-    };
-    tabs.forEach((t, i) => {
-      t.tabIndex = i === 0 ? 0 : -1;
-      t.addEventListener("click", () => show(t));
-      t.addEventListener("keydown", (e) => {
-        const k = { ArrowRight: 1, ArrowLeft: -1 }[e.key];
-        if (!k) return;
-        const n = tabs[(i + k + tabs.length) % tabs.length];
-        n.focus();
-        show(n);
-        e.preventDefault();
-      });
-    });
-
-    const boxes = $$(".c-chk", app);
-    const update = () => {
-      const n = boxes.filter((b) => b.checked).length;
-      $("#c-count").textContent = `${n}/${boxes.length} concluídas`;
-      $("#c-fill").style.width = (n / boxes.length) * 100 + "%";
-      $(".c-bar", app).setAttribute("aria-valuenow", String(n));
-      boxes.forEach((b) => b.closest(".task").classList.toggle("done", b.checked));
-    };
-    boxes.forEach((b) => b.addEventListener("change", update));
-
-    $$(".seg").forEach((seg) => {
-      const btns = $$(".seg-btn", seg);
-      btns.forEach((b) =>
-        b.addEventListener("click", () => {
-          btns.forEach((x) => x.setAttribute("aria-pressed", String(x === b)));
-          if (b.dataset.skin) app.classList.toggle("skin-padrao", b.dataset.skin === "padrao");
-        })
-      );
-    });
-  })();
+  /* ───────── controles segmentados ───────── */
+  $$(".seg").forEach((seg) => {
+    const btns = $$(".seg-btn", seg);
+    btns.forEach((b) => b.addEventListener("click", () => btns.forEach((x) => x.setAttribute("aria-pressed", String(x === b)))));
+  });
 
   /* ───────── blocos de código copiáveis ───────── */
   $$(".snip[data-copy]").forEach((pre) => {

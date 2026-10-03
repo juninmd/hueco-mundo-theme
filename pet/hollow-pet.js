@@ -1,15 +1,23 @@
 /*!
- * <hollow-pet> — o Hollowzinho, um pet de canto de tela para o tema Hueco Mundo.
- * Zero dependências, um arquivo só. Funciona por <script src> (inclusive em file://) e por import de efeito colateral.
+ * <hollow-pet> — o Hollowzinho, um Hollow de estimação para o canto da tela.
+ * Web component sem dependências, um arquivo só, arte em SVG. Funciona por <script src> (inclusive em file://)
+ * e por import de efeito colateral.
  *
  *   <script src="hollow-pet.js"></script>
  *   <hollow-pet></hollow-pet>
  *
- * Atributos: corner (br|bl|tr|tl), size (px), name, lang (pt|en), tint (reishi|ouro),
- *            inline (não fixa na tela), static (sem vida própria), no-persist, shake (seletor que treme no Cero).
- * Métodos:   pet() feed() cero({x,y,power}) aim() sleep() wake() say(texto) dock(canto) reset() setStage(n) setStats({reiatsu,bond})
+ * Atributos: corner (br|bl|tr|tl), size (px), margin (px), name, lang (pt|en), tint (reishi|ouro),
+ *            inline (não fixa na tela), static (sem vida própria), no-persist, no-hello, storage-key,
+ *            chatter (off|low|normal), sleep-after (segundos parado até dormir; 0 desliga),
+ *            shake (seletor da página que treme no Cero).
+ * Métodos:   pet() feed() cero({x,y,power}) aim() sleep() wake() say(texto) dock(canto) reset()
+ *            setStage(n) setStats({reiatsu,bond}) getState() restore(estado)
+ *            look(x,y,ms) mood(humor,texto) celebrate(texto) nibble(reiatsu)
  * Sem HTML:  HollowPet.mount({ corner: "bl" })
  * Eventos:   hollow-pet:pet | feed | cero | sleep | wake | levelup  (detail: { stage, bond, reiatsu })
+ *            hollow-pet:state  (detail: o que getState() devolve; guarde onde quiser e devolva com restore())
+ * Cores:     --hollow-panel, --hollow-edge, --hollow-fg, --hollow-muted, --hollow-faint, --hollow-accent,
+ *            --hollow-accent-text, --hollow-ok, --hollow-font, --hollow-font-display, --hollow-z
  */
 (function () {
   "use strict";
@@ -54,6 +62,13 @@
       wake: ["Hã? Tô acordado!", "Quem chamou?"],
       levelup: { 2: "Evoluí! Agora sou um Adjuchas!", 3: "Vasto Lorde! Cuidado com o Cero." },
       reset: "Voltei a ser um Hollow novinho.",
+      mood: {
+        happy: ["Hehe!", "Boa!", "Gostei!"],
+        excited: ["Bora!", "Tá voando!", "Isso, continua!"],
+        worried: ["Opa…", "Hmm, isso não parece bom.", "Deu ruim?"],
+        sad: ["Poxa…", "Foi mal.", "Vamos de novo?"],
+        celebrate: ["Tudo certo!", "Cero comemorativo!", "Mandou bem!"],
+      },
     },
     en: {
       region: "Hollowzinho, interactive pet",
@@ -75,6 +90,13 @@
       wake: ["Huh? I'm awake!", "Who called?"],
       levelup: { 2: "I evolved! I'm an Adjuchas now!", 3: "Vasto Lorde! Mind the Cero." },
       reset: "I'm a brand new Hollow again.",
+      mood: {
+        happy: ["Hehe!", "Nice!", "Like it!"],
+        excited: ["Let's go!", "On fire!", "Keep going!"],
+        worried: ["Oops…", "Hmm, that doesn't look good.", "Went wrong?"],
+        sad: ["Aw…", "My bad.", "Again?"],
+        celebrate: ["All good!", "Victory Cero!", "Well done!"],
+      },
     },
   };
 
@@ -257,11 +279,11 @@
   /* ───────────────────────── estilos ───────────────────────── */
 
   const CSS = `
-:host{position:fixed;inset:0;z-index:2147483000;display:block;pointer-events:none;contain:layout style;
-  --panel:var(--color-panel,#0e0e11);--ink:var(--color-ink,#050506);--edge:var(--color-edge,#2c2c33);--accent:var(--color-accent,#e11d48);
-  --accent-text:var(--color-accent-text,#f6506d);--on-accent:var(--color-on-accent,#fff);--fg:var(--color-fg,#ede9e0);--muted:var(--color-muted,#a8a29e);
-  --faint:var(--color-faint,#948e86);--line:var(--color-line,#62626b);--ok:var(--color-ok,#4ade80);--warn:var(--color-warn,#fbbf24);
-  --font:var(--hm-font-sans,ui-sans-serif,system-ui,"Segoe UI",sans-serif);--ease:cubic-bezier(.2,0,0,1);--spring:cubic-bezier(.34,1.56,.64,1)}
+:host{position:fixed;inset:0;z-index:var(--hollow-z,2147483000);display:block;pointer-events:none;contain:layout style;
+  --panel:var(--hollow-panel,#0e0e11);--edge:var(--hollow-edge,#2c2c33);--accent:var(--hollow-accent,#e11d48);
+  --accent-text:var(--hollow-accent-text,#f6506d);--fg:var(--hollow-fg,#ede9e0);--muted:var(--hollow-muted,#a8a29e);
+  --faint:var(--hollow-faint,#948e86);--ok:var(--hollow-ok,#4ade80);
+  --font:var(--hollow-font,ui-sans-serif,system-ui,"Segoe UI",sans-serif);--ease:cubic-bezier(.2,0,0,1);--spring:cubic-bezier(.34,1.56,.64,1)}
 :host([hidden]){display:none}
 :host([inline]){position:relative;inset:auto;display:inline-block;width:var(--size,120px);height:var(--size,120px);contain:none;z-index:auto;pointer-events:auto}
 :host([tint="reishi"]){--aura:#4ade80;--mark-hi:#6ff0a0;--mark-lo:#1f9a52}
@@ -317,6 +339,10 @@
 [data-hungry="1"] .eye{transform:scaleY(.8)}
 [data-hungry="1"] .aura{opacity:.45}
 [data-hungry="1"] .hole-ring,[data-hungry="1"] .hole-glow{animation:flicker 1.9s steps(1) infinite}
+[data-worried="1"] .sweat{opacity:1;animation:sweat 1.5s ease-in infinite}
+[data-worried="1"] .pupil{transform-box:fill-box;transform-origin:center;transform:scale(.7)}
+[data-worried="1"] .tail{animation-duration:.25s}
+[data-worried="1"] .aura{opacity:.6}
 [data-mode="sleeping"] .aura{opacity:.5}
 [data-mode="sleeping"] .bob{animation:breathe-slow 4.8s ease-in-out infinite}
 [data-mode="sleeping"] .tail{animation-duration:6s}
@@ -375,7 +401,7 @@
 .c-bl .bubble::after,.c-tl .bubble::after{left:calc(var(--size,120px) * .4)}
 .bubble b{color:var(--accent-text);font-weight:700}
 
-.tray{position:relative;width:236px;padding:10px;border:1px solid var(--edge);border-radius:16px;background:var(--panel);color:var(--fg);pointer-events:auto;
+.tray{position:relative;width:min(236px,calc(100vw - 20px));padding:10px;border:1px solid var(--edge);border-radius:16px;background:var(--panel);color:var(--fg);pointer-events:auto;
   box-shadow:0 18px 40px -14px rgba(0,0,0,.85),0 0 0 1px color-mix(in oklab,var(--accent) 18%,transparent),inset 0 1px 0 rgba(237,233,224,.06);
   opacity:0;visibility:hidden;transform:translateY(8px) scale(.97);transition:opacity .16s var(--ease),transform .2s var(--ease),visibility 0s .2s}
 .root.open .tray,.root:has(:focus-visible) .tray{opacity:1;visibility:visible;transform:none;transition-delay:0s}
@@ -402,6 +428,10 @@
 .tray-hint{display:flex;gap:10px;margin:9px 2px 0;font-size:10.5px;color:var(--faint);line-height:1.35}
 .tray-hint kbd{display:inline-grid;place-items:center;min-width:16px;height:16px;margin-right:4px;padding:0 4px;border:1px solid var(--edge);border-bottom-width:2px;border-radius:4px;background:color-mix(in oklab,var(--panel) 88%,var(--fg));color:var(--fg);font:600 10px/1 var(--font)}
 
+@media (max-height:360px){.tray-hint{display:none}}
+@media (max-height:300px){.tray-head{display:none}.meters{margin-bottom:8px}}
+@media (max-height:240px){.meters{display:none}.tray{padding:8px}}
+
 .peek{position:absolute;display:none;width:34px;height:34px;padding:0;border:1px solid var(--edge);border-radius:50%;background:var(--panel);color:var(--fg);cursor:pointer;pointer-events:auto;
   box-shadow:0 8px 20px -8px rgba(0,0,0,.8),0 0 0 1px color-mix(in oklab,var(--accent) 30%,transparent)}
 .peek svg{width:20px;height:20px}
@@ -416,7 +446,7 @@
 .heart{width:19px;height:19px;fill:var(--heart,#f6506d);filter:drop-shadow(0 0 4px rgba(225,29,72,.7))}
 .spark{width:12px;height:12px;fill:#fff3d6;filter:drop-shadow(0 0 4px rgba(251,191,36,.9))}
 .orb{width:14px;height:14px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#eafff1,var(--ok) 55%,#14803f);box-shadow:0 0 14px 3px color-mix(in oklab,var(--ok) 70%,transparent)}
-.zzz{font:800 20px/1 var(--hm-font-display,Georgia,serif);color:var(--fg);opacity:0;text-shadow:0 0 10px rgba(0,0,0,.85),0 0 14px color-mix(in oklab,var(--accent) 55%,transparent)}
+.zzz{font:800 20px/1 var(--hollow-font-display,Georgia,serif);color:var(--fg);opacity:0;text-shadow:0 0 10px rgba(0,0,0,.85),0 0 14px color-mix(in oklab,var(--accent) 55%,transparent)}
 .puff{width:14px;height:14px;border-radius:50%;background:radial-gradient(circle,rgba(237,233,224,.55),rgba(237,233,224,0) 70%)}
 
 .layer{position:absolute;inset:0;overflow:hidden;pointer-events:none}
@@ -446,12 +476,11 @@
 
   /* ───────────────────────── o elemento ───────────────────────── */
 
-  const KEY = "hueco-mundo:pet";
   const CORNERS = ["br", "bl", "tr", "tl"];
 
   class HollowPet extends HTMLElement {
     static get observedAttributes() {
-      return ["corner", "size", "name", "lang", "inline", "static", "stage"];
+      return ["corner", "size", "margin", "name", "lang", "inline", "static", "stage"];
     }
 
     /** Cria um <hollow-pet> no body (para quem não quer escrever o HTML), ex.: HollowPet.mount({ corner: "bl" }). */
@@ -521,7 +550,7 @@
       this._meters();
       if (this.hasAttribute("static") || this.hasAttribute("inline")) return;
       this._schedule(() => {
-        if (!this.s.seen) {
+        if (!this.s.seen && !this.hasAttribute("no-hello")) {
           this.s.seen = true;
           this._save();
           this.say(pick(this._t.hello), 4200);
@@ -573,29 +602,57 @@
       return id;
     }
 
+    get _key() {
+      return this.getAttribute("storage-key") || "hollow-pet";
+    }
+
+    /** O que vale guardar: salve onde quiser (localStorage, extensão, servidor) e devolva com restore(). */
+    getState() {
+      return { v: 1, reiatsu: Math.round(this.s.reiatsu), bond: this.s.bond, corner: this.s.corner, hidden: this.s.hidden, seen: this.s.seen, t: Date.now() };
+    }
+
+    /** Devolve um estado guardado por getState(). O reiatsu cai um pouco pelo tempo que o bicho ficou sozinho. */
+    restore(raw) {
+      if (!raw || raw.v !== 1) return false;
+      const away = Math.max(0, (Date.now() - (raw.t || Date.now())) / 60000);
+      this.s.reiatsu = clamp((+raw.reiatsu || 80) - Math.min(30, away / 8), 5, 100);
+      this.s.bond = Math.max(0, raw.bond | 0);
+      this._persistedCorner = CORNERS.includes(raw.corner);
+      if (this._persistedCorner) this.s.corner = raw.corner;
+      this.s.hidden = !!raw.hidden;
+      this.s.seen = !!raw.seen;
+      if (this.isConnected) {
+        this._applyStage();
+        this._layout(false);
+        this._meters();
+      }
+      return true;
+    }
+
     _load() {
-      if (this.hasAttribute("no-persist") || this._inline) return;
-      try {
-        const raw = JSON.parse(localStorage.getItem(KEY) || "null");
-        if (raw && raw.v === 1) {
-          const away = Math.max(0, (Date.now() - (raw.t || Date.now())) / 60000);
-          this.s.reiatsu = clamp(raw.r - Math.min(30, away / 8), 5, 100);
-          this.s.bond = raw.b | 0;
-          this._persistedCorner = CORNERS.includes(raw.c);
-          this.s.corner = this._persistedCorner ? raw.c : "br";
-          this.s.hidden = !!raw.h;
-          this.s.seen = !!raw.s;
-        }
-      } catch (_) {}
+      if (!this.hasAttribute("no-persist") && !this._inline) {
+        try {
+          this.restore(JSON.parse(localStorage.getItem(this._key) || "null"));
+        } catch (_) {}
+      }
       const attr = this.getAttribute("corner");
       if (attr && CORNERS.includes(attr) && !this._persistedCorner) this.s.corner = attr;
     }
 
     _save() {
-      if (this.hasAttribute("no-persist") || this._inline) return;
-      try {
-        localStorage.setItem(KEY, JSON.stringify({ v: 1, r: Math.round(this.s.reiatsu), b: this.s.bond, c: this.s.corner, h: this.s.hidden, s: this.s.seen, t: Date.now() }));
-      } catch (_) {}
+      if (this._inline) return;
+      const st = this.getState();
+      if (!this.hasAttribute("no-persist")) {
+        try {
+          localStorage.setItem(this._key, JSON.stringify(st));
+        } catch (_) {}
+      }
+      this.dispatchEvent(new CustomEvent("hollow-pet:state", { bubbles: true, composed: true, detail: st }));
+    }
+
+    _saveSoon() {
+      clearTimeout(this._saveT);
+      this._saveT = setTimeout(() => this._save(), 1500);
     }
 
     _i18n() {
@@ -649,13 +706,22 @@
       const a = parseFloat(this.getAttribute("size"));
       if (a > 0) return a;
       const w = document.documentElement.clientWidth || innerWidth;
-      return Math.round(clamp(w * 0.11, 72, 120));
+      const h = document.documentElement.clientHeight || innerHeight;
+      let s = clamp(w * 0.11, 72, 120);
+      if (h < 260) s = Math.min(s, Math.max(56, h * 0.32)); // janelas baixas, como o painel de um editor
+      return Math.round(s);
+    }
+
+    _margin() {
+      const m = parseFloat(this.getAttribute("margin"));
+      if (m >= 0) return m;
+      return (document.documentElement.clientWidth || innerWidth) < 520 ? 8 : 16;
     }
 
     _cornerXY(c, size = this._size()) {
       const w = document.documentElement.clientWidth || innerWidth;
       const h = document.documentElement.clientHeight || innerHeight;
-      const m = w < 520 ? 8 : 16;
+      const m = this._margin();
       return { x: c[1] === "r" ? w - size - m : m, y: c[0] === "b" ? h - size - m : m };
     }
 
@@ -984,6 +1050,77 @@
       this._setMode(m);
     }
 
+    /** Olha para (x, y), cada um de -1 a 1, por um tempo, no lugar do cursor. look(null) volta a seguir o cursor. */
+    look(x, y, ms = 2600) {
+      clearTimeout(this._lookT);
+      if (x == null) {
+        this._look = null;
+        this._kick();
+        return;
+      }
+      if (this.mode === "sleeping") return;
+      this._look = { x: clamp(+x, -1, 1), y: clamp(+y || 0, -1, 1), until: performance.now() + ms };
+      this._kick();
+      this._lookT = setTimeout(() => {
+        this._look = null;
+        this._kick();
+      }, ms + 20);
+    }
+
+    /** Humor passageiro: happy, excited, worried, sad ou calm. Com texto, o balão fala (texto "" fica calado). */
+    mood(kind, text) {
+      this._touch();
+      if (this.mode === "sleeping") this.wake(true);
+      if (["charging", "firing", "dragging", "aiming", "eating"].includes(this.mode)) {
+        if (text) this.say(text, 2600);
+        return;
+      }
+      if (kind === "happy") {
+        this._setMode("happy", 1500);
+        this._anim("hop");
+        this._hearts(4);
+      } else if (kind === "excited") {
+        this._anim("hop");
+        this._anim("wag", 1800);
+      } else if (kind === "worried" || kind === "sad") this._worry(kind === "sad" ? 4200 : 3200);
+      else if (kind !== "calm") return;
+      const lines = this._t.mood[kind];
+      const line = text === undefined ? (lines ? pick(lines) : "") : text;
+      if (line) this.say(line, 2800);
+    }
+
+    _worry(ms) {
+      const r = this.$.root;
+      r.dataset.worried = "1";
+      this._anim("nope", 600);
+      clearTimeout(this._worryT);
+      this._worryT = setTimeout(() => (r.dataset.worried = "0"), ms);
+    }
+
+    /** Comemoração: corações e um Cero para cima, que não gasta reiatsu. */
+    celebrate(text) {
+      this._touch();
+      if (this.mode === "sleeping") this.wake(true);
+      if (["charging", "firing", "dragging", "aiming"].includes(this.mode)) return;
+      const before = this.stage.id;
+      this._setMode("firing", 900);
+      this._anim("pulse", 1000);
+      this._hearts(8, true);
+      const m = this._mouth();
+      this._fire(m, { x: m.x + (this.s.corner[1] === "r" ? -1 : 1) * innerWidth * 0.25, y: Math.max(-40, m.y - innerHeight) }, 0.75);
+      this.say(text === undefined ? pick(this._t.mood.celebrate) : text, 2800);
+      this.s.bond += 1;
+      this._after(before);
+    }
+
+    /** Alimenta em silêncio com uma fração de reiatsu (por exemplo, um pouco por tecla digitada). */
+    nibble(amount = 0.1) {
+      if (this.mode === "sleeping") return;
+      this.s.reiatsu = clamp(this.s.reiatsu + amount, 0, 100);
+      this._meters();
+      this._saveSoon();
+    }
+
     dock(corner, animate = true) {
       if (!CORNERS.includes(corner)) return;
       const from = this._pos;
@@ -1083,7 +1220,11 @@
         let tx = 0;
         let ty = 0;
         const sleepy = this.mode === "sleeping";
-        if (this._pointer && !sleepy && !this._lookAway) {
+        const lk = this._look && performance.now() < this._look.until ? this._look : null;
+        if (lk && !sleepy) {
+          tx = lk.x * 3.6 * flip;
+          ty = lk.y * 3.2;
+        } else if (this._pointer && !sleepy && !this._lookAway) {
           const cx = r.left + r.width * 0.5;
           const cy = r.top + r.height * 0.42;
           const dx = this._pointer.x - cx;
@@ -1093,7 +1234,7 @@
           tx = (dx / d) * 3.6 * k * flip;
           ty = (dy / d) * 3.2 * k;
         }
-        if (this._lookAway) {
+        if (this._lookAway && !lk) {
           tx = this._lookAway.x * flip;
           ty = this._lookAway.y;
         }
@@ -1110,6 +1251,16 @@
     }
 
     /* ── vida própria ── */
+    get _chatter() {
+      const c = this.getAttribute("chatter");
+      return c === "off" ? 0 : c === "low" ? 0.35 : 1;
+    }
+
+    get _sleepMs() {
+      const a = parseFloat(this.getAttribute("sleep-after"));
+      return a >= 0 ? a * 1000 : 70000;
+    }
+
     _loops() {
       // reiatsu desce devagar; com fome o Hollowzinho avisa
       this._tick = setInterval(() => {
@@ -1117,8 +1268,9 @@
         const sleeping = this.mode === "sleeping";
         this.s.reiatsu = clamp(this.s.reiatsu - (sleeping ? 0.15 : 0.5), 0, 100);
         this._meters();
-        if (!sleeping && this.s.reiatsu < 30 && Math.random() < 0.25 && this.mode === "idle") this.say(pick(this._t.hungry), 2600);
-        if (!sleeping && Date.now() - this._lastActive > 70000 && this.mode === "idle") this.sleep();
+        if (!sleeping && this.s.reiatsu < 30 && Math.random() < 0.25 * this._chatter && this.mode === "idle") this.say(pick(this._t.hungry), 2600);
+        const sleepMs = this._sleepMs;
+        if (sleepMs && !sleeping && Date.now() - this._lastActive > sleepMs && this.mode === "idle") this.sleep();
         if (Math.round(this.s.reiatsu) % 5 === 0) this._save();
       }, 10000);
       this._idle();
@@ -1133,8 +1285,8 @@
           else if (r < 0.5) this._anim("hop");
           else if (r < 0.65) this._anim("wag", 1900);
           else if (r < 0.8) this._yawn();
-          else this.say(pick(this._t.idle), 3200);
-        } else if (!document.hidden && this.mode === "idle" && Math.random() < 0.3) this.say(pick(this._t.idle), 3200);
+          else if (Math.random() < this._chatter) this.say(pick(this._t.idle), 3200);
+        } else if (!document.hidden && this.mode === "idle" && Math.random() < 0.3 * this._chatter) this.say(pick(this._t.idle), 3200);
         this._idle();
       }, next);
     }

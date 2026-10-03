@@ -48,10 +48,10 @@ if (!fragment) {
   let styles = "";
   for (const m of links) styles += `<style>\n${await css(join(ROOT, m[1]))}\n</style>\n`;
   // Os tokens passam a valer em :root, já que a página não escolhe os atributos de <html> nem de <body>.
-  const wired = styles.replace(':root[data-skin="hueco-mundo"],\n.hueco-mundo {\n  color-scheme: dark;', ':root,\n:root[data-skin="hueco-mundo"],\n.hueco-mundo {\n  color-scheme: dark;');
+  const wired = styles.replace(':root[data-theme="hueco-mundo"],\n.hueco-mundo {\n  color-scheme: dark;', ':root,\n:root[data-theme="hueco-mundo"],\n.hueco-mundo {\n  color-scheme: dark;');
   if (wired === styles) throw new Error("não achei o bloco de tokens para ligar em :root");
   const body = source.slice(source.indexOf(">", source.indexOf("<body")) + 1, source.lastIndexOf("</body>"));
-  const base = "<style>\n:root { color-scheme: dark; }\nbody { margin: 0; background: var(--color-ink); color: var(--color-fg); font: 16px/1.55 var(--hm-font-sans); }\n</style>";
+  const base = "<style>\n:root { color-scheme: dark; }\nbody { margin: 0; background: var(--hm-void); color: var(--hm-bone); font: 16px/1.55 var(--hm-font-sans); }\n</style>";
   html = `${title}\n${base}\n${wired}<div class="hueco-mundo">${await inlineScripts(body)}</div>\n`;
 }
 

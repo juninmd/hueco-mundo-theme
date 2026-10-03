@@ -1,26 +1,26 @@
 <!doctype html>
-<html lang="pt-BR" data-skin="hueco-mundo">
+<html lang="pt-BR" data-theme="hueco-mundo">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Hollowzinho · estados</title>
 <link rel="icon" href="data:,">
-<link rel="stylesheet" href="../src/fonts.css">
-<link rel="stylesheet" href="../src/hueco-mundo.css">
+<link rel="stylesheet" href="../theme/fonts.css">
+<link rel="stylesheet" href="../theme/hueco-mundo.css">
 <style>
-  body { margin: 0; padding: clamp(20px, 4vw, 48px); min-height: 100vh; background: radial-gradient(900px 400px at 85% -5%, rgb(225 29 72 / 0.14), transparent 70%), var(--color-ink); }
+  body { margin: 0; padding: clamp(20px, 4vw, 48px); min-height: 100vh; background: radial-gradient(900px 400px at 85% -5%, rgb(225 29 72 / 0.14), transparent 70%), var(--hm-void); }
   header { max-width: 1280px; margin: 0 auto 28px; }
   h1 { margin: 12px 0 8px; font-size: clamp(30px, 4.4vw, 54px); line-height: 1.05; }
-  header p { margin: 0; max-width: 60ch; color: var(--color-muted); }
+  header p { margin: 0; max-width: 60ch; color: var(--hm-ash); }
   .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 14px; max-width: 1280px; margin: 0 auto; }
-  figure { margin: 0; overflow: hidden; border: 1px solid var(--color-edge); border-radius: 18px; background: var(--color-panel); }
+  figure { margin: 0; overflow: hidden; border: 1px solid var(--hm-edge); border-radius: 18px; background: var(--hm-night); }
   .art { display: grid; place-items: center; height: 250px; }
   .night { background: radial-gradient(circle at 60% 15%, #262a44, #0a0b12 72%); }
   .dune { background: linear-gradient(#d9d3c4, #9a9588); }
   .void { background: #0e0e11; }
-  figcaption { display: flex; align-items: baseline; justify-content: space-between; gap: 10px; padding: 12px 16px 14px; border-top: 1px solid var(--color-edge); }
+  figcaption { display: flex; align-items: baseline; justify-content: space-between; gap: 10px; padding: 12px 16px 14px; border-top: 1px solid var(--hm-edge); }
   figcaption b { font: 700 18px/1.1 var(--hm-font-display); }
-  figcaption span { color: var(--color-muted); font: 500 12px/1.2 var(--hm-font-mono); }
+  figcaption span { color: var(--hm-ash); font: 500 12px/1.2 var(--hm-font-mono); }
   .pair { display: flex; gap: 0; }
 </style>
 </head>
@@ -31,7 +31,7 @@
   <p>Cada cartão usa <code>&lt;hollow-pet inline static&gt;</code> e a API pública. O fundo muda para mostrar que ele aparece bem na areia, na noite e no vazio.</p>
 </header>
 <main class="grid" id="grid"></main>
-<script src="../src/hollow-pet.js"></script>
+<script src="hollow-pet.js"></script>
 <script>
   const cards = [
     ["Normal", "idle", "night", { stage: 1 }],

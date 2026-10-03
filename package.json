@@ -1,7 +1,7 @@
 {
   "name": "hueco-mundo-theme",
   "version": "0.1.0",
-  "description": "Tema Hueco Mundo: areia branca sob a lua, céu morto e o vermelho dos Espadas. Cores do canto-widget, componentes, tema de VS Code e um Hollow de estimação no cantinho da tela.",
+  "description": "Hueco Mundo: areia branca sob a lua, céu morto e o vermelho dos Espadas. Um tema escuro, o Hollowzinho (um pet Hollow em web component) e a extensão que o leva para o VS Code.",
   "license": "MIT",
   "author": "juninmd",
   "type": "module",
@@ -11,26 +11,28 @@
     "dark",
     "bleach",
     "hueco-mundo",
-    "canto",
+    "hollow",
+    "pet",
     "web-component",
-    "vscode-theme"
+    "vscode-theme",
+    "vscode-extension"
   ],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/juninmd/hueco-mundo-theme.git"
   },
   "files": [
-    "src",
+    "theme",
+    "pet",
     "vscode",
     "docs/shots",
     "LICENSE"
   ],
   "exports": {
-    "./css": "./src/hueco-mundo.css",
-    "./tokens": "./src/tokens.css",
-    "./canto": "./src/canto-extras.css",
-    "./fonts": "./src/fonts.css",
-    "./pet": "./src/hollow-pet.js"
+    "./css": "./theme/hueco-mundo.css",
+    "./tokens": "./theme/tokens.css",
+    "./fonts": "./theme/fonts.css",
+    "./pet": "./pet/hollow-pet.js"
   },
   "scripts": {
     "serve": "node scripts/serve.mjs",

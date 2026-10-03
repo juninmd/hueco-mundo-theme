@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 // Confere o contraste WCAG 2.2 do tema: texto >= 4,5:1 (1.4.3) e bordas/ícones >= 3:1 (1.4.11).
-// Lê os tokens de src/tokens.css e as cores de sintaxe do tema do VS Code. Sai com 1 se algo reprovar.
+// Lê os tokens de theme/tokens.css e as cores de sintaxe do tema do VS Code. Sai com 1 se algo reprovar.
 import { readFileSync, existsSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 import { dirname, join } from "node:path";
@@ -21,24 +21,24 @@ export function ratio(a, b) {
   return (hi + 0.05) / (lo + 0.05);
 }
 
-const css = readFileSync(join(root, "src/tokens.css"), "utf8");
+const css = readFileSync(join(root, "theme/tokens.css"), "utf8");
 const block = css.slice(css.indexOf(".hueco-mundo {"));
-const t = Object.fromEntries([...block.matchAll(/--color-([a-z-]+):\s*(#[0-9a-f]{6})/gi)].map((m) => [m[1], m[2].toLowerCase()]));
+const t = Object.fromEntries([...block.matchAll(/--hm-([a-z-]+):\s*(#[0-9a-f]{6})/gi)].map((m) => [m[1], m[2].toLowerCase()]));
 
 const checks = [];
 const text = (name, fg, bg, min = 4.5) => checks.push({ name, fg, bg, min });
 
-for (const bg of ["ink", "panel"]) {
-  for (const fg of ["fg", "muted", "faint", "accent-text", "danger", "ok", "warn"]) text(`${fg} sobre ${bg}`, t[fg], t[bg]);
+for (const bg of ["void", "night"]) {
+  for (const fg of ["bone", "ash", "dust", "cero-text", "blood", "reishi", "gold"]) text(`${fg} sobre ${bg}`, t[fg], t[bg]);
 }
-text("on-accent sobre accent", t["on-accent"], t.accent);
-text("on-accent sobre accent (hover)", t["on-accent"], "#c8133b");
-text("linha sobre panel (borda de controle)", t.line, t.panel, 3);
-text("accent sobre panel (foco, marca)", t.accent, t.panel, 3);
-text("accent sobre ink (foco, marca)", t.accent, t.ink, 3);
-text("ink sobre ok (botão verde)", t.ink, t.ok);
+text("on-cero sobre cero", t["on-cero"], t.cero);
+text("on-cero sobre cero (hover)", t["on-cero"], "#c8133b");
+text("linha sobre night (borda de controle)", t.line, t.night, 3);
+text("cero sobre night (foco, marca)", t.cero, t.night, 3);
+text("cero sobre void (foco, marca)", t.cero, t.void, 3);
+text("void sobre reishi (botão verde)", t.void, t.reishi);
 
-const themePath = join(root, "vscode/themes/hueco-mundo-color-theme.json");
+const themePath = join(root, "vscode/theme/themes/hueco-mundo-color-theme.json");
 if (existsSync(themePath)) {
   const theme = JSON.parse(readFileSync(themePath, "utf8").replace(/^\s*\/\/.*$/gm, ""));
   const bg = theme.colors["editor.background"];

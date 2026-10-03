@@ -64,7 +64,6 @@ try {
   const sections = [
     ["02-paleta", "#paleta"],
     ["03-componentes", "#componentes"],
-    ["04-canto", "#canto"],
     ["05-editor", "#editor"],
     ["06-pet", "#pet"],
   ].filter(([n]) => want(n));
@@ -80,7 +79,7 @@ try {
   }
 
   if (want("estados")) {
-    const { page, ctx } = await open({ w: 1300, h: 900, path: "/site/pet-lab.html" });
+    const { page, ctx } = await open({ w: 1300, h: 900, path: "/pet/lab.html" });
     await wait(900);
     await save(page, "07-pet-estados", { fullPage: true });
     await ctx.close();
@@ -127,14 +126,6 @@ try {
       await freeze(page, 1250);
       await save(page, "12-pet-dormindo", { clip: await petClip(page, 230, 250) });
     }
-    await ctx.close();
-  }
-
-  if (want("canto-real")) {
-    // prancha com os prints do app real (docs/shots/canto/), que vêm do front-end do canto-widget com dados fictícios
-    const { page, ctx } = await open({ w: 1600, h: 700, path: "/site/board.html" });
-    await wait(500);
-    await save(page.locator("#board"), "14-canto-real");
     await ctx.close();
   }
 
