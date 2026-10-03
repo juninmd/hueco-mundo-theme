@@ -472,32 +472,56 @@
   <header class="sec-head">
     <p class="hm-eyebrow">05 · O pet no VS Code</p>
     <h2 id="t-vs" class="hm-display">Ele reage ao que você faz.</h2>
-    <p>A extensão <b>Hollowzinho</b> põe o mesmo bichinho numa visão do Explorer e liga os olhos dele ao editor. Ela não precisa do tema, e o tema não precisa dela.</p>
+    <p>A extensão <b>Hollowzinho</b> põe o mesmo bichinho no VS Code. Cada erro vira um bugzinho ao lado dele e, quando você corrige, ele <b>abate com um Cero</b>. Também acompanha a depuração, os testes e os commits. Ela não precisa do tema, e o tema não precisa dela.</p>
   </header>
 
   <div class="vs-grid">
-    <figure class="shot">
-      <img src="vscode/pet/docs/cero.png" width="1600" height="900" loading="lazy" alt="VS Code com o Hollowzinho no Explorer disparando um Cero: a linha 19 do editor pisca em vermelho com a palavra CERO no fim">
-      <figcaption>Um Cero na linha 19: o bicho dispara e a linha do editor pisca em vermelho.</figcaption>
+    <figure class="shot" data-anim data-poster="vscode/pet/docs/bugs-poster.webp">
+      <img src="vscode/pet/docs/bugs.webp" width="900" height="660" loading="lazy" alt="Gravação no VS Code: três bugs caem na visão do pet, um Quick Fix mira num deles, e cada correção vira um Cero que abate o bug até restarem zero">
+      <figcaption>Caça aos bugs: eles caem, o Quick Fix mira num, e cada correção vira um Cero.</figcaption>
     </figure>
     <div class="hm-surface hm-card how">
-      <h3>O que ele percebe</h3>
+      <h3>Cero nos bugs</h3>
       <ul class="how-list">
-        <li><span class="hm-kbd">digitar</span><div><b>Come reiatsu</b><span>e os olhos seguem o seu cursor</span></div></li>
-        <li><span class="hm-kbd">Ctrl+S</span><div><b>Fica feliz</b><span>o salvamento automático não conta</span></div></li>
-        <li><span class="hm-kbd">erro</span><div><b>Se preocupa</b><span>e respira aliviado quando os erros somem</span></div></li>
-        <li><span class="hm-kbd">teste</span><div><b>Comemora ou chora</b><span>tarefas e comandos de build ou teste</span></div></li>
-        <li><span class="hm-kbd">commit</span><div><b>Come o commit</b><span>até os do terminal</span></div></li>
-        <li><span class="hm-kbd">Cero</span><div><b>Acende a sua linha</b><span>só decoração: o texto nunca muda</span></div></li>
+        <li><span class="hm-kbd">erro</span><div><b>Vira um bug</b><span>um bugzinho na visão para cada erro, até seis</span></div></li>
+        <li><span class="hm-kbd">corrigir</span><div><b>Cero no bug</b><span>ele atira e abate; sem erros, respira</span></div></li>
+        <li><span class="hm-kbd">clique</span><div><b>Leva até o erro</b><span>abre o arquivo e acende a linha com BUG</span></div></li>
+        <li><span class="hm-kbd">Ctrl+.</span><div><b>Quick Fix</b><span>“Hollowzinho: Cero neste erro”</span></div></li>
       </ul>
-      <p class="muted small tight">Ele não lê o seu código (só conta letras e a posição do cursor), não usa rede e vive onde você o vê.</p>
+      <p class="muted small tight">O Cero só acende a linha, por decoração: ele não conserta o erro nem muda o texto.</p>
     </div>
   </div>
 
-  <figure class="shot shot--wide">
-    <img src="vscode/pet/docs/demo.webp" width="900" height="660" loading="lazy" alt="Gravação de uma sessão no VS Code: o bicho olha o cursor enquanto se digita, se preocupa com um erro de tipo, respira quando ele é corrigido e dispara um Cero na linha">
-    <figcaption>Uma sessão real, do começo ao fim: digitar, um erro de tipo, a correção e o Cero.</figcaption>
-  </figure>
+  <div class="vs-grid vs-grid--flip">
+    <div class="hm-surface hm-card how">
+      <h3>Na depuração</h3>
+      <ul class="how-list">
+        <li><span class="hm-kbd">F5</span><div><b>Modo caçador</b><span>uma lente no olho enquanto a sessão roda</span></div></li>
+        <li><span class="hm-kbd">pausa</span><div><b>Selo de pausa</b><span>parado no breakpoint, olhando o código</span></div></li>
+        <li><span class="hm-kbd">exceção</span><div><b>Susto e bug dourado</b><span>o Cero acerta a linha onde parou</span></div></li>
+        <li><span class="hm-kbd">fim</span><div><b>Comemora ou chora</b><span>conforme o código de saída</span></div></li>
+      </ul>
+      <p class="muted small tight">Só o que o protocolo de depuração já anuncia: nunca variáveis, valores nem o texto do código.</p>
+    </div>
+    <figure class="shot" data-anim data-poster="vscode/pet/docs/debug-poster.webp">
+      <img src="vscode/pet/docs/debug.webp" width="900" height="660" loading="lazy" alt="Gravação de uma depuração no VS Code: o pet em modo caçador, o breakpoint, o passo, a exceção com o susto e o bug dourado, e o Cero que o abate">
+      <figcaption>Depurando: caçador, pausa, susto na exceção e Cero no bug dourado.</figcaption>
+    </figure>
+  </div>
+
+  <div class="vs-more">
+    <p class="muted small">E também:</p>
+    <ul class="row chips" aria-label="Outras reações">
+      <li class="hm-chip">digitar: come reiatsu</li>
+      <li class="hm-chip">Ctrl+S: fica feliz</li>
+      <li class="hm-chip hm-chip--ok">teste passou: comemora</li>
+      <li class="hm-chip hm-chip--danger">build falhou: chora</li>
+      <li class="hm-chip">commit: come</li>
+      <li class="hm-chip">push: festa</li>
+      <li class="hm-chip">branch nova: passeio</li>
+      <li class="hm-chip">arquivo novo ou apagado</li>
+    </ul>
+  </div>
 </section>
 
 <!-- ═════════════ INSTALAR ═════════════ -->

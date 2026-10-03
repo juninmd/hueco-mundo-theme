@@ -28,7 +28,7 @@ São quatro peças **independentes**: use qualquer uma sozinha.
 | 🎨 **Tema para a web** | [`theme/`](theme) | Tokens `--hm-*`, componentes `hm-*` (botões, campos, abas, selos, progresso, avisos…) e as fontes. Só CSS. |
 | 👾 **Hollowzinho** | [`pet/`](pet) | `<hollow-pet>`: um Hollow de estimação num web component, sem dependências e **sem nenhuma ligação com o tema**. Olha o cursor, aceita carinho, come, dorme, evolui e dispara um Cero. |
 | 🧑‍💻 **Tema do VS Code** | [`vscode/theme`](vscode/theme) | 309 cores de interface, 29 regras de sintaxe, realce semântico e a paleta ANSI do terminal. |
-| 🐾 **Hollowzinho no VS Code** | [`vscode/pet`](vscode/pet) | Extensão que põe o pet no Explorer e o liga ao editor: ele olha o seu cursor, se preocupa com erros, comemora testes, come commits e dispara um Cero que acende a linha em que você está. |
+| 🐾 **Hollowzinho no VS Code** | [`vscode/pet`](vscode/pet) | Extensão que põe o pet no VS Code: cada erro vira um bugzinho que ele **abate com o Cero** quando você corrige, ele acompanha a **depuração** (pausa, susto na exceção), comemora testes, come commits e olha o seu cursor. |
 
 E a página de demonstração, [`index.html`](index.html), para ver tudo funcionando (e brincar com o pet).
 
@@ -36,13 +36,23 @@ E a página de demonstração, [`index.html`](index.html), para ver tudo funcion
 
 ### O pet dentro do VS Code
 
-Prints e gravação de um VS Code de verdade (1.117) com as duas extensões instaladas.
+Prints e gravações de um VS Code de verdade (1.117) com as duas extensões instaladas, e do depurador JavaScript de verdade.
+
+<img src="vscode/pet/docs/bugs.png" alt="VS Code com o Hollowzinho no Explorer e três bugzinhos ao lado dele, um para cada um dos três erros do arquivo aberto" width="100%">
+
+**Cero nos bugs.** Cada erro vira um bug na visão; ao corrigir, o pet atira e abate. Também dá para mirar por um clique no bug, pelo Quick Fix ou por um comando.
+
+<img src="vscode/pet/docs/bugs.webp" alt="Gravação: três bugs caem na visão do pet, um Quick Fix mira num deles, e cada correção vira um Cero que abate o bug até restarem zero" width="100%">
+
+**Depuração.** Caçador enquanto a sessão roda, selo de pausa no breakpoint, susto e um bug dourado na exceção, que o Cero abate.
+
+<img src="vscode/pet/docs/debug.webp" alt="Gravação de uma depuração: o pet em modo caçador, o breakpoint, o passo, a exceção com o susto e o bug dourado, e o Cero que o abate" width="100%">
+
+| Quick Fix | Pausa no breakpoint | Exceção | Cero na exceção |
+|---|---|---|---|
+| <img src="vscode/pet/docs/quickfix.png" alt="Menu de correção rápida com a opção Hollowzinho: Cero neste erro e os três bugs ao lado do pet"> | <img src="vscode/pet/docs/debug-pausa.png" alt="Depurador parado na linha 6 e o pet com o selo de pausa"> | <img src="vscode/pet/docs/debug-excecao.png" alt="Exceção na linha 10: o pet assustado, com um ponto de exclamação, e um bug dourado na visão"> | <img src="vscode/pet/docs/debug-cero.png" alt="O Cero acerta o bug dourado da exceção"> |
 
 <img src="vscode/pet/docs/cero.png" alt="VS Code com o Hollowzinho no Explorer disparando um Cero: a linha 19 do editor pisca em vermelho, com a palavra CERO no fim" width="100%">
-
-<img src="vscode/pet/docs/demo.webp" alt="Gravação de uma sessão: o bicho olha o cursor enquanto se digita, se preocupa com um erro de tipo, respira quando ele é corrigido e dispara um Cero na linha" width="100%">
-
-<img src="vscode/pet/docs/reacoes.png" alt="À esquerda, o pet preocupado com 'Opa… apareceu um erro' e um erro na barra de status; à direita, aliviado, com 'Sem erros! Respirei.' e zero erros" width="100%">
 
 ### Tema no VS Code
 
@@ -131,7 +141,7 @@ npx @vscode/vsce package
 code --install-extension hollowzinho-0.1.0.vsix   # a visão "Hollowzinho" abre no Explorer
 ```
 
-Os comandos, as 14 configurações e o que ele percebe estão em [`vscode/pet/README.md`](vscode/pet/README.md). Nenhuma das duas extensões está publicada no Marketplace.
+Os comandos, as 19 configurações e o que ele percebe estão em [`vscode/pet/README.md`](vscode/pet/README.md). Nenhuma das duas extensões está publicada no Marketplace.
 
 **Tudo num arquivo**: `npm run bundle` gera `dist/hueco-mundo.html` (CSS, JS, fontes e prints embutidos).
 
@@ -186,14 +196,17 @@ Para quem integra: `look(x, y)`, `mood(humor, texto)`, `celebrate()` e `nibble(n
 
 | Você faz | Ele faz |
 |---|---|
+| aparece um **erro** | vira um bugzinho na visão do pet (até 6, com o total num selo); ele avisa |
+| **corrige** o erro | atira o Cero no bug e o abate; sem erros, respira |
+| clica num bug, **Quick Fix** (`Ctrl+.`) ou `Cero at the next error` | vai até o erro e acende a linha com `BUG` (só decoração: o texto nunca muda) |
+| **depura** | caçador (lente no olho) enquanto roda; selo de pausa no breakpoint; na **exceção**, susto, um bug dourado e um Cero na linha onde parou |
 | digita | come reiatsu e os olhos seguem o cursor |
 | salva com `Ctrl+S` | fica feliz |
-| aparece um erro | se preocupa; respira quando some |
 | uma tarefa ou um comando de build/teste termina | comemora com um Cero para cima, ou fica chateado |
-| faz um commit (inclusive no terminal) | come o commit |
-| `Hollowzinho: Cero at the current line` | dispara, e a sua linha pisca em vermelho (só decoração: o texto nunca muda) |
+| commit (inclusive no terminal), push, branch nova, arquivo novo ou apagado, volta à janela | come, festeja, passeia, se empolga ou se entristece, recebe você |
+| `Hollowzinho: Cero at the current line` | dispara, e a sua linha pisca em vermelho com `CERO` |
 
-Ele não lê o seu código (só conta letras e a posição do cursor), não usa rede, guarda o estado no armazenamento global do VS Code e só reage enquanto a visão está aberta. Foi testado num VS Code 1.117 de verdade (via code-server): digitar, olhar, salvar, erros, tarefas, terminal, commit, comandos, configurações ao vivo e persistência. Não foi testado no desktop do Windows nem do macOS.
+Ele não lê o seu código (só conta letras e a posição do cursor; nos erros e na depuração só enxerga mensagem, arquivo e linha, e nunca variáveis nem valores), não usa rede, guarda o estado no armazenamento global do VS Code e só reage enquanto uma das duas visões (Explorer e *Executar e Depurar*) está à vista; a Barra Lateral Secundária é a melhor casa para ele. O Cero **não conserta** nada: quem some com o erro é você. Foi testado num VS Code 1.117 de verdade (via code-server), com o depurador JavaScript de verdade: digitar, olhar, salvar, erros e bugs, Quick Fix, breakpoint, passo, exceção, tarefas, terminal, commit, comandos, configurações ao vivo e persistência. O painel **Testes** do VS Code não expõe resultados a outras extensões, então "teste passou" vem de tarefas e do terminal. Não foi testado no desktop do Windows nem do macOS.
 
 ## Acessibilidade
 
@@ -207,7 +220,7 @@ Ele não lê o seu código (só conta letras e a posição do cursor), não usa 
 ```sh
 npm install        # só o Playwright, para os scripts (na primeira vez: npx playwright install chromium)
 npm run serve      # a página em http://127.0.0.1:8080
-npm test           # cópia do pet na extensão + contraste + 53 verificações do pet num navegador de verdade
+npm test           # cópia do pet na extensão + contraste + 24 verificações da extensão + 61 do pet num navegador de verdade
 npm run sync       # copia pet/hollow-pet.js para vscode/pet/media (e a licença para as extensões)
 npm run shots      # refaz docs/shots/
 npm run demo       # regrava docs/shots/pet-demo.webp (precisa do ffmpeg)
@@ -219,9 +232,9 @@ theme/      tokens.css, hueco-mundo.css, fonts.css, fonts/
 pet/        hollow-pet.js (+ .d.ts), README, demo.html, lab.html (estados)
 vscode/
   theme/    extensão com o tema de cores
-  pet/      extensão do Hollowzinho (extension.js + media/)
+  pet/      extensão do Hollowzinho (extension.js, lib/ e media/)
 site/       CSS e JS da página de demonstração
-scripts/    contrast, pet-smoke, sync-vscode, shots, demo, bundle, pet-icon, serve
+scripts/    contrast, pet-smoke, ext-test, sync-vscode, shots, demo, bundle, pet-icon, serve
 docs/shots/ os prints da página
 index.html  a página de demonstração (serve para o GitHub Pages direto da raiz)
 ```

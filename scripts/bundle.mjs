@@ -27,11 +27,17 @@ async function css(file) {
   return text;
 }
 
-/** <img src="vscode/x.png"> vira data URI: a página sai num arquivo só, com os prints dentro. */
+/** <img src="vscode/x.png"> (e o data-poster das gravações) vira data URI: a página sai num arquivo só, com os prints dentro. */
 async function inlineImages(text) {
-  for (const m of [...text.matchAll(/<img\b[^>]*?\ssrc="([^":#?]+\.(?:png|webp|jpe?g))"/g)]) {
-    const bytes = await readFile(join(ROOT, m[1]));
-    text = text.replaceAll(`src="${m[1]}"`, `src="data:${MIME[extname(m[1])]};base64,${bytes.toString("base64")}"`);
+  const attrs = [
+    [/<img\b[^>]*?\ssrc="([^":#?]+\.(?:png|webp|jpe?g))"/g, "src"],
+    [/\sdata-poster="([^":#?]+\.(?:png|webp|jpe?g))"/g, "data-poster"],
+  ];
+  for (const [re, attr] of attrs) {
+    for (const m of [...text.matchAll(re)]) {
+      const bytes = await readFile(join(ROOT, m[1]));
+      text = text.replaceAll(`${attr}="${m[1]}"`, `${attr}="data:${MIME[extname(m[1])]};base64,${bytes.toString("base64")}"`);
+    }
   }
   return text;
 }

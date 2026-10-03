@@ -260,6 +260,26 @@
     wrap.appendChild(b);
   });
 
+  /* ───────── gravações do VS Code: pausa e movimento reduzido ───────── */
+  $$("figure[data-anim]").forEach((fig) => {
+    const img = $("img", fig);
+    const poster = fig.dataset.poster;
+    if (!img || !poster) return;
+    const moving = img.getAttribute("src");
+    const b = document.createElement("button");
+    b.type = "button";
+    b.className = "hm-btn hm-btn--sm hm-btn--ghost anim-toggle";
+    const set = (on) => {
+      img.src = on ? moving : poster;
+      b.textContent = on ? "Pausar" : "Reproduzir";
+      b.setAttribute("aria-label", on ? "Pausar a gravação" : "Reproduzir a gravação");
+      b.dataset.on = on ? "1" : "";
+    };
+    b.addEventListener("click", () => set(!b.dataset.on));
+    ($("figcaption", fig) || fig).appendChild(b);
+    set(!reduce);
+  });
+
   /* ───────── controles do pet ───────── */
   (function pet() {
     const main = $("hollow-pet:not([inline])");

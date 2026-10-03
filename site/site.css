@@ -663,6 +663,41 @@ h3 + .row {
   max-width: 900px;
   margin-inline: auto;
 }
+.vs-grid + .vs-grid,
+.vs-more {
+  margin-top: 16px;
+}
+.vs-grid--flip {
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.5fr);
+}
+.vs-more {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 14px;
+}
+.vs-more p {
+  margin: 0;
+}
+.vs-more .chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+/* gravações do VS Code: o botão (na legenda) pausa a animação, e com movimento reduzido ela já nasce parada */
+.shot[data-anim] figcaption {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px 14px;
+}
+.anim-toggle {
+  flex: none;
+}
 .legend .ansi {
   padding: 18px 0 0;
 }
@@ -723,8 +758,12 @@ h3 + .row {
 }
 @media (max-width: 980px) {
   .shots-2,
-  .vs-grid {
+  .vs-grid,
+  .vs-grid--flip {
     grid-template-columns: 1fr;
+  }
+  .vs-grid--flip .shot {
+    order: -1;
   }
 }
 
