@@ -1,249 +1,93 @@
 // Hollowzinho para o VS Code.
-// A extensão só escuta o editor e conta ao pet o que aconteceu; quem desenha, fala e se mexe é o <hollow-pet>
-// dentro do webview (media/view.js). Nada aqui altera o seu código: o Cero só pisca a linha por cima do editor.
+// A extensão escuta o editor, o depurador, as tarefas e o Git, e conta ao pet o que aconteceu; quem desenha, fala e se
+// mexe é o <hollow-pet> dentro do webview (media/view.js). Nada aqui altera o seu código: o Cero só pisca a linha por
+// cima do editor, e os "bugs" da barra lateral são só um desenho que acompanha os erros que o VS Code já mostra.
 "use strict";
 
 const vscode = require("vscode");
-const fs = require("fs");
-const path = require("path");
-const crypto = require("crypto");
+const { cooldown, debounce, clamp } = require("./lib/util");
+const { readConfig } = require("./lib/config");
+const { CeroFlash } = require("./lib/flash");
+const { PetView, VIEW_ID, DEBUG_VIEW_ID } = require("./lib/petview");
+const { MAX_VISIBLE, buildBugs, pickNext } = require("./lib/bugs");
+const { attachDebug } = require("./lib/debug");
 
-const VIEW_ID = "hollowzinho.view";
-const STATE_KEY = "hollowzinho.state";
 const REVEALED_KEY = "hollowzinho.revealed";
+const HUNTED_KEY = "hollowzinho.hunted";
+const DEBUG_REVEALED_KEY = "hollowzinho.debugRevealed";
 const BUILD_CMD = /\b(test|tests|jest|vitest|mocha|pytest|tox|rspec|phpunit|build|compile|tsc|webpack|vite|rollup|esbuild|make|cmake|gradle|gradlew|mvn|cargo|go\s+(?:test|build|vet)|dotnet\s+(?:test|build)|lint|eslint|ruff|mypy|ctest|bazel)\b/i;
-
-/** Limita a frequência de uma reação (ms) para o bicho não virar metralhadora de balões. */
-function cooldown(ms) {
-  let last = 0;
-  return () => {
-    const now = Date.now();
-    if (now - last < ms) return false;
-    last = now;
-    return true;
-  };
-}
-
-/** Junta chamadas rápidas numa só (a última vence). */
-function debounce(fn, ms) {
-  let t;
-  const run = (...a) => {
-    clearTimeout(t);
-    t = setTimeout(() => fn(...a), ms);
-  };
-  run.cancel = () => clearTimeout(t);
-  return run;
-}
-
-const clamp = (v, a, b) => Math.min(b, Math.max(a, v));
-
-/* ───────────────────────── configuração ───────────────────────── */
-
-function readConfig() {
-  const c = vscode.workspace.getConfiguration("hollowzinho");
-  const sideBar = vscode.workspace.getConfiguration("workbench").get("sideBar.location", "left");
-  const side = c.get("editorSide", "auto");
-  const lang = c.get("language", "auto");
-  return {
-    name: c.get("name", "Hollowzinho") || "Hollowzinho",
-    tint: c.get("tint", "cero"),
-    lang: lang === "auto" ? (String(vscode.env.language).toLowerCase().startsWith("pt") ? "pt" : "en") : lang,
-    size: c.get("size", 0),
-    scene: c.get("scene", "hueco-mundo"),
-    chatter: c.get("chatter", "low"),
-    sleepAfterMinutes: c.get("sleepAfterMinutes", 5),
-    // Para que lado fica o editor, visto de dentro da barra lateral: é para lá que o Cero sai e o bicho olha.
-    editorSide: side === "auto" ? (sideBar === "right" ? "left" : "right") : side,
-    reactToEditing: c.get("reactToEditing", true),
-    reactToDiagnostics: c.get("reactToDiagnostics", true),
-    reactToTasks: c.get("reactToTasks", true),
-    reactToGit: c.get("reactToGit", true),
-    editorEffects: c.get("editorEffects", true),
-    statusBar: c.get("statusBar", true),
-  };
-}
-
-/* ───────────────────────── efeito do Cero no editor ───────────────────────── */
-
-/**
- * O Cero atravessa a barra lateral e chega no editor: a linha em que você está acende e esfria em
- * quatro passos. É só decoração (nunca toca no texto) e some sozinha em menos de um segundo.
- */
-class CeroFlash {
-  constructor() {
-    const ladder = [0.34, 0.22, 0.12, 0.05];
-    const core = new vscode.ThemeColor("hollowzinho.ceroCore");
-    this.steps = ladder.map((alpha, i) =>
-      vscode.window.createTextEditorDecorationType({
-        isWholeLine: true,
-        backgroundColor: `rgba(225, 29, 72, ${alpha})`,
-        borderStyle: "solid",
-        borderWidth: "0 0 0 3px",
-        borderColor: i < 3 ? core : "transparent",
-        overviewRulerColor: i < 3 ? core : undefined,
-        overviewRulerLane: vscode.OverviewRulerLane.Right,
-        after: i < 2 ? { contentText: "  CERO", color: core, fontWeight: "700", margin: "0 0 0 1ch" } : undefined,
-      })
-    );
-    this.timers = [];
-  }
-
-  /** Acende as linhas dos cursores do editor ativo. */
-  fire(editor, { calm = false } = {}) {
-    if (!editor) return;
-    this.clear(editor);
-    const lines = new Set();
-    for (const s of editor.selections.slice(0, 20)) lines.add(s.active.line);
-    const ranges = [...lines].map((l) => new vscode.Range(l, 0, l, 0));
-    const plan = calm ? [[0, 420]] : [[0, 110], [1, 150], [2, 200], [3, 260]];
-    let at = 0;
-    for (const [step, ms] of plan) {
-      this.timers.push(setTimeout(() => {
-        for (const d of this.steps) editor.setDecorations(d, []);
-        editor.setDecorations(this.steps[step], ranges);
-      }, at));
-      at += ms;
-    }
-    this.timers.push(setTimeout(() => this.clear(editor), at));
-  }
-
-  clear(editor) {
-    this.timers.forEach(clearTimeout);
-    this.timers = [];
-    for (const d of this.steps) {
-      for (const e of vscode.window.visibleTextEditors) e.setDecorations(d, []);
-      if (editor) editor.setDecorations(d, []);
-    }
-  }
-
-  dispose() {
-    this.clear();
-    this.steps.forEach((d) => d.dispose());
-  }
-}
-
-/* ───────────────────────── a visão do pet ───────────────────────── */
-
-class PetView {
-  constructor(context) {
-    this.context = context;
-    this.media = vscode.Uri.joinPath(context.extensionUri, "media");
-    this.config = readConfig();
-    this.view = null;
-    this.ready = false;
-    this.queue = [];
-    this.state = context.globalState.get(STATE_KEY) || null;
-    this.onState = () => {};
-    this.onCero = () => {};
-  }
-
-  resolveWebviewView(view) {
-    this.view = view;
-    this.ready = false;
-    view.webview.options = { enableScripts: true, localResourceRoots: [this.media] };
-    view.webview.html = this.html(view.webview);
-    view.webview.onDidReceiveMessage((m) => this.receive(m));
-    view.onDidDispose(() => {
-      if (this.view === view) {
-        this.view = null;
-        this.ready = false;
-      }
-    });
-    view.onDidChangeVisibility(() => {
-      if (!view.visible) this.ready = false;
-    });
-  }
-
-  get visible() {
-    return !!this.view && this.view.visible && this.ready;
-  }
-
-  /** Reação do editor: só chega se o pet está à vista (o bicho só vive onde você o vê). */
-  post(msg) {
-    if (!this.visible) return false;
-    this.view.webview.postMessage(msg);
-    return true;
-  }
-
-  /** Pedido do usuário (comando, atalho): se o pet ainda não abriu, espera por ele alguns segundos. */
-  command(msg) {
-    if (this.post(msg)) return;
-    this.queue = [...this.queue.slice(-4), { msg, at: Date.now() }];
-  }
-
-  receive(m) {
-    if (!m || typeof m !== "object") return;
-    if (m.type === "ready") {
-      this.ready = true;
-      this.view.webview.postMessage({ type: "init", state: this.state, config: this.config });
-      const pending = this.queue.filter((q) => Date.now() - q.at < 5000);
-      this.queue = [];
-      for (const q of pending) this.view.webview.postMessage(q.msg);
-    } else if (m.type === "state" && m.state && m.state.v === 1) {
-      this.state = m.state;
-      this.context.globalState.update(STATE_KEY, m.state);
-      this.onState(m.state, m.stage);
-    } else if (m.type === "cero") {
-      this.onCero(m);
-    } else if (m.type === "levelup") {
-      vscode.window.setStatusBarMessage(`$(flame) ${this.config.name}: ${m.name}`, 5000);
-    }
-  }
-
-  /** Abre a visão sem deixar o teclado preso nela: quem estava digitando no editor continua digitando. */
-  async reveal() {
-    const editing = !!vscode.window.activeTextEditor;
-    await vscode.commands.executeCommand(`${VIEW_ID}.focus`);
-    if (editing) await vscode.commands.executeCommand("workbench.action.focusActiveEditorGroup");
-  }
-
-  html(webview) {
-    const uri = (f) => webview.asWebviewUri(vscode.Uri.joinPath(this.media, f));
-    const nonce = crypto.randomBytes(16).toString("base64");
-    const scene = fs.readFileSync(path.join(this.media.fsPath, "scene.html"), "utf8");
-    const csp = [
-      "default-src 'none'",
-      `style-src ${webview.cspSource} 'unsafe-inline'`,
-      `script-src 'nonce-${nonce}'`,
-      `img-src ${webview.cspSource} data:`,
-    ].join("; ");
-    return `<!doctype html>
-<html lang="${this.config.lang}">
-<head>
-<meta charset="utf-8">
-<meta http-equiv="Content-Security-Policy" content="${csp}">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="${uri("view.css")}">
-<title>Hollowzinho</title>
-</head>
-<body data-scene="${this.config.scene}">
-<div class="scene" aria-hidden="true">${scene}</div>
-<script nonce="${nonce}" src="${uri("hollow-pet.js")}"></script>
-<script nonce="${nonce}" src="${uri("view.js")}"></script>
-</body>
-</html>`;
-  }
-}
-
-/* ───────────────────────── ativação ───────────────────────── */
 
 function activate(context) {
   const view = new PetView(context);
-  const flash = new CeroFlash();
-  const subs = context.subscriptions;
-  subs.push(flash);
-
-  const reduceMotion = () => vscode.workspace.getConfiguration("workbench").get("reduceMotion", "auto") === "on";
   const cfg = () => view.config;
+  const subs = context.subscriptions;
+  const flashCero = new CeroFlash("CERO");
+  const flashBug = new CeroFlash("BUG");
+  subs.push(flashCero, flashBug);
+  const reduceMotion = () => vscode.workspace.getConfiguration("workbench").get("reduceMotion", "auto") === "on";
+  const pt = () => cfg().lang === "pt";
 
-  // O Cero do editor: acende a linha quando o pet dispara (ou direto, se o pet não está à vista).
-  const flashLater = (delay = 260) => {
+  /* ───────── onde o Cero acerta no editor ───────── */
+
+  const editorFor = (uri) => vscode.window.visibleTextEditors.find((e) => e.document.uri.toString() === uri.toString());
+
+  /** Cero comum: acende a linha do cursor quando o pet dispara (ou direto, se ele não está à vista). */
+  const flashCurrent = (delay = 260) => {
     if (!cfg().editorEffects) return;
-    setTimeout(() => flash.fire(vscode.window.activeTextEditor, { calm: reduceMotion() }), delay);
+    setTimeout(() => flashCero.fire(vscode.window.activeTextEditor, { calm: reduceMotion() }), delay);
   };
-  view.onCero = () => flashLater();
 
-  /* barra de status: o reiatsu do bicho, sempre à mão */
+  /** Cero num bug: acende a linha do erro (ou da exceção), se o arquivo dele estiver à vista. */
+  const lightUp = (target, delay = 260) => {
+    if (!cfg().editorEffects) return;
+    setTimeout(() => flashBug.fire(editorFor(target.uri), { lines: [target.line], calm: reduceMotion() }), delay);
+  };
+
+  /** Leva o editor até o bug: abre o arquivo, põe o cursor no erro e rola até ele. */
+  async function reveal(t) {
+    const doc = await vscode.workspace.openTextDocument(t.uri);
+    const editor = await vscode.window.showTextDocument(doc, { preserveFocus: false });
+    const pos = new vscode.Position(t.line, t.character || 0);
+    editor.selection = new vscode.Selection(pos, pos);
+    editor.revealRange(new vscode.Range(pos, pos), vscode.TextEditorRevealType.InCenterIfOutsideViewport);
+    return editor;
+  }
+
+  /* ───────── os bugs: um por erro que o VS Code mostra ───────── */
+
+  let bugs = []; // erros de agora, em ordem (o arquivo ativo primeiro)
+  let warnings = 0;
+  let boss = null; // { uri, line } enquanto uma exceção está parada no depurador
+  const adhoc = new Map(); // alvos avulsos: o "Cero neste erro" num erro que não está na lista
+
+  const bugById = (id) => (id === "boss" ? boss : bugs.find((b) => b.id === id) || adhoc.get(id) || null);
+
+  function refreshBugs() {
+    const entries = [];
+    warnings = 0;
+    for (const [uri, list] of vscode.languages.getDiagnostics()) {
+      for (const d of list) {
+        if (d.severity === vscode.DiagnosticSeverity.Warning) warnings++;
+        else if (d.severity === vscode.DiagnosticSeverity.Error) {
+          entries.push({ uri, uriKey: uri.toString(), line: d.range.start.line, character: d.range.start.character, source: d.source || "", code: d.code, message: d.message });
+        }
+      }
+    }
+    const active = vscode.window.activeTextEditor;
+    bugs = buildBugs(entries, active ? active.document.uri.toString() : "");
+  }
+
+  // Só ids vão para o webview: a mensagem do erro e o caminho do arquivo ficam aqui.
+  const bugsMessage = (extra = {}) => ({
+    type: "bugs",
+    ids: bugs.slice(0, MAX_VISIBLE).map((b) => b.id),
+    all: bugs.slice(0, 500).map((b) => b.id),
+    total: bugs.length,
+    ...extra,
+  });
+
+  /* ───────── barra de status ───────── */
+
   const status = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Right, 20);
   status.command = `${VIEW_ID}.focus`;
   subs.push(status);
@@ -252,21 +96,42 @@ function activate(context) {
     if (!cfg().statusBar || !st) return status.hide();
     const r = Math.round(st.reiatsu);
     const hungry = r < 30;
-    const pt = cfg().lang === "pt";
+    const hunted = context.globalState.get(HUNTED_KEY, 0);
     status.text = `$(${hungry ? "flame" : "heart"}) ${r}`;
     status.name = cfg().name;
     status.tooltip = new vscode.MarkdownString(
-      `**${cfg().name}** · ${stageOf(st.bond)}\n\nReiatsu ${r}/100 · ${pt ? "Vínculo" : "Bond"} ${st.bond}\n\n${pt ? "Clique para abrir o pet." : "Click to open the pet."}`
+      `**${cfg().name}** · ${stageOf(st.bond)}\n\nReiatsu ${r}/100 · ${pt() ? "Vínculo" : "Bond"} ${st.bond}\n\n${pt() ? "Bugs abatidos" : "Bugs hunted"}: ${hunted}\n\n${pt() ? "Clique para abrir o pet." : "Click to open the pet."}`
     );
     status.color = hungry ? new vscode.ThemeColor("editorWarning.foreground") : undefined;
     status.show();
   };
-  view.onState = paintStatus;
+  view.on.state = paintStatus;
   paintStatus(view.state);
 
-  subs.push(vscode.window.registerWebviewViewProvider(VIEW_ID, view, { webviewOptions: { retainContextWhenHidden: false } }));
+  /* ───────── a visão e o que o pet escuta dela ───────── */
 
-  /* configuração viva */
+  let dbg = { active: false, state: null };
+  view.initExtra = () => {
+    refreshBugs();
+    return { bugs: bugsMessage({ quiet: true }), debug: dbg.state, hunted: context.globalState.get(HUNTED_KEY, 0) };
+  };
+  for (const id of [VIEW_ID, DEBUG_VIEW_ID]) {
+    subs.push(vscode.window.registerWebviewViewProvider(id, view.provider(), { webviewOptions: { retainContextWhenHidden: false } }));
+  }
+
+  // Todo efeito no editor nasce de um Cero do pet: o comando só pede, e o disparo avisa de volta para acender a linha.
+  view.on.cero = async (m) => {
+    const target = m.bugId ? bugById(m.bugId) : null;
+    if (!target) return flashCurrent();
+    if (m.navigate) await reveal(target);
+    lightUp(target, m.navigate ? 140 : 260);
+  };
+  view.on.hunt = (n) => {
+    if (!n) return;
+    context.globalState.update(HUNTED_KEY, context.globalState.get(HUNTED_KEY, 0) + n);
+    paintStatus(view.state);
+  };
+
   subs.push(
     vscode.workspace.onDidChangeConfiguration((e) => {
       if (!e.affectsConfiguration("hollowzinho") && !e.affectsConfiguration("workbench.sideBar.location")) return;
@@ -276,8 +141,8 @@ function activate(context) {
     })
   );
 
-  let errors = 0; // quantos erros há agora; vários reagentes consultam
-  /* ── digitar alimenta e o olhar acompanha o cursor ── */
+  /* ───────── digitar alimenta e o olhar acompanha o cursor ───────── */
+
   let typed = 0;
   const flushTyping = debounce(() => {
     if (typed > 0) view.post({ type: "react", kind: "typing", n: Math.min(typed, 60) });
@@ -318,34 +183,36 @@ function activate(context) {
       if (e.reason === vscode.TextDocumentSaveReason.Manual) manualSaveAt = Date.now();
     }),
     vscode.workspace.onDidSaveTextDocument(() => {
-      if (cfg().reactToEditing && errors === 0 && Date.now() - manualSaveAt < 3000 && happySave()) view.post({ type: "react", kind: "save" });
+      if (cfg().reactToEditing && bugs.length === 0 && Date.now() - manualSaveAt < 3000 && happySave()) view.post({ type: "react", kind: "save" });
     })
   );
 
-  /* ── erros e avisos: o bicho se preocupa e depois respira ── */
-  let hadErrors = false;
-  const worry = cooldown(15000);
-  const countErrors = () => {
-    let n = 0;
-    for (const [, list] of vscode.languages.getDiagnostics()) for (const d of list) if (d.severity === vscode.DiagnosticSeverity.Error) n++;
-    return n;
-  };
+  /* ───────── problemas: cada erro vira um bug na visão ───────── */
+
+  const warnCool = cooldown(30000);
+  let hadWarnings = false;
   const diag = debounce(() => {
     if (!cfg().reactToDiagnostics) return;
-    const now = countErrors();
-    const before = errors;
-    errors = now;
-    if (now > 0 && now > before && worry()) {
-      hadErrors = true;
-      view.post({ type: "react", kind: "errors", n: now });
-    } else if (now === 0 && before > 0 && hadErrors) {
-      hadErrors = false;
-      view.post({ type: "react", kind: "clean" });
-    }
-  }, 700);
-  subs.push(vscode.languages.onDidChangeDiagnostics(diag), { dispose: () => diag.cancel() });
+    refreshBugs();
+    view.post(bugsMessage());
+    if (bugs.length === 0 && warnings > 0 && !hadWarnings && warnCool()) view.post({ type: "react", kind: "warn" });
+    hadWarnings = warnings > 0;
+  }, 900);
+  // Trocar de arquivo muda a ordem dos bugs (o ativo vem primeiro), sem nenhum erro novo ou corrigido.
+  const reorder = debounce(() => {
+    if (!cfg().reactToDiagnostics) return;
+    refreshBugs();
+    view.post(bugsMessage({ quiet: true }));
+  }, 350);
+  subs.push(vscode.languages.onDidChangeDiagnostics(diag), vscode.window.onDidChangeActiveTextEditor(reorder), {
+    dispose: () => {
+      diag.cancel();
+      reorder.cancel();
+    },
+  });
 
-  /* ── tarefas e comandos de build/teste no terminal ── */
+  /* ───────── tarefas e comandos de build/teste no terminal ───────── */
+
   const outcome = cooldown(3000);
   subs.push(
     vscode.tasks.onDidEndTaskProcess((e) => {
@@ -364,24 +231,61 @@ function activate(context) {
     );
   }
 
-  /* ── git: commit é comida ── */
-  // O evento onDidCommit só cobre commits feitos pela própria interface do VS Code; para pegar também os do
-  // terminal, observa-se o commit do HEAD: se ele muda e a branch continua a mesma, alguém commitou.
+  /* ───────── depurador ───────── */
+
+  dbg = attachDebug({
+    subs,
+    cfg,
+    emit: (m) => {
+      if (m.type === "debug" && (m.state === "end" || m.state === "continued")) boss = null;
+      // O VS Code troca a barra lateral para "Executar e Depurar" ao depurar, e o Explorer some junto com o pet:
+      // na primeira vez, abre a visão do pet lá também (e avisa onde ele fica melhor).
+      if (m.type === "debug" && m.state === "start" && !context.globalState.get(DEBUG_REVEALED_KEY)) {
+        setTimeout(() => {
+          if (view.visible || context.globalState.get(DEBUG_REVEALED_KEY)) return;
+          context.globalState.update(DEBUG_REVEALED_KEY, true);
+          view.reveal(DEBUG_VIEW_ID).then(undefined, () => {});
+        }, 1500);
+      }
+      // Sem o pet à vista (ele só vive onde você o vê), ao menos uma pista na barra de status.
+      if (m.type === "debug" && m.state === "exception" && !view.visible) {
+        vscode.window.setStatusBarMessage(`$(bug) ${cfg().name}: ${pt() ? "bug em tempo de execução!" : "a runtime bug!"}`, 6000);
+      }
+      view.post(m);
+    },
+    onException: (where) => {
+      boss = { id: "boss", uri: where.uri, uriKey: where.uri.toString(), line: where.line, character: 0 };
+    },
+  });
+
+  /* ───────── git: commit é comida, push é festa, branch nova é passeio ───────── */
+
   const hooked = new WeakSet();
   const ate = cooldown(2500);
+  const gitCool = cooldown(4000);
   const hookRepo = (repo) => {
     if (hooked.has(repo)) return;
     hooked.add(repo);
+    // onDidCommit só cobre commits feitos pela própria interface do VS Code; para pegar também os do terminal,
+    // observa-se o HEAD: o commit muda na mesma branch (commit), a branch muda (passeio) ou "à frente" zera (push).
     let last = repo.state.HEAD && repo.state.HEAD.commit;
     let branch = repo.state.HEAD && repo.state.HEAD.name;
+    let ahead = repo.state.HEAD && repo.state.HEAD.ahead;
     subs.push(
       repo.state.onDidChange(() => {
         const head = repo.state.HEAD;
-        if (head && last && head.name === branch && head.commit && head.commit !== last && cfg().reactToGit && ate()) {
-          view.post({ type: "react", kind: "commit" });
+        if (head && cfg().reactToGit) {
+          if (branch && head.name !== branch) {
+            if (gitCool()) view.post({ type: "react", kind: "branch" });
+          } else if (head.commit && last && head.commit !== last) {
+            if (ate()) view.post({ type: "react", kind: "commit" });
+          } else if (typeof ahead === "number" && typeof head.ahead === "number" && ahead > 0 && head.ahead === 0 && gitCool()) {
+            view.post({ type: "react", kind: "push" });
+          }
         }
         last = head && head.commit;
         branch = head && head.name;
+        ahead = head && head.ahead;
       })
     );
   };
@@ -403,34 +307,63 @@ function activate(context) {
       .catch(() => {});
   }
 
+  /* ───────── a janela e os arquivos ───────── */
+
+  let blurAt = 0;
+  const fileCool = cooldown(6000);
+  subs.push(
+    vscode.window.onDidChangeWindowState((s) => {
+      if (!s.focused) {
+        blurAt = Date.now();
+        return;
+      }
+      if (cfg().reactToWorkspace && blurAt && Date.now() - blurAt > 10 * 60 * 1000) view.post({ type: "react", kind: "welcomeBack" });
+      blurAt = 0;
+    }),
+    vscode.workspace.onDidCreateFiles(() => cfg().reactToWorkspace && fileCool() && view.post({ type: "react", kind: "fileNew" })),
+    vscode.workspace.onDidDeleteFiles(() => cfg().reactToWorkspace && fileCool() && view.post({ type: "react", kind: "fileGone" }))
+  );
+
+  /* ───────── "Cero neste erro", no menu de correção rápida ───────── */
+
+  subs.push(
+    vscode.languages.registerCodeActionsProvider(
+      "*",
+      {
+        provideCodeActions(doc, _range, ctx) {
+          if (!cfg().quickFix) return undefined;
+          const d = ctx.diagnostics.find((x) => x.severity === vscode.DiagnosticSeverity.Error);
+          if (!d) return undefined;
+          const title = pt() ? "Hollowzinho: Cero neste erro" : "Hollowzinho: Cero at this error";
+          const action = new vscode.CodeAction(title, vscode.CodeActionKind.QuickFix);
+          action.command = { command: "hollowzinho.ceroAt", title, arguments: [doc.uri, d.range] };
+          action.diagnostics = [d];
+          return [action];
+        },
+      },
+      { providedCodeActionKinds: [vscode.CodeActionKind.QuickFix] }
+    )
+  );
+
   // Visões novas nascem fechadas no Explorer: na primeira vez, abre uma só vez para o bicho ser visto.
   if (!context.globalState.get(REVEALED_KEY)) {
     context.globalState.update(REVEALED_KEY, true);
     setTimeout(() => view.reveal().then(undefined, () => {}), 1500);
   }
 
-  /* ── comandos ── */
+  /* ───────── comandos ───────── */
+
   const send = async (name) => {
     if (!view.visible) await view.reveal();
     view.command({ type: "cmd", name });
   };
-  const nextError = () => {
-    const editor = vscode.window.activeTextEditor;
-    const here = editor ? editor.selection.active : new vscode.Position(0, 0);
-    const hereUri = editor && editor.document.uri.toString();
-    const all = [];
-    for (const [uri, list] of vscode.languages.getDiagnostics()) {
-      for (const d of list) if (d.severity === vscode.DiagnosticSeverity.Error) all.push({ uri, range: d.range });
-    }
-    if (!all.length) return null;
-    const key = (x) => [x.uri.toString() === hereUri ? 0 : 1, x.uri.toString(), x.range.start.line, x.range.start.character];
-    const cmp = (a, b) => {
-      for (let i = 0; i < a.length; i++) if (a[i] !== b[i]) return a[i] < b[i] ? -1 : 1;
-      return 0;
-    };
-    const after = all.filter((x) => x.uri.toString() === hereUri && x.range.start.isAfter(here));
-    return (after.length ? after.sort((a, b) => cmp(key(a), key(b))) : all.sort((a, b) => cmp(key(a), key(b))))[0];
-  };
+
+  /** Pede ao pet que acerte um bug. Com o pet à vista é ele quem dispara e avisa de volta; sem ele, só a linha acende. */
+  async function shootBug(t, { navigate }) {
+    if (view.visible) return view.command({ type: "cmd", name: "ceroBug", id: t.id, navigate });
+    if (navigate) await reveal(t);
+    lightUp(t, 0);
+  }
 
   const reg = (id, fn) => subs.push(vscode.commands.registerCommand(`hollowzinho.${id}`, fn));
   reg("pet", () => send("pet"));
@@ -440,25 +373,31 @@ function activate(context) {
   reg("show", () => send("show"));
   reg("reset", () => send("reset"));
   reg("cero", () => {
-    // Com o pet à vista, é ele quem dispara (e avisa de volta para a linha acender); sem ele, só a linha acende.
     if (view.visible) view.command({ type: "cmd", name: "cero" });
-    else flashLater(0);
+    else flashCurrent(0);
   });
   reg("ceroError", async () => {
-    const hit = nextError();
-    if (!hit) {
+    refreshBugs();
+    const ed = vscode.window.activeTextEditor;
+    const target = pickNext(bugs, ed ? ed.document.uri.toString() : "", ed ? ed.selection.active : null);
+    if (!target) {
       if (!view.visible) await view.reveal();
       view.command({ type: "react", kind: "noErrors" });
       return;
     }
-    const doc = await vscode.workspace.openTextDocument(hit.uri);
-    const editor = await vscode.window.showTextDocument(doc, { preserveFocus: false });
-    editor.selection = new vscode.Selection(hit.range.start, hit.range.start);
-    editor.revealRange(hit.range, vscode.TextEditorRevealType.InCenterIfOutsideViewport);
-    if (view.visible) view.post({ type: "cmd", name: "cero" });
-    else flashLater(0);
+    await shootBug(target, { navigate: true });
   });
-
+  reg("ceroAt", async (uri, range) => {
+    refreshBugs();
+    const key = uri.toString();
+    const at = range.start;
+    let t = bugs.find((b) => b.uriKey === key && b.line === at.line && b.character === at.character) || bugs.find((b) => b.uriKey === key && b.line === at.line);
+    if (!t) {
+      t = { id: "adhoc", uri, uriKey: key, line: at.line, character: at.character };
+      adhoc.set("adhoc", t);
+    }
+    await shootBug(t, { navigate: false });
+  });
 }
 
 function deactivate() {}

@@ -38,11 +38,12 @@
     "serve": "node scripts/serve.mjs",
     "contrast": "node scripts/contrast.mjs",
     "smoke": "node scripts/pet-smoke.mjs",
-    "test": "npm run sync -- --check && npm run contrast && npm run smoke",
+    "test": "npm run sync -- --check && npm run contrast && node scripts/ext-test.mjs && npm run smoke",
     "shots": "node scripts/shots.mjs",
     "bundle": "node scripts/bundle.mjs",
     "demo": "node scripts/demo.mjs",
-    "sync": "node scripts/sync-vscode.mjs"
+    "sync": "node scripts/sync-vscode.mjs",
+    "ext-test": "node scripts/ext-test.mjs"
   },
   "devDependencies": {
     "playwright": "^1.56.0"

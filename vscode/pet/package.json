@@ -39,6 +39,14 @@
           "name": "Hollowzinho",
           "contextualTitle": "Hollowzinho"
         }
+      ],
+      "debug": [
+        {
+          "type": "webview",
+          "id": "hollowzinho.debugView",
+          "name": "Hollowzinho",
+          "contextualTitle": "Hollowzinho"
+        }
       ]
     },
     "commands": [
@@ -185,20 +193,55 @@
           "default": true,
           "description": "%hollowzinho.cfg.reactToDiagnostics%"
         },
+        "hollowzinho.bugs": {
+          "type": "boolean",
+          "default": true,
+          "description": "%hollowzinho.cfg.bugs%"
+        },
+        "hollowzinho.autoCero": {
+          "type": "string",
+          "enum": [
+            "off",
+            "exceptions",
+            "newErrors"
+          ],
+          "default": "exceptions",
+          "description": "%hollowzinho.cfg.autoCero%",
+          "enumDescriptions": [
+            "%hollowzinho.cfg.autoCero.off%",
+            "%hollowzinho.cfg.autoCero.exceptions%",
+            "%hollowzinho.cfg.autoCero.newErrors%"
+          ]
+        },
         "hollowzinho.reactToTasks": {
           "type": "boolean",
           "default": true,
           "description": "%hollowzinho.cfg.reactToTasks%"
+        },
+        "hollowzinho.reactToDebug": {
+          "type": "boolean",
+          "default": true,
+          "description": "%hollowzinho.cfg.reactToDebug%"
         },
         "hollowzinho.reactToGit": {
           "type": "boolean",
           "default": true,
           "description": "%hollowzinho.cfg.reactToGit%"
         },
+        "hollowzinho.reactToWorkspace": {
+          "type": "boolean",
+          "default": true,
+          "description": "%hollowzinho.cfg.reactToWorkspace%"
+        },
         "hollowzinho.editorEffects": {
           "type": "boolean",
           "default": true,
           "description": "%hollowzinho.cfg.editorEffects%"
+        },
+        "hollowzinho.quickFix": {
+          "type": "boolean",
+          "default": true,
+          "description": "%hollowzinho.cfg.quickFix%"
         },
         "hollowzinho.statusBar": {
           "type": "boolean",

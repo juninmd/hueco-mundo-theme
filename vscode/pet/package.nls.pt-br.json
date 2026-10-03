@@ -16,11 +16,19 @@
   "hollowzinho.cfg.chatter": "Com que frequência o pet fala sozinho.",
   "hollowzinho.cfg.sleepAfter": "Minutos sem digitar até o pet dormir. 0 nunca.",
   "hollowzinho.cfg.reactToEditing": "Digitar alimenta o pet e os olhos dele seguem o seu cursor; salvar com Ctrl+S o deixa feliz.",
-  "hollowzinho.cfg.reactToDiagnostics": "O pet fica preocupado quando aparecem erros e aliviado quando somem.",
+  "hollowzinho.cfg.reactToDiagnostics": "Cada erro vira um bichinho-bug na visão do pet; ele se preocupa quando aparecem e acerta um Cero neles quando você corrige.",
   "hollowzinho.cfg.reactToTasks": "O pet reage quando uma tarefa ou um comando de build/teste do terminal termina.",
-  "hollowzinho.cfg.reactToGit": "Um commit é comida: o pet come.",
+  "hollowzinho.cfg.reactToGit": "Commit é comida, push é festa e branch nova é passeio.",
   "hollowzinho.cfg.editorEffects": "Quando o pet dispara um Cero, a linha em que você está pisca no editor.",
   "hollowzinho.cfg.statusBar": "Mostra o reiatsu do pet na barra de status.",
   "hollowzinho.cfg.editorSide": "Para que lado do pet fica o editor. \"auto\" segue a posição da barra lateral: o Cero sai por esse lado e o pet olha para ele.",
-  "hollowzinho.color.ceroCore": "Borda e marca na régua da linha que o Cero atinge no editor."
+  "hollowzinho.color.ceroCore": "Borda e marca na régua da linha que o Cero atinge no editor.",
+  "hollowzinho.cfg.bugs": "Desenha um bichinho-bug na visão do pet para cada erro (até 6). Desligue para ficar só com as reações dele.",
+  "hollowzinho.cfg.autoCero": "Quando o pet dispara um Cero sozinho.",
+  "hollowzinho.cfg.autoCero.off": "Nunca: só dispara quando você pede (comando, clique num bug, Correção Rápida, segurar o pet).",
+  "hollowzinho.cfg.autoCero.exceptions": "Numa exceção parada no depurador.",
+  "hollowzinho.cfg.autoCero.newErrors": "A cada erro novo, e nas exceções. A linha pisca sem mover o seu cursor.",
+  "hollowzinho.cfg.reactToDebug": "O pet acompanha a depuração: modo caçador enquanto a sessão roda, pausa nos breakpoints, susto nas exceções.",
+  "hollowzinho.cfg.reactToWorkspace": "Arquivos criados ou apagados pelo VS Code, e um oi quando você volta à janela depois de muito tempo.",
+  "hollowzinho.cfg.quickFix": "Acrescenta \"Hollowzinho: Cero neste erro\" ao menu de Correção Rápida dos erros."
 }
