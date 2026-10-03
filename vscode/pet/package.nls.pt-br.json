@@ -15,7 +15,7 @@
   "hollowzinho.cfg.scene": "A janelinha para o Hueco Mundo atrás do pet.",
   "hollowzinho.cfg.chatter": "Com que frequência o pet fala sozinho.",
   "hollowzinho.cfg.sleepAfter": "Minutos sem digitar até o pet dormir. 0 nunca.",
-  "hollowzinho.cfg.reactToEditing": "Digitar alimenta o pet e os olhos dele seguem o seu cursor; salvar o deixa feliz.",
+  "hollowzinho.cfg.reactToEditing": "Digitar alimenta o pet e os olhos dele seguem o seu cursor; salvar com Ctrl+S o deixa feliz.",
   "hollowzinho.cfg.reactToDiagnostics": "O pet fica preocupado quando aparecem erros e aliviado quando somem.",
   "hollowzinho.cfg.reactToTasks": "O pet reage quando uma tarefa ou um comando de build/teste do terminal termina.",
   "hollowzinho.cfg.reactToGit": "Um commit é comida: o pet come.",

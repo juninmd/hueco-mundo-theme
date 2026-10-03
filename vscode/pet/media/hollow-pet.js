@@ -1112,7 +1112,10 @@
       } else if (kind === "excited") {
         this._anim("hop");
         this._anim("wag", 1800);
-      } else if (kind === "worried" || kind === "sad") this._worry(kind === "sad" ? 4200 : 3200);
+      } else if (kind === "worried" || kind === "sad") {
+        if (this.mode === "happy") this._setMode("idle"); // olhos de alegria e testa franzida não combinam
+        this._worry(kind === "sad" ? 4200 : 3200);
+      }
       else if (kind !== "calm") return;
       const lines = this._t.mood[kind];
       const line = text === undefined ? (lines ? pick(lines) : "") : text;

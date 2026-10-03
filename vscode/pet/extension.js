@@ -276,6 +276,7 @@ function activate(context) {
     })
   );
 
+  let errors = 0; // quantos erros há agora; vários reagentes consultam
   /* ── digitar alimenta e o olhar acompanha o cursor ── */
   let typed = 0;
   const flushTyping = debounce(() => {
@@ -309,15 +310,19 @@ function activate(context) {
     })
   );
 
+  // Só o Ctrl+S (salvar de propósito) alegra o bicho: com salvamento automático ele ficaria em festa o tempo todo.
+  let manualSaveAt = 0;
   const happySave = cooldown(5000);
   subs.push(
+    vscode.workspace.onWillSaveTextDocument((e) => {
+      if (e.reason === vscode.TextDocumentSaveReason.Manual) manualSaveAt = Date.now();
+    }),
     vscode.workspace.onDidSaveTextDocument(() => {
-      if (cfg().reactToEditing && happySave()) view.post({ type: "react", kind: "save" });
+      if (cfg().reactToEditing && errors === 0 && Date.now() - manualSaveAt < 3000 && happySave()) view.post({ type: "react", kind: "save" });
     })
   );
 
   /* ── erros e avisos: o bicho se preocupa e depois respira ── */
-  let errors = 0;
   let hadErrors = false;
   const worry = cooldown(15000);
   const countErrors = () => {

@@ -11,17 +11,23 @@ Não precisa do tema Hueco Mundo (mas combina) e não depende de mais nada. O bi
 | Você faz | Ele faz |
 | --- | --- |
 | Digita | Come reiatsu a cada letra (sem digitar, ele fica com fome) e os olhos seguem o seu cursor |
-| Salva | Fica feliz |
+| Salva com `Ctrl+S` | Fica feliz (o salvamento automático não conta, ou ele viveria em festa) |
 | Aparece um erro | Se preocupa. Quando os erros somem, respira aliviado |
 | Uma tarefa ou um comando de build/teste termina | Passou: comemora com um Cero para cima. Falhou: fica chateado |
 | Faz um commit | Come o commit (o vínculo cresce) |
 | Pede um Cero | Dispara em direção ao editor e **a sua linha pisca em vermelho** por menos de um segundo |
 
+![Preocupado com um erro e aliviado quando ele some](<https://github.com/juninmd/hueco-mundo-theme/raw/HEAD/vscode/pet/docs/reacoes.png>)
+
+Gravação de uma sessão real no VS Code (digitar, um erro de tipo, a correção e um Cero na linha):
+
+![Sessão no VS Code: o bicho olha o cursor, se preocupa com o erro, respira quando some e dispara o Cero](<https://github.com/juninmd/hueco-mundo-theme/raw/HEAD/vscode/pet/docs/demo.webp>)
+
 Também dá para brincar com ele direto: passar o mouse abre a bandeja, clicar faz carinho, segurar carrega um Cero, arrastar muda de canto. Com vínculo ele evolui: Hollow, Adjuchas e Vasto Lorde. O reiatsu aparece na barra de status.
 
 ## Onde ele fica
 
-Na visão **Hollowzinho**, no fim do Explorer. Ela abre sozinha na primeira vez. Como qualquer visão do VS Code, pode ser arrastada: coloque na **Barra Lateral Secundária** (`Ctrl+Alt+B`) para ele continuar à vista mesmo com o Explorer fechado, ou no Painel. Quanto mais espaço, maior o bichinho.
+Na visão **Hollowzinho**, no fim do Explorer. Ela abre sozinha na primeira vez. Como qualquer visão do VS Code, pode ser arrastada: coloque na **Barra Lateral Secundária** (`Ctrl+Alt+B`) para ele continuar à vista mesmo com o Explorer fechado, ou no Painel. Em visões baixas o balão e a bandeja ficam ao lado dele; com mais altura, ficam em cima.
 
 Ele só reage enquanto a visão está aberta e visível.
 
@@ -56,7 +62,7 @@ Nenhum vem com atalho, para não brigar com os seus. Para ligar o Cero a uma tec
 | `hollowzinho.editorSide` | `auto` | De que lado fica o editor, para o Cero sair e o olhar ir para lá |
 | `hollowzinho.chatter` | `low` | Quanto ele fala sozinho: `off`, `low` ou `normal` |
 | `hollowzinho.sleepAfterMinutes` | `5` | Minutos sem digitar até dormir; `0` nunca |
-| `hollowzinho.reactToEditing` | `true` | Digitar, olhar o cursor e salvar |
+| `hollowzinho.reactToEditing` | `true` | Digitar, olhar o cursor e salvar com `Ctrl+S` |
 | `hollowzinho.reactToDiagnostics` | `true` | Erros que aparecem e somem |
 | `hollowzinho.reactToTasks` | `true` | Tarefas e comandos de build/teste no terminal |
 | `hollowzinho.reactToGit` | `true` | Commits |

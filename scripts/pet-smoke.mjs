@@ -247,6 +247,8 @@ try {
   check("mood('worried') deixa o bicho preocupado e fala", await run((el) => el.shadowRoot.querySelector(".root").dataset.worried === "1" && el.shadowRoot.querySelector(".bubble").textContent === "Opa…"));
   await run((el) => { el.say("", 0); el.mood("happy", ""); });
   check("mood('happy', '') fica calado", await run((el) => !el.shadowRoot.querySelector(".bubble").classList.contains("on")));
+  const wor = await run((el) => { el.mood("happy", ""); el.mood("worried", "Opa…"); return { mode: el.mode, eyes: el.shadowRoot.querySelector(".root").dataset.eyes }; });
+  check("preocupar o bicho que estava feliz troca os olhos de alegria pelos abertos", wor.mode !== "happy" && wor.eyes === "open", JSON.stringify(wor));
 
   const cel = await run((el) => { el.setStats({ reiatsu: 60, bond: 0 }); el._setMode("idle"); el.celebrate("Passou!"); return { r: el.stats.reiatsu, b: el.stats.bond, beams: el.shadowRoot.querySelectorAll(".beam").length }; });
   check("celebrate() solta um Cero para cima sem gastar reiatsu e cria vínculo", cel.r === 60 && cel.b === 1 && cel.beams > 0, JSON.stringify(cel));

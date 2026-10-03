@@ -15,7 +15,7 @@
   "hollowzinho.cfg.scene": "The little window into Hueco Mundo behind the pet.",
   "hollowzinho.cfg.chatter": "How often the pet talks on its own.",
   "hollowzinho.cfg.sleepAfter": "Minutes without typing until the pet falls asleep. 0 never.",
-  "hollowzinho.cfg.reactToEditing": "Typing feeds the pet and its eyes follow your cursor; saving makes it happy.",
+  "hollowzinho.cfg.reactToEditing": "Typing feeds the pet and its eyes follow your cursor; saving with Ctrl+S makes it happy.",
   "hollowzinho.cfg.reactToDiagnostics": "The pet gets worried when errors appear and relieved when they are gone.",
   "hollowzinho.cfg.reactToTasks": "The pet reacts when a task or a build/test command in the terminal ends.",
   "hollowzinho.cfg.reactToGit": "A commit is food: the pet eats it.",

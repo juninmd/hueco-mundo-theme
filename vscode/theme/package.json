@@ -21,7 +21,8 @@
   "icon": "icon.png",
   "repository": {
     "type": "git",
-    "url": "https://github.com/juninmd/hueco-mundo-theme.git"
+    "url": "https://github.com/juninmd/hueco-mundo-theme.git",
+    "directory": "vscode/theme"
   },
   "contributes": {
     "themes": [
@@ -31,5 +32,9 @@
         "path": "./themes/hueco-mundo-color-theme.json"
       }
     ]
+  },
+  "galleryBanner": {
+    "color": "#0e0e11",
+    "theme": "dark"
   }
 }

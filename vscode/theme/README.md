@@ -1,20 +1,50 @@
 # Hueco Mundo para VS Code
 
-Tema escuro inspirado no deserto de Bleach: osso, vazio e o vermelho do Cero.
+Tema escuro inspirado no deserto de Bleach: **osso, vazio e o vermelho do Cero.** Fundo quase preto com um toque de azul, texto cor de osso, e o vermelho só onde ele precisa chamar a atenção: a aba ativa, o foco, a barra de status e as palavras-chave.
 
-- Interface e terminal: 219 cores, com a paleta ANSI de 16 cores.
-- Sintaxe: palavras-chave em vermelho `#f6506d`, textos em verde `#86efac`, números em ouro `#fbbf24`, funções em azul de lua `#8ecdf5`, tipos em pergaminho `#f3d9a4`.
-- Tokens semânticos ligados (`semanticHighlighting`).
-- Todas as cores de sintaxe passam WCAG AA sobre o fundo `#0b0c10`.
+![TypeScript no Hueco Mundo](https://github.com/juninmd/hueco-mundo-theme/raw/HEAD/vscode/theme/docs/ts.png)
+
+## O que tem
+
+- **309 cores** de interface: editor, abas, barra lateral, painel, menus, notificações, depurador, Git, SCM, terminal, chat, ícones de símbolo, régua e minimapa.
+- **Terminal** com a paleta ANSI de 16 cores.
+- **Realce semântico** ligado: parâmetros em itálico, `this` em vermelho, constantes em âmbar.
+- Funciona bem com a fonte que você já usa. Os prints usam DejaVu Sans Mono.
+
+![CSS e terminal no Hueco Mundo](https://github.com/juninmd/hueco-mundo-theme/raw/HEAD/vscode/theme/docs/terminal.png)
+
+## Sintaxe
+
+| O quê | Cor | |
+| --- | --- | --- |
+| Palavras-chave, `this`, títulos de Markdown | `#f6506d` | vermelho do Cero |
+| Textos | `#86efac` | verde-reiatsu |
+| Números, constantes, decoradores | `#fbbf24` | ouro de olho de Hollow |
+| Funções, variáveis de CSS, links | `#8ecdf5` | azul de lua |
+| Tipos e classes | `#f3d9a4` | pergaminho |
+| Propriedades | `#d9d3c4` | areia |
+| Comentários | `#8c877e` | em itálico |
+
+Todas passam **WCAG AA** (4,5:1) sobre o fundo `#0b0c10`, assim como o texto da barra de status, das abas e do terminal. O repositório tem um script que confere (`npm run contrast`, 58 pares).
+
+![Tokens de CSS com os quadradinhos de cor](https://github.com/juninmd/hueco-mundo-theme/raw/HEAD/vscode/theme/docs/css.png)
 
 ## Instalar
 
+Pelo arquivo `.vsix` (gerado com `npx @vscode/vsce package` nesta pasta):
+
 ```sh
-cp -r vscode/theme ~/.vscode/extensions/hueco-mundo
+code --install-extension hueco-mundo-0.1.0.vsix
 ```
 
-Reinicie o VS Code e escolha **Hueco Mundo** em *Preferências → Tema de Cores*. Para empacotar: `npx @vscode/vsce package`.
+Ou copie a pasta para `~/.vscode/extensions/hueco-mundo` e reinicie o VS Code. Depois, `Ctrl+K Ctrl+T` e escolha **Hueco Mundo**.
 
-> Validado: JSON, contraste e `vsce package`.
+## Combina com
+
+O **Hollowzinho**, um Hollow de estimação que mora no Explorer e acende a linha do editor com um Cero. É outra extensão, independente deste tema: [`vscode/pet`](https://github.com/juninmd/hueco-mundo-theme/tree/HEAD/vscode/pet).
 
 Veja o projeto completo em [hueco-mundo-theme](https://github.com/juninmd/hueco-mundo-theme).
+
+## Licença
+
+MIT.
