@@ -82,7 +82,7 @@ h3 {
   display: flex;
   align-items: center;
   gap: 24px;
-  padding: 14px clamp(16px, 4vw, 40px);
+  padding: calc(14px + env(safe-area-inset-top, 0px)) clamp(16px, 4vw, 40px) 14px;
   border-bottom: 1px solid transparent;
   transition:
     background-color 200ms var(--hm-ease-out),
@@ -1515,25 +1515,6 @@ h3 + .row {
 .toast.show {
   opacity: 1;
   transform: translate(-50%, 0);
-}
-.js .rv {
-  opacity: 0;
-  transform: translateY(16px);
-  transition:
-    opacity 600ms var(--hm-ease-out),
-    transform 600ms var(--hm-ease-out);
-}
-.js .rv.in,
-.still .rv {
-  opacity: 1;
-  transform: none;
-}
-@media (prefers-reduced-motion: reduce) {
-  .js .rv {
-    opacity: 1;
-    transform: none;
-    transition: none;
-  }
 }
 
 /* ───────── telas estreitas ───────── */

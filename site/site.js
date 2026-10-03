@@ -170,18 +170,22 @@
     toastT = setTimeout(() => toast.classList.remove("show"), 1800);
   };
   const copy = async (text, label) => {
+    let ok = false;
     try {
       await navigator.clipboard.writeText(text);
+      ok = true;
     } catch (_) {
+      // Alguns navegadores embutidos recusam a área de transferência: tenta o caminho antigo.
       const ta = document.createElement("textarea");
       ta.value = text;
-      ta.style.cssText = "position:fixed;opacity:0";
+      ta.setAttribute("readonly", "");
+      ta.style.cssText = "position:fixed;opacity:0;top:0;left:0";
       document.body.appendChild(ta);
       ta.select();
-      safe(() => document.execCommand("copy"));
+      ok = !!safe(() => document.execCommand("copy"));
       ta.remove();
     }
-    say(label || "Copiado");
+    say(ok ? label || "Copiado" : "Não consegui copiar: selecione o texto e use Ctrl+C");
   };
 
   /* ───────── amostras de cor ───────── */
@@ -317,21 +321,4 @@
       })
     );
   })();
-
-  /* ───────── revelar ao rolar ───────── */
-  if (!reduce && "IntersectionObserver" in window) {
-    const els = $$(".sec-head, .hm-card, .sw, .canto-stage, .win, .evo-card");
-    els.forEach((el) => el.classList.add("rv"));
-    const io = new IntersectionObserver(
-      (list) =>
-        list.forEach((e) => {
-          if (e.isIntersecting) {
-            e.target.classList.add("in");
-            io.unobserve(e.target);
-          }
-        }),
-      { threshold: 0.12, rootMargin: "0px 0px -6% 0px" }
-    );
-    els.forEach((el) => io.observe(el));
-  }
 })();
