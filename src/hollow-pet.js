@@ -473,6 +473,7 @@
       this._lastPet = 0;
       this._lastActive = Date.now();
       this._build();
+      this._wire();
     }
 
     /* ── construção ── */
@@ -580,7 +581,8 @@
           const away = Math.max(0, (Date.now() - (raw.t || Date.now())) / 60000);
           this.s.reiatsu = clamp(raw.r - Math.min(30, away / 8), 5, 100);
           this.s.bond = raw.b | 0;
-          this.s.corner = CORNERS.includes(raw.c) ? raw.c : "br";
+          this._persistedCorner = CORNERS.includes(raw.c);
+          this.s.corner = this._persistedCorner ? raw.c : "br";
           this.s.hidden = !!raw.h;
           this.s.seen = !!raw.s;
         }
@@ -695,7 +697,10 @@
       addEventListener("resize", this._onResize, { passive: true });
       document.addEventListener("visibilitychange", this._onVis);
       addEventListener("keydown", this._onKey);
+    }
 
+    /** Ligações do shadow DOM: feitas uma vez, mesmo que o elemento mude de lugar. */
+    _wire() {
       const pet = this.$.pet;
       pet.addEventListener("pointerdown", (e) => this._down(e));
       pet.addEventListener("pointermove", (e) => this._move(e));
@@ -742,6 +747,7 @@
     }
 
     _keys(e) {
+      if (e.ctrlKey || e.metaKey || e.altKey) return;
       const k = e.key.toLowerCase();
       if (k === "f") this.feed();
       else if (k === "c") this.aim();
@@ -1203,8 +1209,8 @@
     }
 
     _hearts(n, burst) {
-      if (this._inline && reduced()) return;
       const size = this._size();
+      const calm = reduced();
       for (let i = 0; i < n; i++) {
         const h = document.createElementNS("http://www.w3.org/2000/svg", "svg");
         h.setAttribute("viewBox", "0 0 24 24");
@@ -1218,6 +1224,11 @@
         const dx = side * (8 + Math.random() * size * 0.34) * (burst ? 1.4 : 1);
         const dy = -(size * (0.5 + Math.random() * 0.5)) * (burst ? 1.3 : 1);
         const s = 0.7 + Math.random() * 0.8;
+        if (calm) {
+          h.style.transform = `translate(${x0}px,${y0}px)`;
+          h.animate([{ opacity: 0 }, { opacity: 1, offset: 0.3 }, { opacity: 0 }], { duration: 900, delay: i * 40 }).onfinish = () => h.remove();
+          continue;
+        }
         const a = h.animate(
           [
             { transform: `translate(${x0}px,${y0}px) scale(.2) rotate(0deg)`, opacity: 0 },
@@ -1231,6 +1242,7 @@
     }
 
     _orbs() {
+      if (reduced()) return;
       const size = this._size();
       const m = { x: size * 0.5, y: size * 0.58 };
       const flip = this.s.corner[1] === "l" ? -1 : 1;

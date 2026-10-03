@@ -159,6 +159,41 @@ try {
   const after = await stats(page);
   check("vínculo e canto persistem depois de recarregar", after.bond === before.bond && after.corner === before.corner, `bond ${before.bond}→${after.bond}`);
 
+  // Ctrl+C não pode virar "mirar"; mudar o elemento de lugar não duplica os gestos
+  await sh(page, (el) => { el.wake(true); el._setMode("idle"); });
+  await page.locator(`${PET} .pet`).focus();
+  await page.keyboard.press("Control+c");
+  check("Ctrl+C não é sequestrado pelo atalho C", (await stats(page)).mode !== "aiming");
+  const moved = await page.evaluate(async () => {
+    const el = document.querySelector("hollow-pet:not([inline])");
+    el._lastPet = 0;
+    const b0 = el.s.bond;
+    document.body.appendChild(el); // sai e volta ao DOM: disconnected/connected
+    await new Promise((r) => setTimeout(r, 50));
+    el._lastPet = 0;
+    el.$.pet.click();
+    return el.s.bond - b0;
+  });
+  check("mudar o pet de lugar no DOM não duplica os ouvintes (um clique, um carinho)", moved === 1, `+${moved}`);
+
+  // corner="" é só o padrão: o canto salvo vale mais
+  const corners = await page.evaluate(async () => {
+    const make = (c) => { const e = document.createElement("hollow-pet"); e.setAttribute("corner", c); e.setAttribute("static", ""); document.body.appendChild(e); return e; };
+    const main = document.querySelector("hollow-pet:not([inline])");
+    main.dock("bl", false);
+    main.remove();
+    const b = make("tr");
+    const got = b.stats.corner;
+    b.remove();
+    localStorage.clear();
+    const c = make("tl");
+    const fresh = c.stats.corner;
+    c.remove();
+    return [got, fresh];
+  });
+  check('corner="tr" não derruba o canto salvo (bl), mas vale sem nada salvo (tl)', corners[0] === "bl" && corners[1] === "tl", corners.join(","));
+  await page.reload({ waitUntil: "networkidle" });
+
   // ilustrações embutidas não atrapalham leitor de tela
   check("pets embutidos e estáticos são decorativos (aria-hidden)", await page.evaluate(() => [...document.querySelectorAll("hollow-pet[inline][static]")].every((e) => e.shadowRoot.querySelector(".root").getAttribute("aria-hidden") === "true")));
   check("o pet fixo é um marco com nome acessível", await sh(page, (el) => { const r = el.shadowRoot.querySelector(".root"); return r.getAttribute("role") === "region" && !!r.getAttribute("aria-label"); }));

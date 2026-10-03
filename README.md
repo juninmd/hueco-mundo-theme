@@ -209,7 +209,7 @@ declare module "react" {
 ```sh
 npm install        # só o Playwright, para os scripts (na primeira vez: npx playwright install chromium)
 npm run serve      # a página em http://127.0.0.1:8080
-npm test           # contraste + 34 verificações do pet num navegador de verdade
+npm test           # contraste + 37 verificações do pet num navegador de verdade
 npm run shots      # refaz docs/shots/
 npm run bundle     # dist/hueco-mundo.html, um arquivo só
 ```
