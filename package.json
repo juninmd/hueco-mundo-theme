@@ -5,9 +5,26 @@
   "license": "MIT",
   "author": "juninmd",
   "type": "module",
-  "keywords": ["theme", "tema", "dark", "bleach", "hueco-mundo", "canto", "web-component", "vscode-theme"],
-  "repository": { "type": "git", "url": "git+https://github.com/juninmd/hueco-mundo-theme.git" },
-  "files": ["src", "vscode", "docs/shots", "LICENSE"],
+  "keywords": [
+    "theme",
+    "tema",
+    "dark",
+    "bleach",
+    "hueco-mundo",
+    "canto",
+    "web-component",
+    "vscode-theme"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/juninmd/hueco-mundo-theme.git"
+  },
+  "files": [
+    "src",
+    "vscode",
+    "docs/shots",
+    "LICENSE"
+  ],
   "exports": {
     "./css": "./src/hueco-mundo.css",
     "./tokens": "./src/tokens.css",
@@ -21,7 +38,8 @@
     "smoke": "node scripts/pet-smoke.mjs",
     "test": "npm run contrast && npm run smoke",
     "shots": "node scripts/shots.mjs",
-    "bundle": "node scripts/bundle.mjs"
+    "bundle": "node scripts/bundle.mjs",
+    "demo": "node scripts/demo.mjs"
   },
   "devDependencies": {
     "playwright": "^1.56.0"

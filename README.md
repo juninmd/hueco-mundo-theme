@@ -56,6 +56,8 @@ O front-end do canto-widget rodando com dados fictícios (o IPC do Tauri é simu
 
 ### Hollowzinho
 
+<img src="docs/shots/pet-demo.webp" alt="Animação: os olhos seguem o cursor, a bandeja abre, carinho com corações, alimentar, Cero ao segurar, mira num ponto da tela, arrastar para outro canto e dormir" width="100%">
+
 <img src="docs/shots/07-pet-estados.png" alt="Doze estados do pet: normal, feliz, comendo, carregando o Cero, bocejo, dormindo, arrastado, com fome, três estágios de evolução e variações de cor" width="100%">
 
 | Carinho | Bandeja | Dormindo |
@@ -211,6 +213,7 @@ npm install        # só o Playwright, para os scripts (na primeira vez: npx pla
 npm run serve      # a página em http://127.0.0.1:8080
 npm test           # contraste + 37 verificações do pet num navegador de verdade
 npm run shots      # refaz docs/shots/
+npm run demo       # regrava docs/shots/pet-demo.webp (precisa do ffmpeg)
 npm run bundle     # dist/hueco-mundo.html, um arquivo só
 ```
 
@@ -218,7 +221,7 @@ npm run bundle     # dist/hueco-mundo.html, um arquivo só
 src/        tokens.css, hueco-mundo.css, canto-extras.css, fonts.css, hollow-pet.js (+ .d.ts), fonts/
 vscode/     extensão com o tema de cores
 site/       CSS e JS da página, pet-lab.html (estados) e board.html (prancha do Canto)
-scripts/    contrast, pet-smoke, shots, bundle, serve
+scripts/    contrast, pet-smoke, shots, demo, bundle, serve
 docs/shots/ os prints
 index.html  a página de demonstração (serve para o GitHub Pages direto da raiz)
 ```
