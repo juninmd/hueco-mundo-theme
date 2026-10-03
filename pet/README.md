@@ -47,7 +47,7 @@ O reiatsu desce devagar e sobe com comida; o vínculo cresce com carinho. Com v�
 | Método | O que faz |
 | --- | --- |
 | `pet()` `feed()` `sleep()` `wake()` | As ações do dia a dia |
-| `cero({ x, y, power })` | Dispara o Cero num ponto. Pontos fora da tela valem: o raio sai pela borda. Gasta reiatsu |
+| `cero({ x, y, power, free, text })` | Dispara o Cero num ponto. Pontos fora da tela valem: o raio sai pela borda. Gasta reiatsu, a menos que `free` seja verdadeiro; `text` troca a fala |
 | `aim()` | Abre a mira para o usuário escolher o alvo com um clique |
 | `say(texto, ms)` | Fala no balão. `say("")` apaga |
 | `dock(canto)` | Muda de canto |
@@ -56,6 +56,8 @@ O reiatsu desce devagar e sobe com comida; o vínculo cresce com carinho. Com v�
 | `mood(humor, texto)` | `happy`, `excited`, `worried`, `sad` ou `calm`. Com `texto`, fala; com `""`, fica calado |
 | `celebrate(texto)` | Corações e um Cero para cima, que não gasta reiatsu |
 | `nibble(n)` | Alimenta em silêncio com uma fração de reiatsu (por exemplo, um pouco por tecla digitada) |
+| `pose(nome, { ms, text })` | Pose que dura: `scan` (uma lente sobre o olho, modo caçador), `paused` (parado, com o selo de pausa) ou `alert` (susto: pula e mostra um `!`; volta sozinho à pose anterior). `pose(null)` limpa |
+| `bodyRect` | Leitura: o retângulo do corpo na janela, para mirar nele ou desviar dele |
 | `getState()` `restore(estado)` | O que vale guardar, como JSON (veja abaixo) |
 | `stats` | Leitura: `reiatsu`, `bond`, `corner`, `hidden`, `stage`, `mode` |
 
@@ -63,7 +65,7 @@ Os tipos estão em [`hollow-pet.d.ts`](hollow-pet.d.ts).
 
 ## Eventos
 
-`hollow-pet:pet`, `:feed`, `:cero`, `:sleep`, `:wake` e `:levelup` saem do elemento (com bolha e atravessando o shadow DOM) e trazem `detail: { stage, bond, reiatsu }`.
+`hollow-pet:pet`, `:feed`, `:cero`, `:sleep`, `:wake`, `:levelup` e `:pose` saem do elemento (com bolha e atravessando o shadow DOM) e trazem `detail: { stage, bond, reiatsu }`.
 
 ```js
 pet.addEventListener("hollow-pet:levelup", (e) => console.log("evoluiu para o estágio", e.detail.stage));
@@ -88,6 +90,9 @@ A API de humor existe para isso. Alguns exemplos:
 form.addEventListener("input", () => pet.nibble(0.2));            // digitar alimenta
 form.addEventListener("submit", () => pet.celebrate("Enviado!")); // comemora
 api.onError(() => pet.mood("worried", "Opa… deu erro."));          // se preocupa
+job.onStart(() => pet.pose("scan"));                              // modo caçador enquanto algo roda
+job.onPause(() => pet.pose("paused"));                            // parado, com o selo de pausa
+job.onCrash(() => pet.pose("alert", { text: "Isso quebrou!" }));  // susto
 editor.onCursor((x, y) => pet.look(x, y, 1500));                  // olha para onde você está
 ```
 

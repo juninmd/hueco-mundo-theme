@@ -276,6 +276,32 @@ try {
   });
   check("no-persist não escreve no localStorage (quem guarda é o hospedeiro)", nop === null);
 
+  // poses: scan (lente), paused (selo de pausa, animações paradas), alert (susto que volta sozinho)
+  await run((el) => { el._setMode("idle"); el.setStats({ reiatsu: 80 }); });
+  const poseEv = await run((el) => new Promise((ok) => { el.addEventListener("hollow-pet:pose", (e) => ok(e.detail), { once: true }); el.pose("scan"); }));
+  await page.waitForTimeout(350);
+  check('pose("scan") mostra a lente sobre o olho e avisa com "hollow-pet:pose"', poseEv && (await run((el) => getComputedStyle(el.shadowRoot.querySelector(".visor")).opacity === "1" && el.currentPose === "scan" && el.stats.pose === "scan")));
+  await run((el) => el.pose("paused"));
+  await page.waitForTimeout(350);
+  const paused = await run((el) => ({ badge: getComputedStyle(el.shadowRoot.querySelector(".badge")).opacity, play: getComputedStyle(el.shadowRoot.querySelector(".bob")).animationPlayState, visor: getComputedStyle(el.shadowRoot.querySelector(".visor")).opacity }));
+  check('pose("paused") mostra o selo, para as animações e tira a lente', paused.badge === "1" && paused.play === "paused" && paused.visor === "0", JSON.stringify(paused));
+  await run((el) => el.pose("alert", { ms: 300 }));
+  const al1 = await run((el) => el.currentPose);
+  await page.waitForTimeout(650);
+  const al2 = await run((el) => el.currentPose);
+  check('pose("alert") dá o susto e volta sozinho à pose anterior', al1 === "alert" && al2 === "paused", `${al1} → ${al2}`);
+  await run((el) => el.pose(null));
+  check("pose(null) limpa a pose", (await run((el) => el.currentPose)) === "");
+  check("uma pose inválida é ignorada", await run((el) => { el.pose("dancar"); return el.currentPose === ""; }));
+
+  const free = await run((el) => { el.setStats({ reiatsu: 5 }); el._setMode("idle"); el.say("", 0); el.cero({ x: 400, y: 200, free: true, text: "" }); return { r: el.stats.reiatsu, beams: el.shadowRoot.querySelectorAll(".beam").length, bubble: el.shadowRoot.querySelector(".bubble").classList.contains("on") }; });
+  check("cero({ free: true }) dispara sem reiatsu, sem gastar e calado", free.r === 5 && free.beams > 0 && !free.bubble, JSON.stringify(free));
+  await page.waitForTimeout(1100);
+  const weak = await run((el) => { el._setMode("idle"); const n = el.shadowRoot.querySelectorAll(".beam").length; el.cero({ x: 400, y: 200 }); return { r: el.stats.reiatsu, grew: el.shadowRoot.querySelectorAll(".beam").length > n }; });
+  check("cero() comum continua exigindo reiatsu", weak.r === 5 && !weak.grew, JSON.stringify(weak));
+  const br = await run((el) => { const r = el.bodyRect; return { w: Math.round(r.width), inside: r.right <= innerWidth && r.bottom <= innerHeight }; });
+  check("bodyRect devolve o corpo do pet, dentro da janela", br.w >= 56 && br.inside, JSON.stringify(br));
+
   await page.setViewportSize({ width: 300, height: 120 });
   await page.waitForTimeout(250);
   await run((el) => { el.dock("br", false); el.say("Oi! Posso ficar no cantinho? Tô de olho no código.", 0); });

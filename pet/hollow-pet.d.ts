@@ -2,6 +2,8 @@
 export type HollowPetCorner = "br" | "bl" | "tr" | "tl";
 export type HollowPetMode = "idle" | "happy" | "eating" | "charging" | "firing" | "aiming" | "sleeping" | "dragging" | "yawn";
 export type HollowPetMood = "happy" | "excited" | "worried" | "sad" | "calm";
+/** "scan": lente sobre o olho (modo caçador); "paused": parado, com o selo de pausa; "alert": susto (some sozinho). */
+export type HollowPetPose = "scan" | "paused" | "alert";
 
 export interface HollowPetStats {
   reiatsu: number;
@@ -11,6 +13,7 @@ export interface HollowPetStats {
   seen: boolean;
   stage: 1 | 2 | 3;
   mode: HollowPetMode;
+  pose: HollowPetPose | "";
 }
 
 /** O que vale guardar. Salve onde quiser e devolva com `restore()`. */
@@ -39,8 +42,11 @@ export interface HollowPetElement extends HTMLElement {
   pet(): void;
   /** Alimentar: +26 de reiatsu, vínculo +2. */
   feed(): void;
-  /** Dispara o Cero (gasta 12 de reiatsu). Sem alvo, mira no centro da tela. Alvos fora da tela valem. */
-  cero(opts?: { x?: number; y?: number; power?: number }): void;
+  /**
+   * Dispara o Cero (gasta 12 de reiatsu). Sem alvo, mira no centro da tela. Alvos fora da tela valem.
+   * `free` não gasta reiatsu; `text` troca a fala do balão (`""` fica calado).
+   */
+  cero(opts?: { x?: number; y?: number; power?: number; free?: boolean; text?: string }): void;
   /** Abre a mira para escolher o alvo com um clique. */
   aim(): void;
   sleep(): void;
@@ -61,6 +67,16 @@ export interface HollowPetElement extends HTMLElement {
   celebrate(text?: string): void;
   /** Alimenta em silêncio com uma fração de reiatsu (por exemplo, um pouco por tecla digitada). */
   nibble(amount?: number): void;
+
+  /**
+   * Pose que dura até ser trocada. `alert` pula, mostra um "!" e volta sozinho à pose anterior depois de `ms` (1800).
+   * `pose(null)` limpa. Com `text`, o balão fala.
+   */
+  pose(name: HollowPetPose | null, opts?: { ms?: number; text?: string }): void;
+  /** A pose de agora (`""` se não houver). */
+  readonly currentPose: HollowPetPose | "";
+  /** O retângulo do corpo, em coordenadas da janela: para mirar nele ou desviar dele. */
+  readonly bodyRect: DOMRect;
 
   /** O que vale guardar. Também sai no evento `hollow-pet:state`. */
   getState(): HollowPetState;
@@ -109,6 +125,7 @@ declare global {
     "hollow-pet:sleep": CustomEvent<HollowPetEventDetail>;
     "hollow-pet:wake": CustomEvent<HollowPetEventDetail>;
     "hollow-pet:levelup": CustomEvent<HollowPetEventDetail>;
+    "hollow-pet:pose": CustomEvent<HollowPetEventDetail>;
     "hollow-pet:state": CustomEvent<HollowPetState>;
   }
   interface Window {

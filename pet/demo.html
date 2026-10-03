@@ -102,6 +102,15 @@
         </div>
       </div>
       <div class="card">
+        <h3>Poses</h3>
+        <div class="row">
+          <button data-pose="scan">Caçar</button>
+          <button data-pose="paused">Pausar</button>
+          <button data-pose="alert">Susto</button>
+          <button data-pose="">Normal</button>
+        </div>
+      </div>
+      <div class="card">
         <h3>Olhar</h3>
         <div class="pad" id="pad" tabindex="0" role="application" aria-label="Área para guiar o olhar do Hollowzinho. Setas movem o olhar.">mova o mouse aqui</div>
       </div>
@@ -170,6 +179,7 @@ pet.restore(saved);                    <span class="c">// devolve o que foi guar
           <tr><td>look(x, y, ms)</td><td>Olha para um ponto (-1 a 1) em vez de seguir o cursor.</td></tr>
           <tr><td>mood(humor, texto)</td><td><code>happy</code>, <code>excited</code>, <code>worried</code>, <code>sad</code> ou <code>calm</code>.</td></tr>
           <tr><td>celebrate(texto) nibble(n)</td><td>Comemora com um Cero para cima; belisca um pouco de reiatsu.</td></tr>
+          <tr><td>pose(nome, opções)</td><td><code>scan</code> (lente sobre o olho), <code>paused</code> (selo de pausa) ou <code>alert</code> (susto). <code>pose(null)</code> limpa.</td></tr>
           <tr><td>hide() show() reset()</td><td>Esconde, mostra e recomeça.</td></tr>
           <tr><td>getState() restore(estado)</td><td>Quem guarda é você: o estado sai e volta como JSON.</td></tr>
         </tbody>
@@ -193,6 +203,7 @@ pet.restore(saved);                    <span class="c">// devolve o que foi guar
     const b = e.target.closest("button");
     if (!b) return;
     if (b.dataset.mood) return pet.mood(b.dataset.mood);
+    if (b.dataset.pose !== undefined) return pet.pose(b.dataset.pose || null);
     const act = b.dataset.do;
     if (act === "dock") pet.dock(corners[(corners.indexOf(pet.stats.corner) + 1) % 4]);
     else if (act === "cero") pet.cero({ x: innerWidth * 0.5, y: innerHeight * 0.3 });
@@ -226,7 +237,7 @@ pet.restore(saved);                    <span class="c">// devolve o que foi guar
     log.prepend(li);
     while (log.children.length > 40) log.lastChild.remove();
   };
-  for (const n of ["pet", "feed", "cero", "sleep", "wake", "levelup"]) pet.addEventListener("hollow-pet:" + n, (e) => (note("hollow-pet:" + n, e.detail), show()));
+  for (const n of ["pet", "feed", "cero", "sleep", "wake", "levelup", "pose"]) pet.addEventListener("hollow-pet:" + n, (e) => (note("hollow-pet:" + n, e.detail), show()));
   pet.addEventListener("hollow-pet:state", show);
   show();
   setInterval(show, 4000);

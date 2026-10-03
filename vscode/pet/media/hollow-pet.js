@@ -13,8 +13,9 @@
  * Métodos:   pet() feed() cero({x,y,power}) aim() sleep() wake() say(texto) dock(canto) reset() hide() show()
  *            setStage(n) setStats({reiatsu,bond}) getState() restore(estado)
  *            look(x,y,ms) mood(humor,texto) celebrate(texto) nibble(reiatsu)
+ *            pose("scan"|"paused"|"alert"|null, {ms,text})  bodyRect  cero({x,y,power,free,text})
  * Sem HTML:  HollowPet.mount({ corner: "bl" })
- * Eventos:   hollow-pet:pet | feed | cero | sleep | wake | levelup  (detail: { stage, bond, reiatsu })
+ * Eventos:   hollow-pet:pet | feed | cero | sleep | wake | levelup | pose  (detail: { stage, bond, reiatsu })
  *            hollow-pet:state  (detail: o que getState() devolve; guarde onde quiser e devolva com restore())
  * Cores:     --hollow-panel, --hollow-edge, --hollow-fg, --hollow-muted, --hollow-faint, --hollow-accent,
  *            --hollow-accent-text, --hollow-ok, --hollow-font, --hollow-font-display, --hollow-z
@@ -198,6 +199,7 @@
     <clipPath id="c-head"><path d="${HEAD}"/></clipPath>
     <clipPath id="c-eye-l">${eyeL}</clipPath>
     <clipPath id="c-eye-r">${eyeR}</clipPath>
+    <clipPath id="c-visor"><ellipse cx="102" cy="66" rx="16" ry="18.5"/></clipPath>
     <mask id="m-body"><rect width="160" height="160" fill="#fff"/><circle cx="80" cy="127" r="10.5" fill="#000"/></mask>
   </defs>
 
@@ -267,6 +269,14 @@
        <g clip-path="url(#c-eye-r)"><g class="gaze"><circle cx="102" cy="67" r="9.4" fill="url(#g-iris)"/><ellipse class="pupil" cx="102" cy="67" rx="3.7" ry="5.8" fill="#0a0a0e"/><circle cx="98.2" cy="62.4" r="2.7" fill="#fff"/><circle cx="106.2" cy="71.8" r="1.3" fill="#fff" opacity=".85"/></g></g></g>
      <g class="eye-alt eye-happy" fill="none" stroke="#0a0a0e" stroke-width="4.6" stroke-linecap="round"><path d="M47 71Q58 57 69 71"/><path d="M91 71Q102 57 113 71"/></g>
      <g class="eye-alt eye-sleep" fill="none" stroke="#0a0a0e" stroke-width="3.6" stroke-linecap="round"><path d="M47 65Q58 74 69 65"/><path d="M91 65Q102 74 113 65"/></g>
+     <g class="visor">
+      <path d="M34 53C48 44 112 44 126 53L125.500 59.500C112 51.500 48 51.500 34.500 59.500Z" fill="#17171f" stroke="#050506" stroke-opacity=".6" stroke-width=".8" stroke-linejoin="round"/>
+      <ellipse cx="102" cy="66" rx="17.500" ry="20" fill="#e11d48" fill-opacity=".2" stroke="#15151c" stroke-width="3.400"/>
+      <ellipse cx="102" cy="66" rx="17.500" ry="20" fill="none" stroke="#ff5a78" stroke-width="1.100" stroke-opacity=".95"/>
+      <g clip-path="url(#c-visor)"><rect class="scanline" x="84" y="47" width="36" height="2.600" fill="#ffb3c1" opacity=".9"/></g>
+      <path d="M91 57C94 52 100 50 106 51" fill="none" stroke="#fff" stroke-opacity=".55" stroke-width="1.600" stroke-linecap="round"/>
+      <circle class="visor-led" cx="122" cy="62" r="2" fill="#ff3b5c"/>
+     </g>
 
      ${MOUTH_CLOSED}
      ${MOUTH_OPEN}
@@ -366,6 +376,35 @@
 .anim-land .bob{animation:land .5s var(--ease) 1}
 .anim-pulse .bob{animation:pulse .9s var(--spring) 1}
 
+/* poses que duram: scan (lente sobre o olho), paused (parado) e alert (susto) */
+.visor{opacity:0;transition:opacity .2s}
+.scanline{animation:scan 1.6s linear infinite}
+.visor-led{animation:led .9s steps(2) infinite}
+[data-pose="scan"] .visor{opacity:1}
+[data-pose="scan"] .aura{animation-duration:1.7s}
+[data-mode="sleeping"] .visor{opacity:0}
+[data-pose="paused"] .bob,[data-pose="paused"] .tail,[data-pose="paused"] .eye,[data-pose="paused"] .aura,[data-pose="paused"] .hole-ring,[data-pose="paused"] .hole-glow{animation-play-state:paused}
+[data-pose="paused"] .art{filter:drop-shadow(0 0 .8px rgba(244,239,227,.55)) saturate(.72) brightness(.97)}
+[data-pose="paused"] .pupil{transform-box:fill-box;transform-origin:center;transform:scale(.88)}
+[data-pose="alert"] .pupil{transform-box:fill-box;transform-origin:center;transform:scale(.6)}
+[data-pose="alert"] .aura{opacity:1;transform:scale(1.15);animation:aura .35s ease-in-out infinite}
+[data-pose="alert"] .tail{animation:none;transform:rotate(16deg)}
+[data-pose="alert"] .arm-l{transform:rotate(30deg)}[data-pose="alert"] .arm-r{transform:rotate(-30deg)}
+[data-pose="alert"] .hole-ring,[data-pose="alert"] .hole-glow{animation:flicker .4s steps(1) infinite}
+.anim-startle .bob{animation:startle .6s var(--ease) 1}
+.badge{position:absolute;right:1%;top:0;width:calc(var(--size,120px) * .27);height:calc(var(--size,120px) * .27);display:grid;place-items:center;border-radius:50%;
+  background:var(--panel);border:1px solid var(--edge);color:var(--fg);box-shadow:0 4px 12px -4px rgba(0,0,0,.8);pointer-events:none;
+  opacity:0;transform:translateY(6px) scale(.55);transition:opacity .15s var(--ease),transform .22s var(--spring)}
+.badge svg{width:60%;height:60%;fill:currentColor}
+.badge .b-pause,.badge .b-alert{display:none}
+[data-pose="paused"] .badge,[data-pose="alert"] .badge{opacity:1;transform:none}
+[data-pose="paused"] .b-pause,[data-pose="alert"] .b-alert{display:block}
+[data-pose="alert"] .badge{background:var(--accent);border-color:var(--accent);color:#fff}
+[data-mode="sleeping"] .badge{opacity:0}
+
+@keyframes scan{0%{transform:translateY(0)}100%{transform:translateY(38px)}}
+@keyframes led{0%{opacity:1}100%{opacity:.25}}
+@keyframes startle{0%{transform:translateY(0) scale(1,1)}16%{transform:translateY(-15px) scale(.93,1.1) rotate(-3deg)}38%{transform:translateY(2px) scale(1.07,.92)}58%{transform:translateY(-4px) scale(.98,1.03)}100%{transform:translateY(0) scale(1,1)}}
 @keyframes sweat{0%{transform:translateY(-3px);opacity:0}20%{opacity:1}80%{opacity:1}100%{transform:translateY(9px);opacity:0}}
 @keyframes breathe{0%,100%{transform:scale(1,1)}50%{transform:scale(1.014,1.03)}}
 @keyframes breathe-slow{0%,100%{transform:translateY(3px) scale(1.02,.96)}50%{transform:translateY(3px) scale(1.03,.99)}}
@@ -479,7 +518,7 @@
 .aimcap::after{top:var(--ay,50%);left:calc(var(--ax,50%) - 14px);height:2px;width:28px;margin-top:-1px}
 
 @media (prefers-reduced-motion:reduce){
-  .bob,.tail,.aura,.eye,.hole-ring,.hole-glow{animation:none!important}
+  .bob,.tail,.aura,.eye,.hole-ring,.hole-glow,.scanline,.visor-led{animation:none!important}
   .bubble,.tray{transition:opacity .01s!important;transform:none!important}
 }
 @media (forced-colors:active){
@@ -542,6 +581,7 @@
     </div>
     <div class="fx"></div>
     <button class="pet" type="button" aria-keyshortcuts="F C S">${art()}</button>
+    <div class="badge" aria-hidden="true"><svg viewBox="0 0 24 24"><g class="b-pause"><rect x="6.500" y="5" width="3.800" height="14" rx="1.200"/><rect x="13.700" y="5" width="3.800" height="14" rx="1.200"/></g><g class="b-alert"><rect x="10.300" y="3.500" width="3.400" height="11" rx="1.700"/><circle cx="12" cy="19" r="2"/></g></svg></div>
     <button class="menu-dot" type="button" aria-label="Menu">⋯</button>
   </div>
   <button class="peek" type="button"><svg viewBox="0 0 160 160" aria-hidden="true"><path d="${HEAD}" fill="#ede9e0"/><ellipse cx="58" cy="66" rx="11" ry="14" fill="#0a0a0e"/><ellipse cx="102" cy="66" rx="11" ry="14" fill="#0a0a0e"/><path d="M44 78C39 86 39 95 44 103C46 95 49 87 52 79ZM116 78C121 86 121 95 116 103C114 95 111 87 108 79Z" fill="#e11d48"/></svg></button>
@@ -550,7 +590,7 @@
       this.$ = {
         wrap: $(".wrap"), root: $(".root"), layer: $(".layer"), fx: $(".fx"), pet: $(".pet"), bubble: $(".bubble"), tray: $(".tray"),
         name: $(".tray-name"), stage: $(".tray-stage"), hint: $(".tray-hint"), peek: $(".peek"), dot: $(".menu-dot"),
-        mr: $(".meter.r"), mb: $(".meter.b"), lr: $(".l-r"), lb: $(".l-b"),
+        mr: $(".meter.r"), mb: $(".meter.b"), lr: $(".l-r"), lb: $(".l-b"), badge: $(".badge"),
       };
       this.$.acts = [...sr.querySelectorAll(".act")];
     }
@@ -577,6 +617,7 @@
       this._unbind();
       this._timers.forEach((id) => clearTimeout(id));
       this._timers.clear();
+      clearTimeout(this._poseT);
       clearInterval(this._tick);
       cancelAnimationFrame(this._raf);
     }
@@ -604,7 +645,7 @@
       return f >= 1 && f <= 3 ? STAGES[f - 1] : stageFor(this.s.bond);
     }
     get stats() {
-      return { ...this.s, stage: this.stage.id, mode: this.mode };
+      return { ...this.s, stage: this.stage.id, mode: this.mode, pose: this.currentPose };
     }
 
     _schedule(fn, ms) {
@@ -1017,10 +1058,13 @@
       this.say(this._t.weak, 2400);
     }
 
-    /** Dispara o Cero. Sem alvo, mira no centro da tela. */
+    /**
+     * Dispara o Cero. Sem alvo, mira no centro da tela.
+     * Opções: x, y (alvo), power (0,55 a 1,4), free (não gasta reiatsu), text (balão; "" fica calado).
+     */
     cero(opts = {}) {
       if (this.mode === "firing") return;
-      if (this.s.reiatsu < 12) return this._weak();
+      if (!opts.free && this.s.reiatsu < 12) return this._weak();
       this._touch();
       if (this.mode === "sleeping") this.wake(true);
       const before = this.stage.id;
@@ -1028,16 +1072,20 @@
       const m = this._mouth();
       const tx = opts.x ?? innerWidth / 2;
       const ty = opts.y ?? innerHeight / 2;
-      this.s.reiatsu = clamp(this.s.reiatsu - 12, 0, 100);
+      if (!opts.free) this.s.reiatsu = clamp(this.s.reiatsu - 12, 0, 100);
       this.s.bond += 1;
       this._setMode("firing", 1000);
-      this.say(pick(this._t.cero), 1400);
+      const line = opts.text === undefined ? pick(this._t.cero) : opts.text;
+      if (line) this.say(line, 1400);
       this._fire(m, { x: tx, y: ty }, power);
       this._after(before);
       this._emit("cero");
     }
 
     reset() {
+      this._poseBase = "";
+      this._poseOver = "";
+      this._applyPose();
       this.s.reiatsu = 80;
       this.s.bond = 0;
       this._applyStage();
@@ -1062,6 +1110,48 @@
 
     setMode(m) {
       this._setMode(m);
+    }
+
+    /**
+     * Pose que dura até ser trocada: "scan" (uma lente sobre o olho, modo caçador), "paused" (parado, com o selo de pausa)
+     * e "alert" (susto: pula e mostra um "!"; some sozinho depois de ms, 1800 por padrão, e volta à pose anterior).
+     * pose(null) limpa. Com text, o balão fala.
+     */
+    pose(name, opts = {}) {
+      if (name && !["scan", "paused", "alert"].includes(name)) return;
+      clearTimeout(this._poseT);
+      this._touch();
+      if (name && this.mode === "sleeping") this.wake(true);
+      if (name === "alert") {
+        this._poseOver = "alert";
+        this._anim("startle", 700);
+        this._poseT = setTimeout(() => {
+          this._poseOver = "";
+          this._applyPose();
+        }, opts.ms ?? 1800);
+      } else {
+        this._poseOver = "";
+        this._poseBase = name || "";
+      }
+      this._applyPose();
+      if (opts.text) this.say(opts.text, 2800);
+      this._emit("pose");
+    }
+
+    _applyPose() {
+      const p = this._poseOver || this._poseBase || "";
+      if (p) this.$.root.dataset.pose = p;
+      else delete this.$.root.dataset.pose;
+    }
+
+    /** A pose de agora ("scan", "paused", "alert" ou ""). */
+    get currentPose() {
+      return this.$.root.dataset.pose || "";
+    }
+
+    /** O retângulo do corpo do bichinho, em coordenadas da janela (para mirar nele ou desviar dele). */
+    get bodyRect() {
+      return this.$.pet.getBoundingClientRect();
     }
 
     /** Esconde o bichinho (fica só o botão de chamar de volta) ou o traz de volta. */
