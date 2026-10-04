@@ -1,0 +1,276 @@
+{
+  "name": "hollowzinho",
+  "displayName": "Hollowzinho",
+  "description": "%hollowzinho.description%",
+  "version": "0.1.0",
+  "publisher": "juninmd",
+  "license": "MIT",
+  "icon": "media/icon.png",
+  "engines": {
+    "vscode": "^1.90.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "keywords": [
+    "pet",
+    "mascote",
+    "hollow",
+    "bleach",
+    "hueco mundo",
+    "tamagotchi",
+    "hollowzinho"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/juninmd/hueco-mundo-theme.git",
+    "directory": "vscode/pet"
+  },
+  "activationEvents": [
+    "onStartupFinished"
+  ],
+  "main": "./extension.js",
+  "contributes": {
+    "views": {
+      "explorer": [
+        {
+          "type": "webview",
+          "id": "hollowzinho.view",
+          "name": "Hollowzinho",
+          "contextualTitle": "Hollowzinho"
+        }
+      ],
+      "debug": [
+        {
+          "type": "webview",
+          "id": "hollowzinho.debugView",
+          "name": "Hollowzinho",
+          "contextualTitle": "Hollowzinho"
+        }
+      ]
+    },
+    "commands": [
+      {
+        "command": "hollowzinho.pet",
+        "title": "%hollowzinho.cmd.pet%",
+        "category": "Hollowzinho",
+        "icon": "$(heart)"
+      },
+      {
+        "command": "hollowzinho.feed",
+        "title": "%hollowzinho.cmd.feed%",
+        "category": "Hollowzinho",
+        "icon": "$(flame)"
+      },
+      {
+        "command": "hollowzinho.cero",
+        "title": "%hollowzinho.cmd.cero%",
+        "category": "Hollowzinho",
+        "icon": "$(zap)"
+      },
+      {
+        "command": "hollowzinho.ceroError",
+        "title": "%hollowzinho.cmd.ceroError%",
+        "category": "Hollowzinho"
+      },
+      {
+        "command": "hollowzinho.sleep",
+        "title": "%hollowzinho.cmd.sleep%",
+        "category": "Hollowzinho"
+      },
+      {
+        "command": "hollowzinho.dock",
+        "title": "%hollowzinho.cmd.dock%",
+        "category": "Hollowzinho"
+      },
+      {
+        "command": "hollowzinho.show",
+        "title": "%hollowzinho.cmd.show%",
+        "category": "Hollowzinho"
+      },
+      {
+        "command": "hollowzinho.reset",
+        "title": "%hollowzinho.cmd.reset%",
+        "category": "Hollowzinho"
+      }
+    ],
+    "menus": {
+      "view/title": [
+        {
+          "command": "hollowzinho.pet",
+          "when": "view == hollowzinho.view",
+          "group": "navigation@1"
+        },
+        {
+          "command": "hollowzinho.feed",
+          "when": "view == hollowzinho.view",
+          "group": "navigation@2"
+        },
+        {
+          "command": "hollowzinho.cero",
+          "when": "view == hollowzinho.view",
+          "group": "navigation@3"
+        }
+      ]
+    },
+    "configuration": {
+      "title": "Hollowzinho",
+      "properties": {
+        "hollowzinho.name": {
+          "type": "string",
+          "default": "Hollowzinho",
+          "description": "%hollowzinho.cfg.name%"
+        },
+        "hollowzinho.tint": {
+          "type": "string",
+          "enum": [
+            "cero",
+            "reishi",
+            "ouro"
+          ],
+          "default": "cero",
+          "description": "%hollowzinho.cfg.tint%"
+        },
+        "hollowzinho.language": {
+          "type": "string",
+          "enum": [
+            "auto",
+            "pt",
+            "en"
+          ],
+          "default": "auto",
+          "description": "%hollowzinho.cfg.language%"
+        },
+        "hollowzinho.size": {
+          "type": "number",
+          "default": 0,
+          "minimum": 0,
+          "maximum": 200,
+          "description": "%hollowzinho.cfg.size%"
+        },
+        "hollowzinho.scene": {
+          "type": "string",
+          "enum": [
+            "hueco-mundo",
+            "none"
+          ],
+          "default": "hueco-mundo",
+          "description": "%hollowzinho.cfg.scene%"
+        },
+        "hollowzinho.editorSide": {
+          "type": "string",
+          "enum": [
+            "auto",
+            "left",
+            "right"
+          ],
+          "default": "auto",
+          "description": "%hollowzinho.cfg.editorSide%"
+        },
+        "hollowzinho.chatter": {
+          "type": "string",
+          "enum": [
+            "off",
+            "low",
+            "normal"
+          ],
+          "default": "low",
+          "description": "%hollowzinho.cfg.chatter%"
+        },
+        "hollowzinho.sleepAfterMinutes": {
+          "type": "number",
+          "default": 5,
+          "minimum": 0,
+          "description": "%hollowzinho.cfg.sleepAfter%"
+        },
+        "hollowzinho.reactToEditing": {
+          "type": "boolean",
+          "default": true,
+          "description": "%hollowzinho.cfg.reactToEditing%"
+        },
+        "hollowzinho.reactToDiagnostics": {
+          "type": "boolean",
+          "default": true,
+          "description": "%hollowzinho.cfg.reactToDiagnostics%"
+        },
+        "hollowzinho.bugs": {
+          "type": "boolean",
+          "default": true,
+          "description": "%hollowzinho.cfg.bugs%"
+        },
+        "hollowzinho.autoCero": {
+          "type": "string",
+          "enum": [
+            "off",
+            "exceptions",
+            "newErrors"
+          ],
+          "default": "exceptions",
+          "description": "%hollowzinho.cfg.autoCero%",
+          "enumDescriptions": [
+            "%hollowzinho.cfg.autoCero.off%",
+            "%hollowzinho.cfg.autoCero.exceptions%",
+            "%hollowzinho.cfg.autoCero.newErrors%"
+          ]
+        },
+        "hollowzinho.reactToTasks": {
+          "type": "boolean",
+          "default": true,
+          "description": "%hollowzinho.cfg.reactToTasks%"
+        },
+        "hollowzinho.reactToDebug": {
+          "type": "boolean",
+          "default": true,
+          "description": "%hollowzinho.cfg.reactToDebug%"
+        },
+        "hollowzinho.reactToGit": {
+          "type": "boolean",
+          "default": true,
+          "description": "%hollowzinho.cfg.reactToGit%"
+        },
+        "hollowzinho.reactToWorkspace": {
+          "type": "boolean",
+          "default": true,
+          "description": "%hollowzinho.cfg.reactToWorkspace%"
+        },
+        "hollowzinho.editorEffects": {
+          "type": "boolean",
+          "default": true,
+          "description": "%hollowzinho.cfg.editorEffects%"
+        },
+        "hollowzinho.quickFix": {
+          "type": "boolean",
+          "default": true,
+          "description": "%hollowzinho.cfg.quickFix%"
+        },
+        "hollowzinho.statusBar": {
+          "type": "boolean",
+          "default": true,
+          "description": "%hollowzinho.cfg.statusBar%"
+        }
+      }
+    },
+    "colors": [
+      {
+        "id": "hollowzinho.ceroCore",
+        "description": "%hollowzinho.color.ceroCore%",
+        "defaults": {
+          "dark": "#ff2e55",
+          "light": "#e11d48",
+          "highContrast": "#ff2e55",
+          "highContrastLight": "#b3123a"
+        }
+      }
+    ]
+  },
+  "galleryBanner": {
+    "color": "#0e0e11",
+    "theme": "dark"
+  },
+  "capabilities": {
+    "untrustedWorkspaces": {
+      "supported": true
+    },
+    "virtualWorkspaces": true
+  }
+}

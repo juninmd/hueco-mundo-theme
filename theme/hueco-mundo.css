@@ -1,0 +1,577 @@
+/*
+ * Hueco Mundo — tema completo: tokens + base + componentes `hm-*`.
+ *
+ *   <link rel="stylesheet" href="fonts.css">          (opcional, só as fontes)
+ *   <link rel="stylesheet" href="hueco-mundo.css">
+ *   <body class="hueco-mundo">  ou  <html data-theme="hueco-mundo"> (só os tokens)
+ *
+ * Os componentes só usam os tokens `--hm-*` de tokens.css; troque os valores e todos acompanham.
+ */
+@import url("./tokens.css");
+
+/* ───────── base (só com a classe: o atributo data-theme traz apenas os tokens) ───────── */
+.hueco-mundo {
+  background: var(--hm-void);
+  color: var(--hm-bone);
+  font-family: var(--hm-font-sans);
+  font-size: 16px;
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+.hueco-mundo ::selection {
+  background: color-mix(in oklab, var(--hm-cero) 55%, transparent);
+  color: #fff;
+}
+.hueco-mundo :focus-visible,
+:root[data-theme="hueco-mundo"] :focus-visible {
+  outline: 2px solid var(--hm-cero);
+  outline-offset: 2px;
+}
+.hueco-mundo ::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+.hueco-mundo ::-webkit-scrollbar-thumb {
+  background: var(--hm-edge);
+  border-radius: 9999px;
+}
+.hueco-mundo ::-webkit-scrollbar-thumb:hover {
+  background: var(--hm-line);
+}
+.hueco-mundo p,
+.hueco-mundo li {
+  text-wrap: pretty;
+}
+.hueco-mundo h1,
+.hueco-mundo h2,
+.hueco-mundo h3 {
+  text-wrap: balance;
+}
+
+/* ───────── tipografia ───────── */
+.hm-display {
+  font-family: var(--hm-font-display);
+  font-weight: 800;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+}
+.hm-mono {
+  font-family: var(--hm-font-mono);
+}
+/* O traço diagonal é o corte do Getsuga: marca de seção e divisor. */
+.hm-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  font: 600 12px/1 var(--hm-font-mono);
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--hm-cero-text);
+}
+.hm-eyebrow::before {
+  content: "";
+  width: 30px;
+  height: 2px;
+  background: currentColor;
+  transform: skewX(-38deg);
+  box-shadow: 0 0 10px currentColor;
+}
+.hm-slash {
+  display: block;
+  width: 64px;
+  height: 2px;
+  background: var(--hm-cero);
+  transform: skewX(-38deg);
+  box-shadow: 0 0 14px var(--hm-cero);
+}
+
+/* ───────── superfícies ───────── */
+.hm-surface {
+  background:
+    linear-gradient(180deg, color-mix(in oklab, var(--hm-bone) 3.5%, transparent), transparent 42%),
+    var(--hm-night);
+  border: 1px solid var(--hm-edge);
+  border-radius: var(--hm-radius-lg);
+  box-shadow:
+    inset 0 1px 0 color-mix(in oklab, var(--hm-bone) 6%, transparent),
+    0 24px 48px -28px rgb(0 0 0 / 0.85);
+}
+.hm-card {
+  position: relative;
+  padding: 22px;
+}
+/* Borda que acende em vermelho nos cantos opostos, feita com máscara para não pesar. */
+.hm-card--glow::before {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  padding: 1px;
+  border-radius: inherit;
+  pointer-events: none;
+  background: linear-gradient(
+    155deg,
+    color-mix(in oklab, var(--hm-cero) 70%, transparent),
+    transparent 38%,
+    transparent 64%,
+    color-mix(in oklab, var(--hm-cero) 34%, transparent)
+  );
+  -webkit-mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+}
+.hm-card--interactive {
+  transition:
+    border-color 160ms var(--hm-ease-out),
+    transform 160ms var(--hm-ease-out),
+    box-shadow 160ms var(--hm-ease-out);
+}
+.hm-card--interactive:hover {
+  border-color: color-mix(in oklab, var(--hm-cero) 45%, var(--hm-edge));
+  transform: translateY(-2px);
+  box-shadow:
+    inset 0 1px 0 color-mix(in oklab, var(--hm-bone) 7%, transparent),
+    0 22px 48px -24px color-mix(in oklab, var(--hm-cero) 40%, transparent);
+}
+
+/* ───────── botões ───────── */
+.hm-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.55em;
+  min-height: 38px;
+  padding: 0 18px;
+  border: 1px solid var(--hm-edge);
+  border-radius: var(--hm-radius);
+  background: var(--hm-raised);
+  color: var(--hm-bone);
+  font: 600 14px/1 var(--hm-font-sans);
+  text-decoration: none;
+  white-space: nowrap;
+  cursor: pointer;
+  box-shadow: var(--hm-shadow-raised);
+  transition:
+    background-color 120ms var(--hm-ease-out),
+    border-color 120ms var(--hm-ease-out),
+    box-shadow 120ms var(--hm-ease-out),
+    transform 100ms var(--hm-ease-out),
+    color 120ms var(--hm-ease-out);
+}
+.hm-btn:hover {
+  border-color: var(--hm-line);
+  background: color-mix(in oklab, var(--hm-raised) 88%, var(--hm-bone));
+}
+.hm-btn:active:not(:disabled) {
+  transform: scale(0.97);
+}
+.hm-btn svg {
+  width: 1.15em;
+  height: 1.15em;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.hm-btn--primary {
+  border-color: color-mix(in oklab, var(--hm-cero) 75%, #fff 12%);
+  background: linear-gradient(180deg, var(--hm-cero), #cb1541);
+  color: var(--hm-on-cero);
+  box-shadow:
+    inset 0 1px 0 rgb(255 255 255 / 0.22),
+    0 10px 26px -10px color-mix(in oklab, var(--hm-cero) 85%, transparent);
+}
+.hm-btn--primary:hover {
+  background: linear-gradient(180deg, #ea2250, #d3173f);
+  border-color: color-mix(in oklab, var(--hm-cero) 60%, #fff 25%);
+  box-shadow:
+    inset 0 1px 0 rgb(255 255 255 / 0.28),
+    0 12px 32px -10px color-mix(in oklab, var(--hm-cero) 95%, transparent);
+}
+.hm-btn--ghost {
+  border-color: transparent;
+  background: transparent;
+  box-shadow: none;
+  color: var(--hm-ash);
+}
+.hm-btn--ghost:hover {
+  background: var(--hm-hover);
+  border-color: transparent;
+  color: var(--hm-bone);
+}
+.hm-btn--danger {
+  border-color: color-mix(in oklab, var(--hm-blood) 42%, var(--hm-edge));
+  background: color-mix(in oklab, var(--hm-blood) 9%, var(--hm-night));
+  color: var(--hm-blood);
+}
+.hm-btn--danger:hover {
+  background: color-mix(in oklab, var(--hm-blood) 16%, var(--hm-night));
+  border-color: var(--hm-blood);
+}
+.hm-btn--ok {
+  border-color: color-mix(in oklab, var(--hm-reishi) 70%, #fff 10%);
+  background: linear-gradient(180deg, var(--hm-reishi), #38c46c);
+  color: var(--hm-void);
+  box-shadow:
+    inset 0 1px 0 rgb(255 255 255 / 0.3),
+    0 10px 26px -12px color-mix(in oklab, var(--hm-reishi) 80%, transparent);
+}
+.hm-btn--sm {
+  min-height: 30px;
+  padding: 0 13px;
+  border-radius: 10px;
+  font-size: 13px;
+}
+.hm-btn--icon {
+  width: 38px;
+  padding: 0;
+}
+.hm-btn:disabled,
+.hm-btn[aria-disabled="true"] {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+/* ───────── campos ───────── */
+.hm-input,
+.hm-select {
+  width: 100%;
+  min-height: 42px;
+  padding: 0 14px;
+  border: 1px solid var(--hm-edge);
+  border-radius: var(--hm-radius);
+  background: var(--hm-void);
+  color: var(--hm-bone);
+  font: 400 14px/1.2 var(--hm-font-sans);
+  box-shadow: inset 0 1px 2px rgb(0 0 0 / 0.3);
+  outline: none;
+  transition:
+    border-color 120ms var(--hm-ease-out),
+    box-shadow 120ms var(--hm-ease-out);
+}
+.hm-input::placeholder {
+  color: var(--hm-dust);
+}
+.hm-input:hover,
+.hm-select:hover {
+  border-color: var(--hm-line);
+}
+.hm-input:focus,
+.hm-input.is-focus,
+.hm-select:focus {
+  border-color: var(--hm-cero);
+  box-shadow:
+    inset 0 1px 2px rgb(0 0 0 / 0.3),
+    0 0 0 3px color-mix(in oklab, var(--hm-cero) 22%, transparent);
+}
+.hm-select {
+  appearance: none;
+  padding-right: 38px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23a8a29e' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  background-size: 16px;
+}
+.hm-label {
+  display: block;
+  margin-bottom: 7px;
+  font: 600 12px/1 var(--hm-font-sans);
+  letter-spacing: 0.04em;
+  color: var(--hm-ash);
+}
+
+/* Caixas redondas e quadradas. */
+.hm-check,
+.hm-box {
+  appearance: none;
+  display: inline-grid;
+  place-content: center;
+  flex-shrink: 0;
+  margin: 0;
+  cursor: pointer;
+  border: 2px solid var(--hm-line);
+  background: transparent;
+  transition:
+    background-color 120ms var(--hm-ease-out),
+    border-color 120ms var(--hm-ease-out),
+    box-shadow 120ms var(--hm-ease-out);
+}
+.hm-check {
+  width: 20px;
+  height: 20px;
+  border-radius: 9999px;
+}
+.hm-box {
+  width: 18px;
+  height: 18px;
+  border-radius: 5px;
+}
+.hm-check:hover,
+.hm-box:hover {
+  border-color: var(--hm-cero);
+}
+.hm-check:checked,
+.hm-box:checked {
+  border-color: var(--hm-cero);
+  background: var(--hm-cero);
+  box-shadow: 0 0 14px -2px color-mix(in oklab, var(--hm-cero) 80%, transparent);
+}
+.hm-check:checked::after,
+.hm-box:checked::after {
+  content: "";
+  width: 5px;
+  height: 9px;
+  margin-top: -2px;
+  border: solid var(--hm-on-cero);
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+}
+.hm-switch {
+  appearance: none;
+  position: relative;
+  width: 40px;
+  height: 22px;
+  margin: 0;
+  cursor: pointer;
+  border: 1px solid var(--hm-line);
+  border-radius: 9999px;
+  background: var(--hm-void);
+  transition:
+    background-color 140ms var(--hm-ease-out),
+    border-color 140ms var(--hm-ease-out),
+    box-shadow 140ms var(--hm-ease-out);
+}
+.hm-switch::after {
+  content: "";
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: var(--hm-ash);
+  transition:
+    transform 160ms var(--hm-ease-out),
+    background-color 140ms var(--hm-ease-out);
+}
+.hm-switch:checked {
+  border-color: var(--hm-cero);
+  background: color-mix(in oklab, var(--hm-cero) 30%, var(--hm-void));
+  box-shadow: 0 0 16px -4px color-mix(in oklab, var(--hm-cero) 80%, transparent);
+}
+.hm-switch:checked::after {
+  transform: translateX(18px);
+  background: var(--hm-bone);
+}
+
+/* ───────── abas ───────── */
+.hm-tabs {
+  display: flex;
+  gap: 2px;
+  border-bottom: 1px solid var(--hm-edge);
+}
+.hm-tab {
+  position: relative;
+  padding: 11px 14px;
+  border: 0;
+  background: none;
+  color: var(--hm-ash);
+  font: 600 14px/1 var(--hm-font-sans);
+  cursor: pointer;
+  transition: color 120ms var(--hm-ease-out);
+}
+.hm-tab:hover {
+  color: var(--hm-bone);
+}
+.hm-tab[aria-selected="true"] {
+  color: var(--hm-bone);
+}
+.hm-tab[aria-selected="true"]::after {
+  content: "";
+  position: absolute;
+  left: 12px;
+  right: 12px;
+  bottom: -1px;
+  height: 2px;
+  border-radius: 2px;
+  background: var(--hm-cero);
+  box-shadow: 0 0 12px var(--hm-cero);
+}
+
+/* ───────── chips e selos ───────── */
+.hm-chip {
+  --_c: var(--hm-ash);
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 24px;
+  padding: 0 9px;
+  border: 1px solid color-mix(in oklab, var(--_c) 26%, transparent);
+  border-radius: 8px;
+  background: color-mix(in oklab, var(--_c) 11%, var(--hm-night));
+  color: var(--_c);
+  font: 500 12px/1 var(--hm-font-sans);
+  white-space: nowrap;
+}
+.hm-chip--accent {
+  --_c: var(--hm-cero-text);
+}
+.hm-chip--ok {
+  --_c: var(--hm-reishi);
+}
+.hm-chip--warn {
+  --_c: var(--hm-gold);
+}
+.hm-chip--danger {
+  --_c: var(--hm-blood);
+}
+.hm-chip--fg {
+  --_c: var(--hm-bone);
+}
+.hm-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: currentColor;
+  box-shadow: 0 0 8px currentColor;
+}
+
+/* ───────── progresso (o reiatsu) ───────── */
+.hm-progress {
+  height: 8px;
+  border-radius: 9999px;
+  background: color-mix(in oklab, var(--hm-bone) 10%, transparent);
+  overflow: hidden;
+}
+.hm-progress > i {
+  display: block;
+  width: var(--value, 40%);
+  height: 100%;
+  border-radius: inherit;
+  background: linear-gradient(90deg, var(--hm-cero-deep), var(--hm-cero));
+  box-shadow: 0 0 14px color-mix(in oklab, var(--hm-cero) 75%, transparent);
+  transition: width 400ms var(--hm-ease-out);
+}
+.hm-progress--ok > i {
+  background: linear-gradient(90deg, #1f9a52, var(--hm-reishi));
+  box-shadow: 0 0 14px color-mix(in oklab, var(--hm-reishi) 70%, transparent);
+}
+.hm-progress--gold > i {
+  background: linear-gradient(90deg, #b9770e, var(--hm-gold));
+  box-shadow: 0 0 14px color-mix(in oklab, var(--hm-gold) 70%, transparent);
+}
+
+/* ───────── avisos ───────── */
+.hm-alert {
+  --_c: var(--hm-cero);
+  position: relative;
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  padding: 14px 16px 14px 20px;
+  border: 1px solid color-mix(in oklab, var(--_c) 38%, var(--hm-edge));
+  border-radius: 14px;
+  background: linear-gradient(90deg, color-mix(in oklab, var(--_c) 15%, var(--hm-night)), var(--hm-night) 70%);
+  overflow: hidden;
+}
+.hm-alert::before {
+  content: "";
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 3px;
+  background: var(--_c);
+  box-shadow: 0 0 14px var(--_c);
+}
+.hm-alert--ok {
+  --_c: var(--hm-reishi);
+}
+.hm-alert--warn {
+  --_c: var(--hm-gold);
+}
+.hm-alert--danger {
+  --_c: var(--hm-blood);
+}
+.hm-alert b {
+  display: block;
+  color: var(--hm-bone);
+  font-size: 14px;
+}
+.hm-alert span {
+  color: var(--hm-ash);
+  font-size: 13px;
+}
+
+/* ───────── detalhes ───────── */
+.hm-kbd {
+  display: inline-grid;
+  place-items: center;
+  min-width: 24px;
+  height: 24px;
+  padding: 0 7px;
+  border: 1px solid var(--hm-edge);
+  border-bottom-width: 2px;
+  border-radius: 6px;
+  background: var(--hm-raised);
+  color: var(--hm-bone);
+  font: 600 11px/1 var(--hm-font-mono);
+}
+.hm-divider {
+  height: 1px;
+  border: 0;
+  background: linear-gradient(90deg, transparent, var(--hm-edge) 20%, var(--hm-edge) 80%, transparent);
+}
+.hm-skeleton {
+  border-radius: 8px;
+  background: linear-gradient(90deg, var(--hm-raised) 20%, color-mix(in oklab, var(--hm-raised) 80%, var(--hm-bone)) 50%, var(--hm-raised) 80%);
+  background-size: 200% 100%;
+  animation: hm-shimmer 1.8s linear infinite;
+}
+@keyframes hm-shimmer {
+  to {
+    background-position: -200% 0;
+  }
+}
+.hm-tooltip {
+  display: inline-block;
+  padding: 6px 10px;
+  border: 1px solid var(--hm-edge);
+  border-radius: 8px;
+  background: var(--hm-raised);
+  color: var(--hm-bone);
+  font: 500 12px/1.2 var(--hm-font-sans);
+  box-shadow: 0 10px 24px -10px rgb(0 0 0 / 0.8);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hm-skeleton {
+    animation: none;
+  }
+  .hm-btn,
+  .hm-card--interactive,
+  .hm-progress > i {
+    transition: none;
+  }
+}
+
+/* Alto contraste do Windows: o que era só fundo ganha borda e cor de sistema. */
+@media (forced-colors: active) {
+  .hm-btn {
+    border: 1px solid ButtonText;
+  }
+  .hm-check:checked,
+  .hm-box:checked {
+    forced-color-adjust: none;
+    background: Highlight;
+    border-color: Highlight;
+  }
+  .hm-progress > i {
+    forced-color-adjust: none;
+    background: Highlight;
+  }
+  .hm-tab[aria-selected="true"]::after {
+    background: Highlight;
+  }
+}

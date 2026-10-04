@@ -1,0 +1,80 @@
+{
+  "name": "hollowzinho",
+  "version": "0.1.0",
+  "description": "Um Hollow de estimação no Claude Code: reage às ferramentas, abate os bugs com um Cero e dorme quando você some.",
+  "author": {
+    "name": "juninmd",
+    "url": "https://github.com/juninmd"
+  },
+  "homepage": "https://github.com/juninmd/hueco-mundo-theme/tree/master/claude-code/hollowzinho",
+  "repository": "https://github.com/juninmd/hueco-mundo-theme",
+  "license": "MIT",
+  "keywords": [
+    "pet",
+    "mascote",
+    "hollow",
+    "bleach",
+    "hueco mundo",
+    "hollowzinho"
+  ],
+  "types": "./types/index.d.ts",
+  "userConfig": {
+    "display": {
+      "type": "string",
+      "title": "Onde ele aparece",
+      "description": "band: a faixa acima do prompt. status: só uma linha na barra de status. off: só pelo /hollowzinho.",
+      "default": "band",
+      "options": [
+        "band",
+        "status",
+        "off"
+      ]
+    },
+    "language": {
+      "type": "string",
+      "title": "Idioma",
+      "description": "Idioma dos balões. auto segue o idioma do sistema (LANG).",
+      "default": "auto",
+      "options": [
+        "auto",
+        "pt",
+        "en"
+      ]
+    },
+    "name": {
+      "type": "string",
+      "title": "Nome",
+      "description": "O nome do bichinho.",
+      "default": "Hollowzinho"
+    },
+    "tint": {
+      "type": "string",
+      "title": "Cor das marcas",
+      "description": "A cor das marcas e da aura: cero (vermelho), reishi (verde) ou ouro.",
+      "default": "cero",
+      "options": [
+        "cero",
+        "reishi",
+        "ouro"
+      ]
+    },
+    "chatter": {
+      "type": "string",
+      "title": "Quanto ele fala sozinho",
+      "description": "off: só reage ao que acontece. low: de vez em quando. normal: bastante.",
+      "default": "low",
+      "options": [
+        "off",
+        "low",
+        "normal"
+      ]
+    },
+    "sleepAfterMinutes": {
+      "type": "number",
+      "title": "Minutos até dormir",
+      "description": "Sem atividade por esse tempo, ele dorme. 0 nunca dorme.",
+      "default": 5,
+      "min": 0
+    }
+  }
+}

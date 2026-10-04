@@ -1,0 +1,40 @@
+{
+  "name": "hueco-mundo",
+  "displayName": "Hueco Mundo",
+  "description": "Tema escuro inspirado no deserto de Bleach: osso, vazio e o vermelho do Cero.",
+  "version": "0.1.0",
+  "publisher": "juninmd",
+  "license": "MIT",
+  "engines": {
+    "vscode": "^1.80.0"
+  },
+  "categories": [
+    "Themes"
+  ],
+  "keywords": [
+    "theme",
+    "dark",
+    "tema",
+    "bleach",
+    "hueco mundo"
+  ],
+  "icon": "icon.png",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/juninmd/hueco-mundo-theme.git",
+    "directory": "vscode/theme"
+  },
+  "contributes": {
+    "themes": [
+      {
+        "label": "Hueco Mundo",
+        "uiTheme": "vs-dark",
+        "path": "./themes/hueco-mundo-color-theme.json"
+      }
+    ]
+  },
+  "galleryBanner": {
+    "color": "#0e0e11",
+    "theme": "dark"
+  }
+}
