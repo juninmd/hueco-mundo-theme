@@ -1,0 +1,22 @@
+{
+  "name": "hueco-mundo",
+  "owner": { "name": "juninmd", "url": "https://github.com/juninmd" },
+  "metadata": {
+    "description": "Hollowzinho, um Hollow de estimação que mora no seu editor e no seu terminal.",
+    "version": "0.1.0"
+  },
+  "plugins": [
+    {
+      "name": "hollowzinho",
+      "source": "./claude-code/hollowzinho",
+      "description": "Um Hollow de estimação no Claude Code: reage às ferramentas, abate os bugs com um Cero e dorme quando você some.",
+      "version": "0.1.0",
+      "author": { "name": "juninmd", "url": "https://github.com/juninmd" },
+      "homepage": "https://github.com/juninmd/hueco-mundo-theme/tree/master/claude-code/hollowzinho",
+      "repository": "https://github.com/juninmd/hueco-mundo-theme",
+      "license": "MIT",
+      "keywords": ["pet", "mascote", "hollow", "bleach", "hueco mundo"],
+      "category": "fun"
+    }
+  ]
+}

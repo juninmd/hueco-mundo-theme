@@ -1,7 +1,7 @@
 {
   "name": "hueco-mundo-theme",
   "version": "0.1.0",
-  "description": "Hueco Mundo: areia branca sob a lua, céu morto e o vermelho dos Espadas. Um tema escuro, o Hollowzinho (um pet Hollow em web component) e a extensão que o leva para o VS Code.",
+  "description": "Hueco Mundo: areia branca sob a lua, céu morto e o vermelho dos Espadas. Um tema escuro, o Hollowzinho (um pet Hollow em web component) e o que o leva para o VS Code e para o Claude Code.",
   "license": "MIT",
   "author": "juninmd",
   "type": "module",
@@ -15,7 +15,9 @@
     "pet",
     "web-component",
     "vscode-theme",
-    "vscode-extension"
+    "vscode-extension",
+    "claude-code",
+    "claude-code-plugin"
   ],
   "repository": {
     "type": "git",
@@ -25,7 +27,10 @@
     "theme",
     "pet",
     "vscode",
+    "claude-code",
     "docs/shots",
+    "docs/claude-code",
+    ".claude-plugin",
     "LICENSE"
   ],
   "exports": {
@@ -38,12 +43,15 @@
     "serve": "node scripts/serve.mjs",
     "contrast": "node scripts/contrast.mjs",
     "smoke": "node scripts/pet-smoke.mjs",
-    "test": "npm run sync -- --check && npm run contrast && node scripts/ext-test.mjs && npm run smoke",
+    "test": "npm run sync -- --check && npm run contrast && node scripts/ext-test.mjs && npm run smoke && npm run claude:check",
     "shots": "node scripts/shots.mjs",
     "bundle": "node scripts/bundle.mjs",
     "demo": "node scripts/demo.mjs",
     "sync": "node scripts/sync-vscode.mjs",
-    "ext-test": "node scripts/ext-test.mjs"
+    "ext-test": "node scripts/ext-test.mjs",
+    "claude:check": "node scripts/claude-plugin-check.mjs",
+    "claude:test": "claude plugin test claude-code/hollowzinho",
+    "claude:preview": "node scripts/claude-plugin-preview.mjs"
   },
   "devDependencies": {
     "playwright": "^1.56.0"
