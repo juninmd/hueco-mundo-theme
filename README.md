@@ -7,13 +7,13 @@
 **Areia branca sob a lua, céu morto e o vermelho dos Espadas.**
 
 Um tema escuro para a web e para o VS Code, e o **Hollowzinho**:<br>
-um Hollow de estimação em web component, que também mora no seu editor.
+um Hollow de estimação em web component, que também mora no seu editor e no seu Claude Code.
 
 [![MIT](https://img.shields.io/badge/licen%C3%A7a-MIT-e11d48?style=for-the-badge&labelColor=0e0e11)](LICENSE)
 [![Contraste AA](https://img.shields.io/badge/contraste-WCAG%20AA-4ade80?style=for-the-badge&labelColor=0e0e11)](#acessibilidade)
 [![Zero dependências](https://img.shields.io/badge/depend%C3%AAncias-zero-ede9e0?style=for-the-badge&labelColor=0e0e11)](#instalar)
 
-**[O que tem](#o-que-tem-aqui)** · **[Prints](#prints)** · **[Instalar](#instalar)** · **[Paleta](#paleta)** · **[Hollowzinho](#hollowzinho)** · **[VS Code](#vs-code)**
+**[O que tem](#o-que-tem-aqui)** · **[Prints](#prints)** · **[Instalar](#instalar)** · **[Paleta](#paleta)** · **[Hollowzinho](#hollowzinho)** · **[VS Code](#vs-code)** · **[Claude Code](#claude-code)**
 
 </div>
 
@@ -21,7 +21,7 @@ um Hollow de estimação em web component, que também mora no seu editor.
 
 ## O que tem aqui
 
-São quatro peças **independentes**: use qualquer uma sozinha.
+São cinco peças **independentes**: use qualquer uma sozinha.
 
 | | Onde | O que é |
 |---|---|---|
@@ -29,6 +29,7 @@ São quatro peças **independentes**: use qualquer uma sozinha.
 | 👾 **Hollowzinho** | [`pet/`](pet) | `<hollow-pet>`: um Hollow de estimação num web component, sem dependências e **sem nenhuma ligação com o tema**. Olha o cursor, aceita carinho, come, dorme, evolui e dispara um Cero. |
 | 🧑‍💻 **Tema do VS Code** | [`vscode/theme`](vscode/theme) | 309 cores de interface, 29 regras de sintaxe, realce semântico e a paleta ANSI do terminal. |
 | 🐾 **Hollowzinho no VS Code** | [`vscode/pet`](vscode/pet) | Extensão que põe o pet no VS Code: cada erro vira um bugzinho que ele **abate com o Cero** quando você corrige, ele acompanha a **depuração** (pausa, susto na exceção), comemora testes, come commits e olha o seu cursor. |
+| 🤖 **Hollowzinho no Claude Code** | [`claude-code/hollowzinho`](claude-code/hollowzinho) | **Plugin** do Claude Code (instala pelo marketplace deste repositório): o pet em pixel art acima do prompt. Cada build ou teste que falha vira um bug, e quando o mesmo comando passa ele o **abate com o Cero**. Também caça enquanto o Claude trabalha, come commits e tem um painel (`/hollowzinho`). |
 
 E a página de demonstração, [`index.html`](index.html), para ver tudo funcionando (e brincar com o pet).
 
@@ -53,6 +54,20 @@ Prints e gravações de um VS Code de verdade (1.117) com as duas extensões ins
 | <img src="vscode/pet/docs/quickfix.png" alt="Menu de correção rápida com a opção Hollowzinho: Cero neste erro e os três bugs ao lado do pet"> | <img src="vscode/pet/docs/debug-pausa.png" alt="Depurador parado na linha 6 e o pet com o selo de pausa"> | <img src="vscode/pet/docs/debug-excecao.png" alt="Exceção na linha 10: o pet assustado, com um ponto de exclamação, e um bug dourado na visão"> | <img src="vscode/pet/docs/debug-cero.png" alt="O Cero acerta o bug dourado da exceção"> |
 
 <img src="vscode/pet/docs/cero.png" alt="VS Code com o Hollowzinho no Explorer disparando um Cero: a linha 19 do editor pisca em vermelho, com a palavra CERO no fim" width="100%">
+
+### O pet dentro do Claude Code
+
+Prints e gravação do **Claude Code de verdade** (2.1.289) com o plugin instalado: o `npm test` falha e o bug aparece; o teste passa e o Cero o abate.
+
+<img src="docs/claude-code/terminal-cero.webp" alt="Gravação do Claude Code: o npm test falha e um bug aparece ao lado do Hollowzinho; o teste passa e o Cero sai da boca dele, atinge o bug, explode, e ele respira aliviado" width="100%">
+
+| Falhou: nasce um bug | Passou: o Cero abate |
+|---|---|
+| <img src="docs/claude-code/terminal-bug.png" alt="Claude Code: o npm test falhou e um bug pixelado anda até o Hollowzinho, que diz Opa… falhou: npm test."> | <img src="docs/claude-code/terminal-cero.png" alt="Claude Code: o Cero atinge o bug, que explode, e o Hollowzinho diz Sem bugs! Respirei."> |
+
+<img src="docs/claude-code/terminal-pane.png" alt="Claude Code com o painel do Hollowzinho ao lado da conversa: o corpo inteiro do bicho, o Cero a caminho do bug, os botões e a lista Bugs vivos" width="100%">
+
+O painel (`/hollowzinho`) fica ao lado da conversa. No app desktop o desenho é em SVG; a prévia sai do que o plugin entrega (o app em si não dá para capturar): [`docs/claude-code/desktop-band.png`](docs/claude-code/desktop-band.png), [`desktop-cero.png`](docs/claude-code/desktop-cero.png) e [`desktop-pane.png`](docs/claude-code/desktop-pane.png).
 
 ### Tema no VS Code
 
@@ -143,6 +158,15 @@ code --install-extension hollowzinho-0.1.0.vsix   # a visão "Hollowzinho" abre 
 
 Os comandos, as 19 configurações e o que ele percebe estão em [`vscode/pet/README.md`](vscode/pet/README.md). Nenhuma das duas extensões está publicada no Marketplace.
 
+**Hollowzinho no Claude Code**
+
+```
+/plugin marketplace add juninmd/hueco-mundo-theme
+/plugin install hollowzinho@hueco-mundo
+```
+
+A faixa aparece acima do prompt na hora; `/hollowzinho` abre o painel. Para só experimentar, num clone: `claude --plugin-dir ./claude-code/hollowzinho`. As seis opções, o que ele percebe e o que ele guarda estão em [`claude-code/hollowzinho/README.md`](claude-code/hollowzinho/README.md).
+
 **Tudo num arquivo**: `npm run bundle` gera `dist/hueco-mundo.html` (CSS, JS, fontes e prints embutidos).
 
 ## Paleta
@@ -208,6 +232,21 @@ Para quem integra: `look(x, y)`, `mood(humor, texto)`, `celebrate()` e `nibble(n
 
 Ele não lê o seu código (só conta letras e a posição do cursor; nos erros e na depuração só enxerga mensagem, arquivo e linha, e nunca variáveis nem valores), não usa rede, guarda o estado no armazenamento global do VS Code e só reage enquanto uma das duas visões (Explorer e *Executar e Depurar*) está à vista; a Barra Lateral Secundária é a melhor casa para ele. O Cero **não conserta** nada: quem some com o erro é você. Foi testado num VS Code 1.117 de verdade (via code-server), com o depurador JavaScript de verdade: digitar, olhar, salvar, erros e bugs, Quick Fix, breakpoint, passo, exceção, tarefas, terminal, commit, comandos, configurações ao vivo e persistência. O painel **Testes** do VS Code não expõe resultados a outras extensões, então "teste passou" vem de tarefas e do terminal. Não foi testado no desktop do Windows nem do macOS.
 
+## Claude Code
+
+**Plugin.** `claude-code/hollowzinho`: o mesmo Hollowzinho em **pixel art de terminal** (meias-células `▀▄█`, dois pixels por célula) acima do prompt do Claude Code, mais um painel com o corpo inteiro. No app desktop o desenho é em SVG. É um plugin de *function hooks*: observa os eventos do Claude Code e nunca mexe em nada.
+
+| Acontece | Ele faz |
+|---|---|
+| um comando de **build ou teste falha** (`npm test`, `cargo build`, `pytest`, `tsc`…) | vira um **bug** ao lado dele; a mesma falha de novo soma, e na terceira vira um **chefe dourado** |
+| o **mesmo comando passa** | atira o **Cero** e abate o bug (o chefe vale dois) |
+| o Claude roda `npm test 2>&1 \| tail` | o pipe esconde o código de saída, então ele **lê o final da saída** (`FAIL`, `1 failed`, `error TS…`) |
+| o Claude **trabalha** | modo caçador; no fim do turno com bugs vivos, fica preocupado; se você interrompe, leva um susto |
+| **commit**, **push**, **PR**, branch nova, prompt, edição de arquivo | come, comemora, cria vínculo; sem atividade, dorme |
+| `/hollowzinho` (`pane`, `pet`, `feed`, `cero`, `sleep`, `wake`, `hide`, `show`, `status`, `reset`) | abre o painel (botões nas teclas 1 a 5) ou faz a ação |
+
+Ele não usa rede, não lê nem escreve arquivos e não chama modelo; só enxerga o nome da ferramenta, o comando do Bash e (quando há pipe) o fim da saída, e só guarda reiatsu, vínculo, abatidos e se está escondido. Em `claude -p` fica desligado. O Cero **não conserta** nada: quem faz o teste passar é você (ou o Claude). Foi testado num **Claude Code 2.1.289 de verdade**, dentro do tmux: instalado pelo marketplace, a faixa, o painel ao lado da conversa, um teste que falha e passa de verdade e o Cero que o abate. O desktop e o celular só têm a prévia e os testes do plugin (`claude plugin test`).
+
 ## Acessibilidade
 
 - Contraste WCAG AA em 58 pares verificados: o tema da web (texto e UI), a sintaxe do editor, as abas, a barra de status, as 15 cores ANSI e os chips de erro e aviso: `npm run contrast`.
@@ -220,11 +259,14 @@ Ele não lê o seu código (só conta letras e a posição do cursor; nos erros 
 ```sh
 npm install        # só o Playwright, para os scripts (na primeira vez: npx playwright install chromium)
 npm run serve      # a página em http://127.0.0.1:8080
-npm test           # cópia do pet na extensão + contraste + 24 verificações da extensão + 61 do pet num navegador de verdade
+npm test           # cópia do pet na extensão + contraste + 24 verificações da extensão + 61 do pet num navegador de verdade + o plugin do Claude Code
 npm run sync       # copia pet/hollow-pet.js para vscode/pet/media (e a licença para as extensões)
 npm run shots      # refaz docs/shots/
 npm run demo       # regrava docs/shots/pet-demo.webp (precisa do ffmpeg)
 npm run bundle     # dist/hueco-mundo.html, um arquivo só
+npm run claude:check    # os manifestos do plugin e, com o `claude` no PATH, validate --strict e os testes dele (já faz parte do npm test)
+npm run claude:test     # só `claude plugin test claude-code/hollowzinho`
+npm run claude:preview  # refaz as prévias do desktop em docs/claude-code/ (precisa do Chromium do Playwright)
 ```
 
 ```
@@ -233,13 +275,17 @@ pet/        hollow-pet.js (+ .d.ts), README, demo.html, lab.html (estados)
 vscode/
   theme/    extensão com o tema de cores
   pet/      extensão do Hollowzinho (extension.js, lib/ e media/)
+claude-code/
+  hollowzinho/  plugin do Claude Code (hooks/, types/, tests/ e o README)
+.claude-plugin/ marketplace.json (o que `/plugin marketplace add` lê)
 site/       CSS e JS da página de demonstração
-scripts/    contrast, pet-smoke, ext-test, sync-vscode, shots, demo, bundle, pet-icon, serve
+scripts/    contrast, pet-smoke, ext-test, sync-vscode, shots, demo, bundle, pet-icon, serve, claude-plugin-check, claude-plugin-preview
 docs/shots/ os prints da página
+docs/claude-code/ os prints e a gravação do plugin do Claude Code
 index.html  a página de demonstração (serve para o GitHub Pages direto da raiz)
 ```
 
-Os prints do VS Code ficam junto de cada extensão (`vscode/*/docs`); foram feitos com o code-server, que roda o VS Code de verdade num navegador.
+Os prints do VS Code ficam junto de cada extensão (`vscode/*/docs`); foram feitos com o code-server, que roda o VS Code de verdade num navegador. Os do Claude Code (`docs/claude-code`) foram feitos com o próprio Claude Code, dentro de um tmux.
 
 ## Créditos e licença
 
