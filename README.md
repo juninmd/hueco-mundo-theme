@@ -256,6 +256,8 @@ Ele não usa rede, não lê nem escreve arquivos e não chama modelo; só enxerg
 
 ## Desenvolvimento
 
+**Requisitos.** Para *usar* as peças não há nenhum: abra os arquivos. Para rodar os scripts: Node.js 22 (a versão que o CI usa; o repositório não fixa `engines`) e npm. O Playwright (única dependência de desenvolvimento) baixa o Chromium com `npx playwright install chromium`. `npm run demo` ainda exige o `ffmpeg` no PATH, e `claude:test` exige o `claude`. Não há script de `lint` nem de `build` (o `npm run bundle` só gera o arquivo único). Variáveis de ambiente opcionais, só dos scripts: `PORT` (serve), `TITLE` (bundle), `DEMO_FORMAT`/`DEMO_WIDTH`/`DEMO_FPS` (demo), `PLAYWRIGHT_MODULE`/`CHROMIUM_PATH` (navegador dos testes) e `PREVIEW_TMP` (claude:preview). Nenhuma é segredo.
+
 ```sh
 npm install        # só o Playwright, para os scripts (na primeira vez: npx playwright install chromium)
 npm run serve      # a página em http://127.0.0.1:8080
@@ -284,6 +286,13 @@ docs/shots/ os prints da página
 docs/claude-code/ os prints e a gravação do plugin do Claude Code
 index.html  a página de demonstração (serve para o GitHub Pages direto da raiz)
 ```
+
+### Gates de CI
+
+| Workflow | Quando roda | O que checa |
+|---|---|---|
+| `Validate` (`.github/workflows/validate.yml`) | PR e push na `master` | Chama o `reusable-validate` do `juninmd/base-actions`: varredura de segredos, `npm install`, `npm test` (a suíte acima; `build` e `lint` são pulados por não existirem) e auditoria de dependências (`high` reprova) |
+| `Security Scan` (`.github/workflows/security.yml`) | push na `master`, domingo 00:00 UTC e manual | Chama o `reusable-security-scan`: Gitleaks sobre o histórico inteiro |
 
 Os prints do VS Code ficam junto de cada extensão (`vscode/*/docs`); foram feitos com o code-server, que roda o VS Code de verdade num navegador. Os do Claude Code (`docs/claude-code`) foram feitos com o próprio Claude Code, dentro de um tmux.
 
