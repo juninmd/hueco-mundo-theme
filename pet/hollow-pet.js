@@ -670,7 +670,7 @@
     restore(raw) {
       if (!raw || raw.v !== 1) return false;
       const away = Math.max(0, (Date.now() - (raw.t || Date.now())) / 60000);
-      this.s.reiatsu = clamp((+raw.reiatsu || 80) - Math.min(30, away / 8), 5, 100);
+      this.s.reiatsu = clamp((Number.isFinite(raw.reiatsu) ? raw.reiatsu : 80) - Math.min(30, away / 8), 5, 100);
       this.s.bond = Math.max(0, raw.bond | 0);
       this._persistedCorner = CORNERS.includes(raw.corner);
       if (this._persistedCorner) this.s.corner = raw.corner;
@@ -1725,7 +1725,15 @@
 
       // tremor opcional no alvo configurado
       const sel = this.getAttribute("shake");
-      const el = sel && !rm ? document.querySelector(sel) : null;
+      let el = null;
+      if (sel && !rm) {
+        try {
+          el = document.querySelector(sel);
+        } catch {
+          if (!this._warnedShake) console.warn("hollow-pet: seletor de shake inválido:", sel);
+          this._warnedShake = true;
+        }
+      }
       if (el) {
         const amp = 7 * power;
         el.animate(

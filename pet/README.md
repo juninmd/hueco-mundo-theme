@@ -40,7 +40,7 @@ O reiatsu desce devagar e sobe com comida; o vínculo cresce com carinho. Com v�
 | `no-hello` | Não cumprimenta na primeira visita |
 | `chatter` | Quanto fala sozinho: `off`, `low` ou `normal` |
 | `sleep-after` | Segundos parado até dormir; `0` desliga |
-| `shake` | Seletor de um elemento da página que treme quando o Cero dispara |
+| `shake` | Seletor de um elemento da página que treme quando o Cero dispara (seletor inválido é ignorado, com um aviso no console) |
 
 ## Métodos
 
