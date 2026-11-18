@@ -34,7 +34,7 @@
       "name": "hueco-look",
       "source": "./claude-code/hueco-look",
       "description": "Tema Hueco Mundo para o Claude Code (desktop e mobile): cores escuras e uma cena animada de deserto sob a lua.",
-      "version": "0.1.0",
+      "version": "0.2.0",
       "author": {
         "name": "juninmd",
         "url": "https://github.com/juninmd"

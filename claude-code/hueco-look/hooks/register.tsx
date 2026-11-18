@@ -1,7 +1,7 @@
 import type { Register, ThemeSetArgs } from 'claude-code'
 
 import { makeColors } from './make-colors.js'
-import { SCENE } from './scene.js'
+import { sceneOf, type Variant } from './scene.js'
 
 // Hueco Mundo: bone-white sand, black-blue night, cero red as danger.
 const { theme, problems } = makeColors({
@@ -28,7 +28,8 @@ const LOOK: ThemeSetArgs = {
   backdrop: { scene: 'hueco-mundo', glass: { blur: 6, tint: '#0b0e14', opacity: 0.55 } },
 }
 
-export const register: Register = on => {
+export const register: Register = (on, options) => {
+  const variant: Variant = options.variant === 'cero' ? 'cero' : 'lua'
   on('session.start', async ($, e, next) => {
     const bad = problems.find(l => l.startsWith("Desktop won't paint"))
     if (bad !== undefined) $.ui.toast(bad)
@@ -40,6 +41,6 @@ export const register: Register = on => {
   on('ui.render', { component: 'Backdrop' }, ($, e, next) => {
     if (e.surface !== 'desktop' && e.surface !== 'mobile') return next(e)
     const { Svg } = $.ui.resolve(e)
-    return <Svg source={SCENE} alt="Hueco Mundo: crescent moon over endless white sand" isInteractive />
+    return <Svg source={sceneOf(variant)} alt="Hueco Mundo: crescent moon over endless white sand" isInteractive />
   })
 }
