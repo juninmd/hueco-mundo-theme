@@ -21,7 +21,7 @@ um Hollow de estimação em web component, que também mora no seu editor e no s
 
 ## O que tem aqui
 
-São cinco peças **independentes**: use qualquer uma sozinha.
+São sete peças **independentes**: use qualquer uma sozinha.
 
 | | Onde | O que é |
 |---|---|---|
@@ -30,6 +30,8 @@ São cinco peças **independentes**: use qualquer uma sozinha.
 | 🧑‍💻 **Tema do VS Code** | [`vscode/theme`](vscode/theme) | 309 cores de interface, 29 regras de sintaxe, realce semântico e a paleta ANSI do terminal. |
 | 🐾 **Hollowzinho no VS Code** | [`vscode/pet`](vscode/pet) | Extensão que põe o pet no VS Code: cada erro vira um bugzinho que ele **abate com o Cero** quando você corrige, ele acompanha a **depuração** (pausa, susto na exceção), comemora testes, come commits e olha o seu cursor. |
 | 🤖 **Hollowzinho no Claude Code** | [`claude-code/hollowzinho`](claude-code/hollowzinho) | **Plugin** do Claude Code (instala pelo marketplace deste repositório): o pet em pixel art acima do prompt. Cada build ou teste que falha vira um bug, e quando o mesmo comando passa ele o **abate com o Cero**. Também caça enquanto o Claude trabalha, come commits e tem um painel (`/hollowzinho`). |
+| 🌙 **Hueco Mundo 3D** | [`three`](three) | Cena Three.js com avatar VRM (arraste um `.vrm`) e Cero no clique. Pelo CDN, sem dependência de build. |
+| 🎭 **Tema do Claude Code** | [`claude-code/hueco-look`](claude-code/hueco-look) | Plugin de tema (desktop/mobile): cores escuras e cena SVG animada. `/plugin install hueco-look --marketplace juninmd/hueco-mundo-theme`. |
 
 E a página de demonstração, [`index.html`](index.html), para ver tudo funcionando (e brincar com o pet).
 
