@@ -1,0 +1,12 @@
+{
+  "name": "hueco-look",
+  "version": "0.1.0",
+  "description": "Tema Hueco Mundo para o Claude Code (desktop e mobile): cores escuras e uma cena animada de deserto sob a lua.",
+  "author": {
+    "name": "juninmd",
+    "url": "https://github.com/juninmd"
+  },
+  "homepage": "https://github.com/juninmd/hueco-mundo-theme/tree/master/claude-code/hueco-look",
+  "repository": "https://github.com/juninmd/hueco-mundo-theme",
+  "license": "MIT"
+}
