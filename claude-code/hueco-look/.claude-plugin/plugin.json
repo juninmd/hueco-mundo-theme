@@ -1,6 +1,6 @@
 {
   "name": "hueco-look",
-  "version": "0.1.0",
+  "version": "0.2.1",
   "description": "Tema Hueco Mundo para o Claude Code (desktop e mobile): cores escuras e uma cena animada de deserto sob a lua.",
   "author": {
     "name": "juninmd",
@@ -8,5 +8,17 @@
   },
   "homepage": "https://github.com/juninmd/hueco-mundo-theme/tree/master/claude-code/hueco-look",
   "repository": "https://github.com/juninmd/hueco-mundo-theme",
-  "license": "MIT"
+  "license": "MIT",
+  "userConfig": {
+    "variant": {
+      "type": "string",
+      "title": "Variante da cena",
+      "description": "lua: noite azul sob a lua. cero: céu e horizonte avermelhados.",
+      "default": "lua",
+      "options": [
+        "lua",
+        "cero"
+      ]
+    }
+  }
 }
