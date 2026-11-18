@@ -35,7 +35,14 @@ export const register: Register = (on, options) => {
     if (bad !== undefined) $.ui.toast(bad)
     const set = await $.theme.set(LOOK)
     if (!set.isDrawn) $.ui.status(set.reason)
+    await $.command.register({ name: 'hueco', description: 'Re-apply the Hueco Mundo look and say if it is drawn' })
     return next(e)
+  })
+
+  // Lets a mid-session install apply without a restart, and says why nothing draws.
+  on('command.run', { command: 'hueco' }, async $ => {
+    const set = await $.theme.set(LOOK)
+    return { text: set.isDrawn ? 'Hueco Mundo applied (desktop or mobile app).' : `Not drawn: ${set.reason}` }
   })
 
   on('ui.render', { component: 'Backdrop' }, ($, e, next) => {
