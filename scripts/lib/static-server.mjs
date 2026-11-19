@@ -1,7 +1,7 @@
 // Servidor estático mínimo, sem dependências: usado pelos scripts e por `npm run serve`.
 import { createServer } from "node:http";
 import { readFile, stat } from "node:fs/promises";
-import { extname, join, normalize, resolve } from "node:path";
+import { extname, join, normalize, resolve, sep } from "node:path";
 import { fileURLToPath } from "node:url";
 
 const ROOT = resolve(fileURLToPath(new URL("../..", import.meta.url)));
@@ -23,7 +23,7 @@ export function serve({ port = 0, root = ROOT } = {}) {
     try {
       const url = new URL(req.url ?? "/", "http://localhost");
       let path = normalize(join(root, decodeURIComponent(url.pathname)));
-      if (!path.startsWith(root)) throw Object.assign(new Error("fora da raiz"), { code: 403 });
+      if (path !== root && !path.startsWith(root + sep)) throw Object.assign(new Error("fora da raiz"), { code: 403 });
       if ((await stat(path).catch(() => null))?.isDirectory()) path = join(path, "index.html");
       const body = await readFile(path);
       res.writeHead(200, { "content-type": TYPES[extname(path)] ?? "application/octet-stream", "cache-control": "no-store" });
