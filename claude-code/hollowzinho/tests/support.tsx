@@ -11,7 +11,7 @@ export const CERO_FRAME_MS = 90
 export const BAND = {
   plugin: 'hollowzinho',
   component: 'AbovePrompt',
-  props: { hasSurvey: false, isWorking: false, maxRows: 12, bodyColumns: 110, scroll: { offset: 0, bodyRows: 12 }, view: {} },
+  props: { hasSurvey: false, isCollapsed: false, isWorking: false, maxRows: 12, bodyColumns: 110, scroll: { offset: 0, bodyRows: 12 }, view: {} },
   viewport: { columns: 110, rows: 40, isFullscreen: false },
 } as const
 
