@@ -232,6 +232,8 @@ try {
   check("restore() devolve vínculo, canto e estágio (Adjuchas com vínculo 20)", back.bond === 20 && back.corner === "tl" && back.stage === 2 && Math.round(back.reiatsu) === 40, `bond=${back.bond} corner=${back.corner} stage=${back.stage}`);
   const away = await run((el) => { el.restore({ v: 1, reiatsu: 80, bond: 0, corner: "br", hidden: false, seen: true, t: Date.now() - 8 * 3600 * 1000 }); return el.stats.reiatsu; });
   check("restore() desconta o reiatsu pelo tempo que o bicho ficou sozinho", away < 80 && away >= 50, `${Math.round(away)}`);
+  const badT = await run((el) => { el.restore({ v: 1, reiatsu: 60, bond: 0, corner: "br", hidden: false, seen: true, t: "ontem" }); return el.stats.reiatsu; });
+  check("restore() com carimbo de tempo inválido não zera o reiatsu (NaN)", Number.isFinite(badT) && Math.round(badT) === 60, `${badT}`);
 
   const evt = await run((el) => new Promise((ok) => { el.addEventListener("hollow-pet:state", (e) => ok(e.detail), { once: true }); el.setStats({ reiatsu: 50 }); }));
   check('o evento "hollow-pet:state" entrega o estado para guardar fora', evt && evt.v === 1 && evt.reiatsu === 50, JSON.stringify(evt));
