@@ -669,7 +669,7 @@
     /** Devolve um estado guardado por getState(). O reiatsu cai um pouco pelo tempo que o bicho ficou sozinho. */
     restore(raw) {
       if (!raw || raw.v !== 1) return false;
-      const away = Math.max(0, (Date.now() - (raw.t || Date.now())) / 60000);
+      const away = Math.max(0, (Date.now() - (Number.isFinite(raw.t) ? raw.t : Date.now())) / 60000);
       this.s.reiatsu = clamp((Number.isFinite(raw.reiatsu) ? raw.reiatsu : 80) - Math.min(30, away / 8), 5, 100);
       this.s.bond = Math.max(0, raw.bond | 0);
       this._persistedCorner = CORNERS.includes(raw.corner);
