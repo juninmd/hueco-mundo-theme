@@ -185,7 +185,7 @@
     0 10px 26px -10px color-mix(in oklab, var(--hm-cero) 85%, transparent);
 }
 .hm-btn--primary:hover {
-  background: linear-gradient(180deg, #ea2250, #d3173f);
+  background: linear-gradient(180deg, #d3173f, #d3173f);
   border-color: color-mix(in oklab, var(--hm-cero) 60%, #fff 25%);
   box-shadow:
     inset 0 1px 0 rgb(255 255 255 / 0.28),

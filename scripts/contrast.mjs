@@ -32,7 +32,7 @@ for (const bg of ["void", "night"]) {
   for (const fg of ["bone", "ash", "dust", "cero-text", "blood", "reishi", "gold"]) text(`${fg} sobre ${bg}`, t[fg], t[bg]);
 }
 text("on-cero sobre cero", t["on-cero"], t.cero);
-text("on-cero sobre cero (hover)", t["on-cero"], "#c8133b");
+text("on-cero sobre cero (hover)", t["on-cero"], "#d3173f");
 text("linha sobre night (borda de controle)", t.line, t.night, 3);
 text("cero sobre night (foco, marca)", t.cero, t.night, 3);
 text("cero sobre void (foco, marca)", t.cero, t.void, 3);
